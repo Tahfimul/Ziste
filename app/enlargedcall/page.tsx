@@ -1,10 +1,29 @@
+//sources: 
+//1. Tailwind CSS
+//2. ChatGPT 
 'use client'
 import React, { useEffect, useState } from "react";
 
 const page = ()=>
 {
     const [title, setTitle] = useState<string|undefined>(undefined)
+    const [muted, setMuted] = useState<boolean>(true)
+    const [cameraOn, setCameraOn] = useState<boolean>(false)
+    const [screenSharing, setScreenSharing] = useState<boolean>(false)
+    const toggleMuted = ()=>
+    {
 
+    }
+
+    const toggleCamera = ()=>
+    {
+
+    }
+
+    const toggleScreenShare = ()=>
+    {
+
+    }
 
     // Listen for messages from parent window
     useEffect(() => {
@@ -34,9 +53,90 @@ const page = ()=>
 
 
     return(
-        <h1>
-            {title}
-        </h1>
+        <>
+            
+            <div className="flex flex-col h-screen">
+                <div className="h-auto">
+                    <div className="text-ziste-blue font-bold text-xl mb-2">{title}</div>
+                </div>
+
+                <div className="h-full bg-ziste-blue w-full rounded overflow-hidden shadow-lg">
+                    <div className="px-6 py-4 ">
+                        <div className="text-ziste-hazel font-bold text-xl mb-2">{title}</div>
+                    </div>
+                </div>                
+           
+                <div className="h-auto">
+                    <div className="flex flex-row v-screen">
+                        <div className="w-auto">
+                            <div className="text-ziste-blue font-bold">test</div>
+                        </div>
+                        <div className="w-auto">
+                            <button onClick={toggleMuted} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                
+                                {muted?
+                                
+                                <svg width="43" height="43" viewBox="0 0 43 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 80H40M3 59V3H40V59H3Z" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M21 81V114" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M11 114H32" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M39.5 3.5L20.5 32.25L2.5 59.5" stroke="#3D405B" stroke-width="5"/>
+                                </svg>
+                                
+                                :
+                                <svg width="43" height="43" viewBox="0 0 43 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 80H40M3 59V3H40V59H3Z" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M21 81V114" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M11 114H32" stroke="#3D405B" stroke-width="5"/>
+                                </svg>
+                                
+                                }
+
+                            </button>
+                        </div>
+                        <div className="w-auto">
+                            <button onClick={toggleCamera} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                {
+                                    cameraOn?
+                                        
+                                        <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                            <circle cx="21.5" cy="16.5" r="6" stroke="#3D405B" stroke-width="5"/>
+                                        </svg>
+
+                                        :                        
+                                        
+                                        <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                            <circle cx="21.5" cy="16.5" r="6" stroke="#3D405B" stroke-width="5"/>
+                                            <path d="M39.5 4.5L4.5 29" stroke="#3D405B" stroke-width="5"/>
+                                        </svg>
+                                }
+                            </button>
+                        </div>
+                        <div className="w-auto">
+                            <button onClick={toggleScreenShare} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                {
+                                    screenSharing?
+                                        <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                            <path d="M29 16.5L17.75 24.7272L17.75 8.27276L29 16.5Z" fill="#3D405B"/>
+                                        </svg>
+                                        :                        
+                                        <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                            <path d="M29 16.5L17.75 24.7272L17.75 8.27276L29 16.5Z" fill="#3D405B"/>
+                                            <path d="M39 5.5L5 28.5" stroke="#3D405B" stroke-width="5"/>
+                                        </svg>
+
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </>
     )
 }
 

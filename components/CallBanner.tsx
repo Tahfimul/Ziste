@@ -8,10 +8,11 @@ import Image from "next/image";
 
 type props =
 {
-    title:string
+    title:string,
+    callEndCallback:Function
 }
 
-const CallBanner = ({title}:props)=>
+const CallBanner = ({title, callEndCallback}:props)=>
 {
     const [muted, setMuted] = useState<boolean>(true)
     const [cameraOn, setCameraOn] = useState<boolean>(false)
@@ -53,6 +54,14 @@ const CallBanner = ({title}:props)=>
         {
             enlargedWindow.current.postMessage({closeWindow:true},'*')
         }
+
+        setWindowEnlarged(false)
+    }
+
+    const leaveCall = ()=>
+    {
+        closeEnlargedWindow();
+        callEndCallback();
     }
 
     useEffect(()=>{
@@ -75,8 +84,32 @@ const CallBanner = ({title}:props)=>
     
     return (
         <div className="bg-ziste-blue max-w-sm rounded overflow-hidden shadow-lg">
-            <div className="px-6 py-4">
-                <div className="text-ziste-hazel font-bold text-xl mb-2">{title}</div>
+            <div className="flex flex-row v-screen">
+                <div className="w-3/4 px-6 py-4">
+                    <div className="text-ziste-hazel font-bold text-xl mb-2">{title}</div>
+                </div>
+                <div className="w-auto px-6 py-4">
+                    <button onClick={toggleEnlargeWindow} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        {
+                            windowEnlarged?
+                                
+                                <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                    <rect y="14" width="25" height="19" fill="#3D405B"/>
+                                    <rect y="14" width="25" height="19" stroke="#3D405B"/>
+                                </svg>
+
+                                :                        
+                                
+                                <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                    <rect x="2.5" y="16.5" width="20" height="14" stroke="#3D405B" stroke-width="5"/>
+                                </svg>
+
+
+                        }
+                    </button>
+                </div>
             </div>
             <div className="px-6 pt-4 pb-2">
                 <button onClick={toggleMuted} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
@@ -137,25 +170,14 @@ const CallBanner = ({title}:props)=>
                     }
                 </button>
 
-                <button onClick={toggleEnlargeWindow} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                    {
-                        windowEnlarged?
-                            
-                            <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
-                                <rect y="14" width="25" height="19" fill="#3D405B"/>
-                                <rect y="14" width="25" height="19" stroke="#3D405B"/>
-                            </svg>
+                
+                <button onClick={leaveCall} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-lg font-semibold text-gray-700 mr-2 mb-2">
+                    
+                    <svg width="43" height="43" viewBox="0 0 47 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 2.5L45 35" stroke="#3D405B" stroke-width="5"/>
+                        <path d="M45 2.5L2.5 35.5" stroke="#3D405B" stroke-width="5"/>
+                    </svg>
 
-                            :                        
-                            
-                            <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
-                                <rect x="2.5" y="16.5" width="20" height="14" stroke="#3D405B" stroke-width="5"/>
-                            </svg>
-
-
-                    }
                 </button>
             </div>
         </div>
