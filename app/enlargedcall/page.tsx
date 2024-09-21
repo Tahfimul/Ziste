@@ -12,17 +12,17 @@ const page = ()=>
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
     const toggleMuted = ()=>
     {
-
+        setMuted(!muted)
     }
 
     const toggleCamera = ()=>
     {
-
+        setCameraOn(!cameraOn)
     }
 
     const toggleScreenShare = ()=>
     {
-
+        setScreenSharing(!screenSharing)
     }
 
     // Listen for messages from parent window
