@@ -1,7 +1,9 @@
 //sources: 
 //1. https://v1.tailwindcss.com/components/cards
 //2. Figma.com
-import React, { useState } from "react";
+//3. ChatGPT
+
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 
 type props =
@@ -15,11 +17,45 @@ const CallBanner = ({title}:props)=>
     const [cameraOn, setCameraOn] = useState<boolean>(false)
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
     const [windowEnlarged, setWindowEnlarged] = useState<boolean>(false)
+    const enlargedWindow = useRef<Window|null>(null);
 
     const toggleMuted = ()=>{setMuted(!muted)}
     const toggleCamera = ()=>{setCameraOn(!cameraOn)}
     const toggleScreenShare= ()=>{setScreenSharing(!screenSharing)}
-    const toggleEnlargeWindow = ()=>{setWindowEnlarged(!windowEnlarged)}
+
+    const toggleEnlargeWindow = ()=>{
+        if(!windowEnlarged)
+        {
+            openEnlargedWindow()
+        }
+        else
+        {
+            closeEnlargedWindow()
+        }
+    
+        setWindowEnlarged(!windowEnlarged)
+       
+      
+    }
+
+    const openEnlargedWindow = ()=>
+    {
+        enlargedWindow.current = window.open(
+            '/enlargedcall', 
+            'Enlarged Window',
+            'width=400,height=400'
+          );
+    }
+
+    const closeEnlargedWindow = ()=>
+    {
+        if(enlargedWindow.current)
+        {
+            enlargedWindow.current.postMessage({closeWindow:true},'*')
+        }
+    }
+
+    
     return (
         <div className="bg-ziste-blue max-w-sm rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
@@ -64,8 +100,6 @@ const CallBanner = ({title}:props)=>
                                 <circle cx="21.5" cy="16.5" r="6" stroke="#3D405B" stroke-width="5"/>
                                 <path d="M39.5 4.5L4.5 29" stroke="#3D405B" stroke-width="5"/>
                             </svg>
-
-
                     }
                 </button>
 
