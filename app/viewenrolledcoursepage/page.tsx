@@ -3,13 +3,19 @@
 //2. ChatGPT
 'use client'
 import React, { useRef, useEffect, useState } from "react";
-
+import CallBanner from '../../components/CallBanner'
 
 const page = () =>
 {
 
-    const videoRef = useRef<any>(null);
+  const [called, setCalled] = useState<boolean>(false)
+  const videoRef = useRef<any>(null);
   const [captureStream, setCaptureStream] = useState<any>(null);
+
+  const toggleCall = ()=>
+  {
+    setCalled(!called);
+  }
 
   const displayMediaOptions = {
     video: {
@@ -63,9 +69,15 @@ const page = () =>
     return (
         <>
         <h1>Welcome to the dashboard!</h1>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={toggleCall}>{`${!called?'Start Call':'End Call'}`}</button>
         <button className={`${captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={startCapture} disabled={captureStream}>Start Screen Capture</button>
         <button className={`${!captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={stopCapture} disabled={!captureStream}>Stop Screen Capture</button>
+        {
+          called? <CallBanner title="Test Title"/>:<></>
+        }
         <video ref={videoRef} autoPlay style={{ width: "100%", height: "auto" }} />
+        
+      
 
         </>
         
