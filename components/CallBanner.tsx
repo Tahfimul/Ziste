@@ -3,7 +3,7 @@
 //2. Figma.com
 //3. ChatGPT
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 type props =
@@ -54,6 +54,23 @@ const CallBanner = ({title}:props)=>
             enlargedWindow.current.postMessage({closeWindow:true},'*')
         }
     }
+
+    useEffect(()=>{
+        const messageListener = (event: MessageEvent) => {
+            if (event.data.request === 'title') {
+                console.log('enlarged window requested title')
+              if(enlargedWindow.current)
+                enlargedWindow.current.postMessage({title: 'Test Title'},'*')
+            }
+          };
+
+          window.addEventListener('message', messageListener);
+
+          // Clean up listener when component unmounts
+          return () => {
+            window.removeEventListener('message', messageListener);
+          };
+    },[])
 
     
     return (
