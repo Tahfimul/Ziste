@@ -14,10 +14,12 @@ const CallBanner = ({title}:props)=>
     const [muted, setMuted] = useState<boolean>(true)
     const [cameraOn, setCameraOn] = useState<boolean>(false)
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
+    const [windowEnlarged, setWindowEnlarged] = useState<boolean>(false)
 
     const toggleMuted = ()=>{setMuted(!muted)}
     const toggleCamera = ()=>{setCameraOn(!cameraOn)}
     const toggleScreenShare= ()=>{setScreenSharing(!screenSharing)}
+    const toggleEnlargeWindow = ()=>{setWindowEnlarged(!windowEnlarged)}
     return (
         <div className="bg-ziste-blue max-w-sm rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
@@ -80,6 +82,27 @@ const CallBanner = ({title}:props)=>
                                 <path d="M29 16.5L17.75 24.7272L17.75 8.27276L29 16.5Z" fill="#3D405B"/>
                                 <path d="M39 5.5L5 28.5" stroke="#3D405B" stroke-width="5"/>
                             </svg>
+
+                    }
+                </button>
+
+                <button onClick={toggleEnlargeWindow} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                    {
+                        windowEnlarged?
+                            
+                            <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                <rect y="14" width="25" height="19" fill="#3D405B"/>
+                                <rect y="14" width="25" height="19" stroke="#3D405B"/>
+                            </svg>
+
+                            :                        
+                            
+                            <svg width="43" height="33" viewBox="0 0 43 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2.5" y="2.5" width="38" height="28" stroke="#3D405B" stroke-width="5"/>
+                                <rect x="2.5" y="16.5" width="20" height="14" stroke="#3D405B" stroke-width="5"/>
+                            </svg>
+
 
                     }
                 </button>
