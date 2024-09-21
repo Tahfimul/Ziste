@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'ziste-blue':'#3d405b',
+        'ziste-hazel': '#f4f4de'
       },
     },
   },
