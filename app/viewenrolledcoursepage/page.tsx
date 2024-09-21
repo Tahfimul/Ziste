@@ -5,35 +5,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
 
-type Pizza = 
-{
-  id: number,
-  name: string,
-  price: number
-}
-
-const menu:Pizza[] = [
-  {id:0, name:"Cheese", price:3},
-  {id:1, name:"Veggie", price: 5},
-  {id:2, name:"Margaritta", price: 7}
-]
-
-function getPizzaDetails(indentifier:number|string)
-{
-  
-  if(typeof indentifier === "number")
-  {
-    return menu.find(pizza => pizza.id===indentifier)
-  }
-  else if(typeof indentifier === "string")
-  {
-    console.log(menu.find(pizza=>pizza.name.toLowerCase()===indentifier.toLowerCase()))
-    return menu.find(pizza=>pizza.name.toLowerCase()===indentifier.toLowerCase())
-  }
-}
-
-getPizzaDetails("a")
-
 const page = () =>
 {
 
