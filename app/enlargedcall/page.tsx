@@ -53,6 +53,22 @@ const page = ()=>
                 setTitle(event.data.title)
             }
 
+            if (event.data.muteState !== undefined)
+            {
+                setMuted(event.data.muteState)
+            }
+
+            if (event.data.cameraState !== undefined)
+            {
+                setCameraOn(event.data.cameraState)
+            }
+
+            if (event.data.screenShareState !== undefined)
+            {
+                setScreenSharing(event.data.screenShareState)
+            }
+                
+
             if (event.data.toggle)
                 {
                     switch(event.data.toggle)
@@ -91,6 +107,15 @@ const page = ()=>
         if(typeof title === 'undefined')
             if(window.opener)
                 window.opener.postMessage({ request: 'title' }, '*');
+        
+        if(window.opener)
+            window.opener.postMessage({request: 'muteState'}, '*')
+
+        if(window.opener)
+            window.opener.postMessage({request: 'cameraState'}, '*')
+
+        if(window.opener)
+            window.opener.postMessage({request: 'screenShareState'}, '*')
         
         // Clean up listener when component unmounts
         return () => {

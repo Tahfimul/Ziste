@@ -87,6 +87,24 @@ const CallBanner = ({title, callEndCallback}:props)=>
                 enlargedWindow.current.postMessage({title: 'Test Title'},'*')
             }
 
+            if (event.data.request === 'muteState')
+            {
+                if(enlargedWindow.current)
+                    enlargedWindow.current.postMessage({muteState:muted},'*')
+            }
+
+            if (event.data.request === 'cameraState')
+            {
+                if(enlargedWindow.current)
+                    enlargedWindow.current.postMessage({cameraState:cameraOn},'*')
+            }
+
+            if (event.data.request === 'screenShareState')
+            {
+                if(enlargedWindow.current)
+                    enlargedWindow.current.postMessage({screenShareState:screenSharing},'*')
+            }
+
             if (event.data.request === 'leaveCall')
             {
                 callEndCallback()
@@ -129,7 +147,7 @@ const CallBanner = ({title, callEndCallback}:props)=>
           return () => {
             window.removeEventListener('message', messageListener);
           };
-    },[])
+    },[muted, cameraOn, screenSharing])
 
     
     return (
