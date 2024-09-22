@@ -98,6 +98,9 @@ const CallBanner = ({title, callEndCallback}:props)=>
                             setScreenSharing(event.data.val)
                         }
                         break
+                    case 'enlargeCallClosed':
+                        setWindowEnlarged(false)
+                        break
                 }
             }
           };

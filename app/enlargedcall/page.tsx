@@ -53,8 +53,14 @@ const page = ()=>
             }
         };
 
-        window.addEventListener('message', messageListener);
+        const windowCloseListener = ()=>{
+            if(window.opener)
+                window.opener.postMessage({ toggle: 'enlargeCallClosed' }, '*');
+        };
         
+
+        window.addEventListener('message', messageListener);
+        window.addEventListener('beforeunload', windowCloseListener);
         if(typeof title === 'undefined')
             if(window.opener)
                 window.opener.postMessage({ request: 'title' }, '*');
@@ -62,11 +68,12 @@ const page = ()=>
         // Clean up listener when component unmounts
         return () => {
             window.removeEventListener('message', messageListener);
+            window.removeEventListener('beforeunload', windowCloseListener);
         };
     }, []);
 
 
-
+    
     return(
         <>
             
