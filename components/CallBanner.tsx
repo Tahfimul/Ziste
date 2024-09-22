@@ -140,8 +140,13 @@ const CallBanner = ({title, callEndCallback}:props)=>
             }
           };
 
-          window.addEventListener('message', messageListener);          
+          const windowCloseListener = ()=>
+          {
+                leaveCall()
+          };
 
+          window.addEventListener('message', messageListener);          
+          window.addEventListener('beforeunload', windowCloseListener);
 
           // Clean up listener when component unmounts
           return () => {
