@@ -20,7 +20,10 @@ const CallBanner = ({title, callEndCallback}:props)=>
     const [windowEnlarged, setWindowEnlarged] = useState<boolean>(false)
     const enlargedWindow = useRef<Window|null>(null);
 
-    const toggleMuted = ()=>{setMuted(!muted)}
+    const toggleMuted = ()=>{
+        console.log(`mute toggled ${Date.now()}`)
+        setMuted(!muted)
+    }
     const toggleCamera = ()=>{setCameraOn(!cameraOn)}
     const toggleScreenShare= ()=>{setScreenSharing(!screenSharing)}
 
@@ -67,9 +70,35 @@ const CallBanner = ({title, callEndCallback}:props)=>
     useEffect(()=>{
         const messageListener = (event: MessageEvent) => {
             if (event.data.request === 'title') {
-                console.log('enlarged window requested title')
+               
               if(enlargedWindow.current)
                 enlargedWindow.current.postMessage({title: 'Test Title'},'*')
+            }
+
+            if (event.data.toggle)
+            {
+                switch(event.data.toggle)
+                {
+                    case 'mute':
+                        if(event.data.val !== 'undefined')
+                        {
+                            setMuted(event.data.val)
+                        }
+                            
+                        break
+                    case 'camera':
+                        if(event.data.val !== 'undefined')
+                        {
+                            setCameraOn(event.data.val)
+                        }
+                        break
+                    case 'screenShare':
+                        if(event.data.val !== 'undefined')
+                        {
+                            setScreenSharing(event.data.val)
+                        }
+                        break
+                }
             }
           };
 

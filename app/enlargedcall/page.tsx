@@ -12,17 +12,32 @@ const page = ()=>
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
     const toggleMuted = ()=>
     {
+        if(window.opener)
+        {
+            window.opener.postMessage({ toggle: 'mute', val:!muted }, '*');
+
+        }
         setMuted(!muted)
+        
+            
     }
 
     const toggleCamera = ()=>
     {
+        if(window.opener)
+            window.opener.postMessage({ toggle: 'camera', val:!cameraOn }, '*');
+
         setCameraOn(!cameraOn)
+        
     }
 
     const toggleScreenShare = ()=>
     {
+        if(window.opener)
+            window.opener.postMessage({ toggle: 'screenShare', val: !screenSharing }, '*');
+
         setScreenSharing(!screenSharing)
+       
     }
 
     // Listen for messages from parent window
