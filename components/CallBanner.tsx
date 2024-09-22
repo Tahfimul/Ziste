@@ -21,10 +21,21 @@ const CallBanner = ({title, callEndCallback}:props)=>
     const enlargedWindow = useRef<Window|null>(null);
 
     const toggleMuted = ()=>{
+        if(enlargedWindow.current)
+            enlargedWindow.current.postMessage({toggle:'mute', val:!muted},'*')
         setMuted(!muted)
     }
-    const toggleCamera = ()=>{setCameraOn(!cameraOn)}
-    const toggleScreenShare= ()=>{setScreenSharing(!screenSharing)}
+    const toggleCamera = ()=>{
+        if(enlargedWindow.current)
+            enlargedWindow.current.postMessage({toggle:'camera', val:!cameraOn},'*')
+        
+        setCameraOn(!cameraOn)
+    }
+    const toggleScreenShare= ()=>{
+        if(enlargedWindow.current)
+            enlargedWindow.current.postMessage({toggle:'screenShare', val:!screenSharing},'*')
+        setScreenSharing(!screenSharing)
+    }
 
     const toggleEnlargeWindow = ()=>{
         if(!windowEnlarged)
@@ -111,9 +122,7 @@ const CallBanner = ({title, callEndCallback}:props)=>
             }
           };
 
-          window.addEventListener('message', messageListener);
-
-          
+          window.addEventListener('message', messageListener);          
 
 
           // Clean up listener when component unmounts

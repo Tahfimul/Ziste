@@ -52,6 +52,32 @@ const page = ()=>
             {
                 setTitle(event.data.title)
             }
+
+            if (event.data.toggle)
+                {
+                    switch(event.data.toggle)
+                    {
+                        case 'mute':
+                            if(event.data.val !== 'undefined')
+                            {
+                                setMuted(event.data.val)
+                            }
+                                
+                            break
+                        case 'camera':
+                            if(event.data.val !== 'undefined')
+                            {
+                                setCameraOn(event.data.val)
+                            }
+                            break
+                        case 'screenShare':
+                            if(event.data.val !== 'undefined')
+                            {
+                                setScreenSharing(event.data.val)
+                            }
+                            break
+                    }
+                }
         };
 
         const windowCloseListener = ()=>{
