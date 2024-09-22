@@ -2,7 +2,7 @@
 //1. Tailwind CSS
 //2. ChatGPT 
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = ()=>
 {
@@ -10,6 +10,7 @@ const page = ()=>
     const [muted, setMuted] = useState<boolean>(true)
     const [cameraOn, setCameraOn] = useState<boolean>(false)
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
+
     const toggleMuted = ()=>
     {
         if(window.opener)
@@ -64,7 +65,7 @@ const page = ()=>
         if(typeof title === 'undefined')
             if(window.opener)
                 window.opener.postMessage({ request: 'title' }, '*');
-
+        
         // Clean up listener when component unmounts
         return () => {
             window.removeEventListener('message', messageListener);
@@ -72,7 +73,13 @@ const page = ()=>
         };
     }, []);
 
-
+    const leaveCall = ()=>
+    {
+        if(window.opener)
+            window.opener.postMessage({request: 'leaveCall'}, '*')
+        window.close()
+        
+    }
     
     return(
         <>
@@ -152,6 +159,16 @@ const page = ()=>
                                         </svg>
 
                                 }
+                            </button>
+                        </div>
+                        <div className="w-auto">
+                            <button onClick={leaveCall} className="h-12 inline-block bg-gray-200 rounded-full px-3 py-1 text-lg font-semibold text-gray-700 mr-2 mb-2">
+                        
+                                <svg width="43" height="43" viewBox="0 0 47 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.5 2.5L45 35" stroke="#3D405B" stroke-width="5"/>
+                                    <path d="M45 2.5L2.5 35.5" stroke="#3D405B" stroke-width="5"/>
+                                </svg>
+
                             </button>
                         </div>
                     </div>

@@ -21,7 +21,6 @@ const CallBanner = ({title, callEndCallback}:props)=>
     const enlargedWindow = useRef<Window|null>(null);
 
     const toggleMuted = ()=>{
-        console.log(`mute toggled ${Date.now()}`)
         setMuted(!muted)
     }
     const toggleCamera = ()=>{setCameraOn(!cameraOn)}
@@ -49,6 +48,7 @@ const CallBanner = ({title, callEndCallback}:props)=>
             'Enlarged Window',
             'width=400,height=400'
           );
+
     }
 
     const closeEnlargedWindow = ()=>
@@ -64,7 +64,8 @@ const CallBanner = ({title, callEndCallback}:props)=>
     const leaveCall = ()=>
     {
         closeEnlargedWindow();
-        callEndCallback();
+        if(callEndCallback)
+            callEndCallback();
     }
 
     useEffect(()=>{
@@ -73,6 +74,11 @@ const CallBanner = ({title, callEndCallback}:props)=>
                
               if(enlargedWindow.current)
                 enlargedWindow.current.postMessage({title: 'Test Title'},'*')
+            }
+
+            if (event.data.request === 'leaveCall')
+            {
+                callEndCallback()
             }
 
             if (event.data.toggle)
@@ -106,6 +112,9 @@ const CallBanner = ({title, callEndCallback}:props)=>
           };
 
           window.addEventListener('message', messageListener);
+
+          
+
 
           // Clean up listener when component unmounts
           return () => {
