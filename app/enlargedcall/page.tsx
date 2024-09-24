@@ -2,7 +2,7 @@
 //1. Tailwind CSS
 //2. ChatGPT 
 'use client'
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const page = ()=>
 {
