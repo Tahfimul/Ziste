@@ -10,7 +10,7 @@ const Navbar = () => {
 
 <nav className="navbar">
   <div className="navbar-left">
-    <Link href="app/page" className="logo">
+    <Link href="/" className="logo">
       Ziste
     </Link>
   </div>
