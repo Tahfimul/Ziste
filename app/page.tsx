@@ -11,7 +11,7 @@ export default function Home() {
   const session = useSession({
     required: true,
     onUnauthenticated() {
-      redirect('app/page');
+      redirect('/');
     },
   });
   return (
