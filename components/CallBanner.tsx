@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 type props =
 {
     title:string,
-    callEndCallback:() => any
+    callEndCallback:() => void
 }
 
 const CallBanner = ({title, callEndCallback}:props)=>
