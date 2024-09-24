@@ -7,14 +7,14 @@ const Navbar = () => {
 
 <nav className="navbar">
   <div className="navbar-left">
-    <Link href="/" className="logo">
+    <Link href="app/page" className="logo">
       Ziste
     </Link>
   </div>
   <div className="navbar-center">
     <ul className="nav-links">
       <li>
-        <Link href="/products">Courses</Link>
+        <Link href="/viewenrolledcoursepage">Courses</Link>
       </li>
       <li>
         <Link href="/about">About Us</Link>
@@ -26,7 +26,7 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-right">
-    <Link href = "/login"> Login </Link>
+    <Link href = "/signin"> Sign In </Link>
   </div>
 </nav>
 );
