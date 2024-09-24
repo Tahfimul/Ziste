@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import CallBanner from './CallBanner'
 
 const VideoCall = ()=>
@@ -7,10 +7,10 @@ const VideoCall = ()=>
     // const videoRef = useRef<HTMLVideoElement>(null);
     // const [captureStream, setCaptureStream] = useState<MediaStream | null>(null);
   
-    // const toggleCall = ()=>
-    // {
-    //   setCalled(!called);
-    // }
+    const toggleCall = ()=>
+    {
+      setCalled(!called);
+    }
   
     // const displayMediaOptions = {
     //   video: {
