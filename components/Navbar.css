@@ -1,3 +1,6 @@
+/* sources: */
+/* 1. sitepoint.com/creating-a-navbar-in-react/ */
+
 .navbar {
     display: flex;
     justify-content: space-between;

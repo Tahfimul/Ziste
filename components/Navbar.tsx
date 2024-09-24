@@ -1,3 +1,6 @@
+/* sources: */
+/* 1. sitepoint.com/creating-a-navbar-in-react/ */
+
 import React from 'react';
 import Link from "next/link";
 import './Navbar.css';
