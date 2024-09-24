@@ -6,6 +6,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
+type User =
+{
+    name:string
+}
+
+const dummyUsersQueue:User[] =[
+    {name: 'James'},
+    {name: 'Karol'},
+    {name: 'Roger'},
+    {name: 'Kevin'}
+] 
+
+
 type props =
 {
     title:string,
@@ -79,6 +92,17 @@ const CallBanner = ({title, callEndCallback}:props)=>
             callEndCallback();
     }
 
+    const sendParticipants = async ()=>
+    {
+        if (enlargedWindow.current)
+            {
+                enlargedWindow.current.postMessage({participants: dummyUsersQueue}, '*')
+                const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+                await sleep(2000);
+                enlargedWindow.current.postMessage({participants: dummyUsersQueue}, '*')
+            }  
+    }
+
     useEffect(()=>{
         const messageListener = (event: MessageEvent) => {
             if (event.data.request === 'title') {
@@ -108,6 +132,16 @@ const CallBanner = ({title, callEndCallback}:props)=>
             if (event.data.request === 'leaveCall')
             {
                 callEndCallback()
+            }
+
+            if (event.data.request === 'participants')
+            {
+                sendParticipants()
+                 
+                    
+
+                // dummyUsersQueue.length = 0
+
             }
 
             if (event.data.toggle)

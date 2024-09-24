@@ -4,12 +4,18 @@
 'use client'
 import React, { useEffect, useRef, useState } from "react";
 
+type User =
+{
+    name:string
+}
+
 const page = ()=>
 {
     const [title, setTitle] = useState<string|undefined>(undefined)
     const [muted, setMuted] = useState<boolean>(true)
     const [cameraOn, setCameraOn] = useState<boolean>(false)
     const [screenSharing, setScreenSharing] = useState<boolean>(false)
+    const [participants, setParticipants] = useState<User[]>([])
 
     const toggleMuted = ()=>
     {
@@ -67,6 +73,13 @@ const page = ()=>
             {
                 setScreenSharing(event.data.screenShareState)
             }
+
+            if (event.data.participants !== undefined)
+            {
+                
+                setParticipants(existingParticipants=>[...existingParticipants, ...event.data.participants])
+                    
+            }
                 
 
             if (event.data.toggle)
@@ -109,20 +122,22 @@ const page = ()=>
                 window.opener.postMessage({ request: 'title' }, '*');
         
         if(window.opener)
+        {
             window.opener.postMessage({request: 'muteState'}, '*')
-
-        if(window.opener)
             window.opener.postMessage({request: 'cameraState'}, '*')
-
-        if(window.opener)
             window.opener.postMessage({request: 'screenShareState'}, '*')
+            window.opener.postMessage({request: 'participants'}, '*')
+
+        }
+            
+            
         
         // Clean up listener when component unmounts
         return () => {
             window.removeEventListener('message', messageListener);
             window.removeEventListener('beforeunload', windowCloseListener);
         };
-    }, []);
+    }, [participants]);
 
     const leaveCall = ()=>
     {
@@ -144,6 +159,13 @@ const page = ()=>
                     <div className="px-6 py-4 ">
                         <div className="text-ziste-hazel font-bold text-xl mb-2">{title}</div>
                     </div>
+                    {
+                        participants? participants.map((item, index)=>(
+                            <div className="px-6 py-4 ">
+                                <div className="text-ziste-hazel font-bold text-xl mb-2">{item.name}</div>
+                            </div> 
+                        )):<></>
+                    }
                 </div>                
            
                 <div className="h-auto">
