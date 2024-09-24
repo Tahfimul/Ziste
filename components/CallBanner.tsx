@@ -4,12 +4,12 @@
 //3. ChatGPT
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+
 
 type props =
 {
     title:string,
-    callEndCallback:Function
+    callEndCallback:() => any
 }
 
 const CallBanner = ({title, callEndCallback}:props)=>
