@@ -1,12 +1,12 @@
 import GradientBorder from "../../components/GradientBorder";
-{/** import { Navbar } from "../components/navbar"; **/}
+import { Navbar } from "../../components/Navbar2";
 import { Searchbar } from "../../components/SearchBar";
 
 export default function Catalog() {
     return (
         <>
         <header className="bg-white">
-        {/** <Navbar/> **/}
+        <Navbar/>
         <div className="flex justify-center p-3">
             <h1 className="text-6xl text-black">Course Catalog</h1>
         </div>
