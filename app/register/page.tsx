@@ -5,6 +5,7 @@ import { auth, db } from '../../services/firebase'; // Centralized auth and db e
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
+import { Navbar } from "../../components/Navbar2";
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -34,6 +35,7 @@ const Register = () => {
 
   return (
     <div>
+      <Navbar/>
       <h1>Register</h1>
       <form onSubmit={handleRegister}>
         <input
