@@ -1,5 +1,9 @@
-import React from 'react';
-import * as firebase from firebase;
+import { initializeApp } from 'firebase/app';
+import { getAnalytics, isSupported } from 'firebase/analytics'; // Keep this line
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyABNxS3MslHrEifIeFnJLVsDBQRAGL_s1w",
   authDomain: "zistechat.firebaseapp.com",
@@ -12,6 +16,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let analytics;
 
-export default firebase;
+if (typeof window !== 'undefined') {
+  isSupported().then(supported => {
+    if (supported) {
+      analytics = getAnalytics(app);
+    }
+  });
+}
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+export { app, db, analytics, auth };
