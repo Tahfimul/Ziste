@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import GradientBorder from '../components/GradientBorder';
 
 export const Searchbar = () => {
