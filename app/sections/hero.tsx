@@ -1,5 +1,3 @@
-import Logo from '@/app/assets/logo.png';
-import Image from 'next/image';
 
 export const Hero = () => {
     return (
