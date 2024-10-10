@@ -1,0 +1,68 @@
+.chatPage {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar {
+  width: 25%;
+  background-color: #f4f4f4; /* Light background for the sidebar */
+  padding: 10px;
+  border-right: 1px solid #ddd; /* Separator line */
+}
+
+.chatArea {
+  width: 75%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* Stack chat content and input */
+}
+
+.chatContent {
+  flex: 1; /* This will take up remaining space */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  padding-bottom: 10px; /* Add space at the bottom for input */
+}
+
+.messageInput {
+  display: flex; /* Align input */
+  padding: 10px 0; /* Space around the input */
+  width: 100%; /* Extend across the entire width */
+}
+
+.messageInput input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Rounded edges */
+}
+
+.newChatIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.userMessage {
+  align-self: flex-end; /* Align user messages to the right */
+  background-color: #0084ff; /* User message color */
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.otherMessage {
+  align-self: flex-start; /* Align other messages to the left */
+  background-color: #e5e5ea; /* Other message color */
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
