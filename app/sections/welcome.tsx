@@ -36,7 +36,7 @@ export const App = () => {
 
         <div className='flex pt-16 pb-6 mx-auto justify-center gap-28'>
             <div>
-                <a href="/portal">
+                <a href="/login">
                     <button className='flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]'>
                         Login
                     </button>

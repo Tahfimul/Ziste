@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { auth, db } from '../../services/firebase'; // Centralized auth and db exports
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { Navbar } from "../../components/Navbar2";
@@ -26,9 +26,28 @@ const Register = () => {
         createdAt: new Date(),
       });
 
-      router.push('/chat'); // Redirect to chat page upon successful registration
+      router.push('/portal'); // Redirect to chat page upon successful registration
     } catch (err) {
       setError('Registration failed. Please try again.');
+      console.error(err);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Save user info to Firestore if needed
+      await setDoc(doc(db, 'users', user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+      });
+
+      router.push('/portal'); // Redirect to chat page upon successful login
+    } catch (err) {
+      setError('Google sign-in failed. Please try again.');
       console.error(err);
     }
   };
@@ -54,6 +73,7 @@ const Register = () => {
         />
         <button type="submit">Register</button>
       </form>
+      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
       {error && <p>{error}</p>}
     </div>
   );

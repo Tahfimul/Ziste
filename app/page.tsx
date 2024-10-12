@@ -1,5 +1,5 @@
 // app/page.tsx
-import Navbar from '../components/Navbar';
+import { Navbar } from "../components/Navbar2";
 import Link from 'next/link';
 
 export default function Home() {
