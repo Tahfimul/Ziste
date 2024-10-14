@@ -54,9 +54,14 @@ export const Navbar = () => {
                             </button>
                         )}
                     </li>
-                    <li className="px-4 py-3 h-full flex items-center">
-                        <a href="/portal"className="text-[#3D405B]">Portal</a>
-                    </li>
+                    {session?.user ? 
+                        (
+                        <li className="px-4 py-3 h-full flex items-center">
+                            <a href="/portal"className="text-[#3D405B]">Portal</a>
+                        </li>
+                        ):
+                        (<></>)
+                    }
                 </ul>
             
             
