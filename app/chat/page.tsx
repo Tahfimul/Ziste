@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { auth } from '../../services/firebase'; // Use the centralized auth export
+import { firebaseAuth } from '../../services/firebase'; // Use the centralized auth export
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
 import FirebaseInitializer from '../../components/FirebaseInitializer';
@@ -12,7 +12,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setUserId(user.uid);
       } else {
