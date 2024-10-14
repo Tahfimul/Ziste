@@ -5,28 +5,28 @@ import { auth } from '../../services/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Import the function
 import { useRouter } from 'next/navigation';
 
-const Login = () => {
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/chat'); // Redirect to chat page upon successful login
+      router.push('/chat'); // Redirect to chat page upon successful SignIn
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
+      setError('SignIn failed. Please check your credentials.');
       console.error(err);
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
+      <h1>SignIn</h1>
+      <form onSubmit={handleSignIn}>
         <input
           type="email"
           placeholder="Email"
@@ -41,11 +41,11 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit">Sign In</button>
       </form>
       {error && <p>{error}</p>}
     </div>
   );
 };
 
-export default Login;
+export default SignIn;
