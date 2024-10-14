@@ -7,10 +7,6 @@ export default function Home() {
     <>
       <Navbar />
       <h1>Connect with academia.</h1>
-      <h2>
-        <Link href="/login">Login</Link>
-        <Link href="/register">Register</Link>
-      </h2>
     </>
   );
 }
