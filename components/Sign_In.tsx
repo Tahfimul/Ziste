@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { auth } from '@/services/firebase'; 
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Import the function
 import { useRouter } from 'next/navigation';
-import { signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 
 const Signin = ()=>
 {
+    const { data: session } = useSession();
 
+    useEffect(()=>{
+      if(session?.user)
+        router.push('/', {scroll:false})
+    },[session])
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
