@@ -1,4 +1,4 @@
-import Logo from '@/app/assets/logo.png';
+import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
 {/** import { song_myung } from '@/app/fonts/fonts'; **/}
