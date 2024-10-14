@@ -1,39 +1,21 @@
 import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
-{/** import { song_myung } from '@/app/fonts/fonts'; **/}
 
 
 const App = () => {
     const { data: session } = useSession();
     return (
-        <header className=" bg-white sticky h-7/8 w-full">
-        
-        <div className="pt-16">
-            <h1 className="flex mx-auto justify-center px-5 text-8xl font-extralight text-transparent bg-clip-text"
-            style={{
-                background: 'linear-gradient(to bottom, #6E739E, #3D405B, #3D405B)',
-                backgroundSize: '40% 80%',
+        <header className=" bg-white sticky h-screen w-screen">
+        <div className="justify-center mt-28 mx-80" style={{
+                background: 'linear-gradient(to right, #E07A5F, #F2CC8F, #81B29A, #6E739E, #3D405B)',
+                backgroundSize: '50% 100%',
                 backgroundPosition: 'center',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-              }}>Welcome</h1>
-            <h2 className="flex mx-auto justify-center px-5 text-7xl font-light text-transparent bg-clip-text"
-            style={{
-                background: 'linear-gradient(to bottom, #6E739E, #3D405B, #3D405B)',
-                backgroundSize: '40% 80%',
-                backgroundPosition: 'center',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-              }}>To</h2>
-            <h3 className="flex mx-auto justify-center px-5 text-9xl font-semibold text-transparent bg-clip-text"
-            style={{
-                background: 'linear-gradient(to right, #E07A5F, #81B29A, #3D405B)',
-                backgroundSize: '25% 25%',
-                backgroundPosition: 'center',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-              }}>Zíste</h3>
+              }}>
+            <h3 className="flex mx-auto justify-center py-3 px-5 text-9xl font-semibold text-transparent bg-clip-text"
+            >Zíste</h3>
         </div>
 
         <div className='flex pt-16 pb-6 mx-auto justify-center gap-28'>
