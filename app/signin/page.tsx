@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { auth } from '../../services/firebase'; 
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Import the function
 import { useRouter } from 'next/navigation';
+import { signIn } from "next-auth/react";
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,12 @@ const SignIn = () => {
         <button type="submit">Sign In</button>
       </form>
       {error && <p>{error}</p>}
+      <button
+            onClick={() => signIn()}
+            className="bg-sky-400 px-3 py-2 rounded"
+            >
+            Sign In with Google
+      </button>
     </div>
   );
 };
