@@ -1,4 +1,5 @@
 import Logo from '@/app/assets/logo.svg';
+import DownCircleArrow from '@/app/assets/reshot-chevron-arrow-down-circle.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
 
@@ -23,9 +24,10 @@ const App = () => {
                 (<></>):
                 (<div>
                     <a href="/signin">
-                        <button className='flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]'>
-                            Sign In
-                        </button>
+                        <button className="flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A] transition-transform duration-250 ease-in-out transform hover:scale-105" 
+                    style={{ position: 'relative', zIndex: 100 }}>
+                        Login
+                    </button>
                     </a>
                 </div>)
             }
@@ -38,17 +40,22 @@ const App = () => {
 
             <div>
                 <a href="/catalog">
-                    <button className='flex font-semibold shadow-md rounded-full px-6 py-4 text-2xl text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F]'>
+                    <button className="flex font-semibold shadow-md rounded-full px-6 py-4 text-2xl text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F] transition-transform duration-250 ease-in-out transform hover:scale-105" 
+                    style={{ position: 'relative', zIndex: 100 }}>
                         Browse
                     </button>
                 </a>
             </div>
         </div>
         
-        <div className='flex py-5 pb-40 mx-auto justify-center text-black text-xl'>
-            <p>Learn More</p>
-            {/**<Image src= "app/assets/reshot-chevron-arrow-down-circle.svg" alt="Down Arrow" height={20} width={20}></Image>**/}
-
+        <div className='flex py-5 mx-auto justify-center text-black text-xl'>
+            <a href="#hero" className="flex justify-center transition-transform duration-300 ease-in-out transform hover:scale-105">
+                <button className="flex justify-center">
+                    Learn More
+                    <Image src={DownCircleArrow} alt="Down Arrow" height={28} width={28} className="ml-1"></Image>
+                </button>
+            </a>
+            
         </div>
         
         </header>
