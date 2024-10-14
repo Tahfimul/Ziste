@@ -3,7 +3,7 @@ import Image from 'next/image';
 {/** import { song_myung } from '@/app/fonts/fonts'; **/}
 
 
-export const App = () => {
+const App = () => {
     return (
         <header className=" bg-white sticky h-7/8 w-full">
         
@@ -67,3 +67,5 @@ export const App = () => {
 
     );
 };
+
+export default App

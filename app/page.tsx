@@ -1,11 +1,12 @@
 // app/page.tsx
-import Navbar from '../components/Navbar';
 
+import App from '@/components/welcome'
+import Hero from '@/components/hero';
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <h1>Connect with academia.</h1>
+      <App/>
+      <Hero/>
     </>
   );
 }
