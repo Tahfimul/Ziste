@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 const Signin = ()=>
 {
 
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -46,7 +47,12 @@ const Signin = ()=>
       </form>
       {error && <p>{error}</p>}
       <button
-            onClick={() => signIn()}
+            onClick={async () => {
+              await signIn('google',{
+                  callbackUrl: "/",
+              })
+              }
+            }
             className="bg-sky-400 px-3 py-2 rounded"
             >
             Sign In with Google
