@@ -42,14 +42,14 @@ const App = () => {
                 (<div>
                     <a href="/portal">
                         <button className='flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]'>
-                            Login
+                            Sign In
                         </button>
                     </a>
                 </div>)
             }
             
 
-    {/** Static Logo Image btwn Login & Browse Buttons **/}
+    {/** Static Logo Image btwn SignIn & Browse Buttons **/}
             <div className='flex top-1 items-center'>
                 <Image src={Logo} alt="Logo" height={100} width={100}></Image>
             </div>
