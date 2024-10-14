@@ -1,4 +1,5 @@
-import { Navbar } from "../../components/Navbar2";
+'use client'
+import { Navbar } from "@/components/Navbar2";
 
 export default function Catalog() {
     return (
