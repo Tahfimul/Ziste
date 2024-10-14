@@ -1,6 +1,6 @@
 import Logo from '@/app/assets/logo.png';
 import Image from 'next/image';
-import { signIn, useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export const Navbar = () => {
     const { data: session } = useSession();
@@ -46,12 +46,7 @@ export const Navbar = () => {
                             </button>
                             </div>
                         ) : (
-                            <button
-                            onClick={() => signIn()}
-                            className="bg-sky-400 px-3 py-2 rounded"
-                            >
-                            Sign In
-                            </button>
+                            <a href="/signin"className="text-[#3D405B]">Sign In</a>
                         )}
                     </li>
                     {session?.user ? 
