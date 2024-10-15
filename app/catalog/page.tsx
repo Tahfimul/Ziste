@@ -4,6 +4,7 @@ import GradientBorder from "@/components/GradientBorder";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
 import { CourseCard } from "@/components/CourseCard";
+import { PageBar } from "@/components/PageBar";
 
 export default function Catalog() {
     return (
@@ -90,10 +91,10 @@ export default function Catalog() {
             length="12 Weeks"
             price="$250"
             materials="Text-Book Free"
-            date="Oct.31st"
+            date="Oct. 31st"
           />
         </div>
-    
+        <PageBar/>
         </>
 
     );

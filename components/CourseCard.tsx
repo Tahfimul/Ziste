@@ -40,7 +40,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 {description}
               </h3>
 
-              <h4 className="flex my-1 justify-between items-center gap-11">
+              <h4 className="flex my-1 justify-between items-center gap-9">
                 <div className="flex gap-2">
                     <span className="flex px-4 py-1 rounded-full bg-[#F2CC8F] text-md text-black w-10% justify-between">{subject}</span>
                     <span className="flex px-4 py-1 rounded-full bg-[#E07A5F] text-md text-black w-10% justify-between">{length}</span>
