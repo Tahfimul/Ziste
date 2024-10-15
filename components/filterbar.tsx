@@ -70,7 +70,7 @@ export const Filterbar = () => {
             <button
               role="combobox"
               aria-expanded={openSubject}
-              className="flex px-4 py-2 rounded-full bg-[#F2CC8F] text-md text-black w-[220px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-md text-black w-[220px] justify-between"
             >
               {subject
                 ? subjects.find((s) => s.value === subject)?.label
@@ -114,7 +114,7 @@ export const Filterbar = () => {
             <button
               role="combobox"
               aria-expanded={openLength}
-              className="flex px-4 py-2 rounded-full bg-[#E07A5F] text-md text-black w-[200px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-md text-black w-[200px] justify-between"
             >
               {length
                 ? lengths.find((l) => l.value === length)?.label
@@ -154,7 +154,7 @@ export const Filterbar = () => {
         
         {/** Price Slider Dropdown */}
         <DropdownMenu>
-        <DropdownMenuTrigger className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] text-md text-black">
+        <DropdownMenuTrigger className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-md text-black">
                 Price
                 <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
         </DropdownMenuTrigger>
@@ -171,7 +171,7 @@ export const Filterbar = () => {
             <button
               role="combobox"
               aria-expanded={openMaterial}
-              className="flex px-4 py-2 rounded-full bg-[#8186b5] text-md text-black w-[200px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#8186b5] shadow-md text-md text-black w-[200px] justify-between"
             >
               {material
                 ? materials.find((m) => m.value === material)?.label
