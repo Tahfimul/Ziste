@@ -171,7 +171,7 @@ export const FilterBar = () => {
             <button
               role="combobox"
               aria-expanded={openMaterial}
-              className="flex px-4 py-2 rounded-full bg-[#8186b5] shadow-md text-md text-black w-[200px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-md text-black w-[200px] justify-between"
             >
               {material
                 ? materials.find((m) => m.value === material)?.label

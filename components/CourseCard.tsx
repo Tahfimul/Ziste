@@ -32,7 +32,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               </h1>
               
               <h2 className="pt-1">
-                <span className="bg-[#81B29A] px-2 py-1 mb-1 rounded-md text-md text-black">{professorName}</span>
+                <span className="bg-[#aac9ba] px-2 py-1 mb-1 rounded-md text-md text-black">{professorName}</span>
                 <span className="px-3 text-md text-[#6E739E]">{schoolName}</span>
               </h2>
 
