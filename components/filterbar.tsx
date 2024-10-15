@@ -51,7 +51,7 @@ const materials = [
     { value: "lowcost", label: "Low Cost"},
 ]
 
-export const Filterbar = () => {
+export const FilterBar = () => {
   const [openSubject, setOpenSubject] = React.useState(false);
   const [subject, setSubject] = React.useState("");
   const [openLength, setOpenLength] = React.useState(false);

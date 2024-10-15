@@ -1,5 +1,5 @@
 'use client'
-import { Filterbar } from "@/components/FilterBar";
+import { FilterBar } from "@/components/FilterBar";
 import GradientBorder from "@/components/GradientBorder";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
@@ -14,7 +14,7 @@ export default function Catalog() {
                 <h1 className="text-6xl text-black">Course Catalog</h1>
             </div>
             <Searchbar/>
-            <Filterbar/>
+            <FilterBar/>
         </section>
 
         <h1 className="flex py-4 pl-48 text-black font-medium">5 listings:</h1>
