@@ -1,4 +1,6 @@
 import GradientBorder from "../components/GradientBorder";
+import { Bookmark } from "lucide-react";
+import { useState } from "react";
 
 interface CourseCardProps {
     courseTitle: string;
@@ -23,14 +25,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({
     materials,
     date,
 }) => {
+
+const [isBookmark, setBookmark] = useState(false);
+
+const handleBookmarkClick = () => {
+    setBookmark(!isBookmark);
+}
     return (
       <div className="flex justify-center py-3">
           <div className="bg-white w-7/12 h-1/2 shadow-xl shadow-[#bfb4a3] px-5 py-3 rounded-2xl transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-[#d5c7b2]">
+                <div className="flex justify-between w-full">
+                    <h1 className="flex items-center text-xl font-semibold text-black mb-1">
+                        {courseTitle}
+                    </h1>
+                    <Bookmark onClick={handleBookmarkClick} className={`justify-end w-8 h-8 transition-transform duration-100 ease-in-out transform hover:scale-110 cursor-pointer" ${isBookmark ? 'fill-[#e1613d] text-[#e1613d]' : 'fill-none'}`}/>
+                </div>
             <a href="#" className="flex flex-col items-start">
-              <h1 className="text-xl font-semibold text-black mb-1">
-                {courseTitle}
-              </h1>
-              
+
               <h2 className="pt-1">
                 <span className="bg-[#aac9ba] px-2 py-1 mb-1 rounded-md text-md text-black">{professorName}</span>
                 <span className="px-3 text-md text-[#6E739E]">{schoolName}</span>
