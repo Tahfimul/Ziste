@@ -40,7 +40,7 @@ const lengths = [
 const prices = [
     { value: "50", label: "$0 - $50"},
     { value: "150", label: "$50 - $150"},
-    { value: "151", label: "$150 <"},
+    { value: "151", label: "Above $150"},
 ]
 
 const materials = [
