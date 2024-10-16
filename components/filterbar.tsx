@@ -48,7 +48,7 @@ const lengths = [
 
 const materials = [
     { value: "textbookfree", label: "Textbook Free"},
-    { value: "lowcost", label: "Low Cost"},
+    { value: "lowcost", label: "Low-Cost"},
 ]
 
 export const FilterBar = () => {
