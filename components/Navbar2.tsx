@@ -12,14 +12,14 @@ export const Navbar = () => {
         <a href= "/"><Image src={Logo} alt="Logo" height={45} width={45} className="mx-4"></Image></a>
                 <ul className="flex space-x-4 mx-5">
                     <li className="px-4 py-3 h-full flex items-center">
-                        <a href="/catalog" className="text-[#E07A5F]">Courses</a>
+                        <a href="/catalog" className="text-[#E07A5F] transition-transform duration-300 ease-in-out transform hover:scale-105">Courses</a>
                     </li>
 
                     {session?.user ? 
                         (<></>):
                         (
                         <li className="px-4 py-3 h-full flex items-center">
-                            <a href="/register"className="text-[#81B29A]">Register</a>
+                            <a href="/register"className="text-[#81B29A] transition-transform duration-300 ease-in-out transform hover:scale-105">Register</a>
                         </li>
                         )
                         
@@ -46,7 +46,7 @@ export const Navbar = () => {
                             </button>
                             </div>
                         ) : (
-                            <a href="/signin"className="text-[#3D405B]">Sign In</a>
+                            <a href="/signin"className="text-[#3D405B] transition-transform duration-300 ease-in-out transform hover:scale-105">Sign In</a>
                         )}
                     </li>
                     {session?.user ? 
