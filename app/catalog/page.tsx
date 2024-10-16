@@ -30,7 +30,7 @@ export default function Catalog() {
             subject="Poetry"
             length="9 Weeks"
             price="$69"
-            materials="Text-Book Free"
+            materials="Textbook Free"
             date="Oct. 31st"
           />
 
@@ -54,7 +54,7 @@ export default function Catalog() {
             subject="History"
             length="12 Weeks"
             price="$45"
-            materials="Text-Book Free"
+            materials="Textbook Free"
             date="Oct. 31st"
           />
 
@@ -66,7 +66,7 @@ export default function Catalog() {
             subject="English"
             length="12 Weeks"
             price="$50"
-            materials="Text-Book Free"
+            materials="Textbook Free"
             date="Oct. 31st"
           />
 
@@ -90,7 +90,7 @@ export default function Catalog() {
             subject="Gender Studies"
             length="12 Weeks"
             price="$250"
-            materials="Text-Book Free"
+            materials="Textbook Free"
             date="Oct. 31st"
           />
         </div>

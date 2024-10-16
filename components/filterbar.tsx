@@ -47,7 +47,7 @@ const lengths = [
 ];
 
 const materials = [
-    { value: "textbookfree", label: "Textbook-Free"},
+    { value: "textbookfree", label: "Textbook Free"},
     { value: "lowcost", label: "Low Cost"},
 ]
 
