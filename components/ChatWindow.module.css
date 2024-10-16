@@ -1,0 +1,60 @@
+/* app/chat/ChatWindow.module.css */
+
+.chatWindow {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .messageBox {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+  }
+  
+  .ownMessage {
+    background-color: #e0f7fa;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  .otherMessage {
+    background-color: #fff3e0;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  .typingArea {
+    display: flex;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+  }
+  
+  .typingArea textarea {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+  }
+  
+  .typingArea button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .typingArea button:hover {
+    background-color: #0056b3;
+  }

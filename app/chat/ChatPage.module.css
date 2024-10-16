@@ -1,68 +1,95 @@
+/* app/chat/ChatPage.module.css */
 .chatPage {
+  height: 100vh;
   display: flex;
-  height: 100vh; /* Full viewport height */
+  flex-direction: column;
 }
 
-.sidebar {
-  width: 25%;
-  background-color: #f4f4f4; /* Light background for the sidebar */
-  padding: 10px;
-  border-right: 1px solid #ddd; /* Separator line */
-}
-
-.chatArea {
-  width: 75%;
-  padding: 10px;
+.chatContainer {
   display: flex;
-  flex-direction: column; /* Stack chat content and input */
+  flex-grow: 1; /* This allows the chat container to take up all available space */
+  height: 100%; /* Ensure the container takes the full height */
+  background-color: #f5f5f5;
 }
 
-.chatContent {
-  flex: 1; /* This will take up remaining space */
-  overflow-y: auto; /* Allow scrolling if content overflows */
-  padding-bottom: 10px; /* Add space at the bottom for input */
+/* Chat list on the left */
+.chatWrapper {
+  display: flex;
+  width: 100%;
 }
 
-.messageInput {
-  display: flex; /* Align input */
-  padding: 10px 0; /* Space around the input */
-  width: 100%; /* Extend across the entire width */
+.chatList {
+  width: 25%; /* 25% of the screen for chat list */
+  background-color: #e0e0e0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
-.messageInput input {
-  flex: 1;
+.chatList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.chatList li {
+  margin-bottom: 10px;
+}
+
+.chatList button {
+  width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 20px; /* Rounded edges */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.newChatIcon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #007bff; /* Bootstrap primary color */
+.chatList button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Chat window on the right */
+.chatWindow {
+  width: 75%; /* 75% of the screen for chat window */
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.messageBox {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+.typingArea {
+  display: flex;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+}
+
+.typingArea textarea {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: none;
+}
+
+.typingArea button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
+  border-radius: 5px;
   cursor: pointer;
 }
-.userMessage {
-  align-self: flex-end; /* Align user messages to the right */
-  background-color: #0084ff; /* User message color */
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
 
-.otherMessage {
-  align-self: flex-start; /* Align other messages to the left */
-  background-color: #e5e5ea; /* Other message color */
-  color: black;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+.typingArea button:hover {
+  background-color: #0056b3;
 }

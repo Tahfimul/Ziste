@@ -2,7 +2,7 @@ import Logo from '@/app/assets/logo.png';
 import Image from 'next/image';
 import { useSession, signOut } from "next-auth/react";
 
-export const Navbar = () => {
+const Navbar = () => {
     const { data: session } = useSession();
     return (
         <header className="sticky">
@@ -64,3 +64,5 @@ export const Navbar = () => {
         </header>
     );
 };
+
+export default Navbar;
