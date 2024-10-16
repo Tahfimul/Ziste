@@ -13,23 +13,25 @@ import {
 export const PageBar = () => {
     return (
         <>
+        <div className="py-4">
         <Pagination className="flex justify-center items-center">
         <PaginationContent>
             <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious href="#" className="text-lg"/>
             </PaginationItem>
             <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
+            <PaginationLink href="#" className="text-lg">1</PaginationLink>
             </PaginationItem>
             <PaginationItem>
             <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext href="#" className="text-lg"/>
             </PaginationItem>
         </PaginationContent>
         </Pagination>
-        <div className="flex justify-end mr-4 pb-20">
+        </div>
+        <div className="flex justify-end mr-8 pb-20">
             <a href="#catalog">
                 <button className="flex w-[172px] px-3 py-1 pr-0 rounded-full text-md bg-[#E07A5F]">
                     Go Back to Top
