@@ -1,13 +1,4 @@
 "use client";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"  
-import { Slider } from "@/components/ui/slider"
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -46,6 +37,12 @@ const lengths = [
   { value: "12weeks", label: "12 Weeks" },
 ];
 
+const prices = [
+    { value: "50", label: "$0 - $50"},
+    { value: "150", label: "$50 - $150"},
+    { value: "151", label: "$150 <"},
+]
+
 const materials = [
     { value: "textbookfree", label: "Textbook Free"},
     { value: "lowcost", label: "Low-Cost"},
@@ -56,12 +53,15 @@ export const FilterBar = () => {
   const [subject, setSubject] = React.useState("");
   const [openLength, setOpenLength] = React.useState(false);
   const [length, setLength] = React.useState("");
+  const [openPrice, setOpenPrice] = React.useState(false);
+  const [price, setPrice] = React.useState("");
   const [openMaterial, setOpenMaterial] = React.useState(false);
   const [material, setMaterial] = React.useState("");
 
+
   return (
     <header>
-      <div className="flex justify-center items-center mx-56 gap-8">
+      <div className="flex justify-center items-center gap-8">
         <h1 className="text-md font-medium text-black">Filter:</h1>
 
         {/* Subject Dropdown */}
@@ -152,18 +152,49 @@ export const FilterBar = () => {
           </PopoverContent>
         </Popover>
         
-        {/** Price Slider Dropdown */}
-        <DropdownMenu>
-        <DropdownMenuTrigger className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-md text-black">
-                Price
-                <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-            <DropdownMenuItem>
-                <Slider defaultValue={[33]} min={25} max={250} step={1} />
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-        </DropdownMenu>
+        {/** Price Dropdown */}
+        <Popover open={openPrice} onOpenChange={setOpenPrice}>
+          <PopoverTrigger asChild>
+            <button
+              role="combobox"
+              aria-expanded={openPrice}
+              className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-md text-black"
+            >
+              {price
+                ? prices.find((p) => p.value === price)?.label
+                : "Price"}
+              <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandList>
+                <CommandGroup>
+                  {prices.map((priceOption) => (
+                    <CommandItem
+                      key={priceOption.value}
+                      value={priceOption.value}
+                      onSelect={(currentValue) => {
+                        setPrice(currentValue === price ? "" : currentValue);
+                        setOpenPrice(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          price === priceOption.value
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                      {priceOption.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
         
         {/** Materials Dropdown */}
         <Popover open={openMaterial} onOpenChange={setOpenMaterial}>
