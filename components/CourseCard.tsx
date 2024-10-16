@@ -51,18 +51,20 @@ const handleBookmarkClick = () => {
                 {description}
               </h3>
 
-              <h4 className="flex my-1 justify-between items-center gap-9">
-                <div className="flex gap-2">
-                    <span className="flex px-4 py-1 rounded-full bg-[#F2CC8F] text-md text-black w-10% justify-between">{subject}</span>
-                    <span className="flex px-4 py-1 rounded-full bg-[#E07A5F] text-md text-black w-10% justify-between">{length}</span>
-                    <span className="flex px-4 py-1 rounded-full bg-[#81B29A] text-md text-black w-10% justify-between">{price}</span>
-                    <span className="flex px-4 py-1 rounded-full bg-[#9fa5db] text-md text-black w-10% justify-between">{materials}</span>
-                </div>
-                <GradientBorder className="rounded-full p-0.5 gradient-animate transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md">
-                    <div className="flex px-4 py-1.5 border-none rounded-full bg-white text-md text-black w-10% justify-between transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate ">
-                        Enroll {date}
+              <h4 className="flex justify-between items-center w-full gap-9">
+                    <div className="flex justify-between items-center gap-2">
+                        <span className="flex px-4 py-1 h-8 rounded-full bg-[#F2CC8F] text-md text-black w-10% justify-between">{subject}</span>
+                        <span className="flex px-4 py-1 h-8 rounded-full bg-[#E07A5F] text-md text-black w-10% justify-between">{length}</span>
+                        <span className="flex px-4 py-1 h-8 rounded-full bg-[#81B29A] text-md text-black w-10% justify-between">{price}</span>
+                        <span className="flex px-4 py-1 h-8 rounded-full bg-[#9fa5db] text-md text-black w-10% justify-between">{materials}</span>
                     </div>
-                </GradientBorder>
+                    <GradientBorder className="flex justify-end rounded-full p-0.5 gradient-animate transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md">
+                        <div className="px-4 py-1.5 border-none rounded-full bg-white text-md text-black w-10% justify-between transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate ">
+                            Enroll {date}
+                        </div>
+                    </GradientBorder>
+                
+                
               </h4>
             </a>
           </div>
