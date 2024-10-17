@@ -1,15 +1,13 @@
 'use client'
-import { FilterBar } from "@/components/FilterBar";
-import GradientBorder from "@/components/GradientBorder";
+import { FilterBar } from "@/components/filterbar";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
-<<<<<<< HEAD
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
-=======
+
 import { CourseCard } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
 
->>>>>>> 3ffcf8c3bc509e08d82594908a9e91232abd0295
+
 export default function Catalog() {
     return (
         <AuthContextProvider>
