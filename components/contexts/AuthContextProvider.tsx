@@ -6,7 +6,7 @@ import { useState, useEffect, ReactNode, createContext } from 'react';
 import { isSupported, initializeAnalytics } from 'firebase/analytics';
 import { app, firebaseAuth } from '../../services/firebase';
 import { User } from 'firebase/auth'; 
-import { LoginFormValues, UserFormValues } from '@/services/authService';
+import { SigninFormValues, UserFormValues } from '@/services/authService';
 import { firebaseSignUp, firebaseSignIn, firebaseSignOut } from '@/services/authService';
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,7 @@ export const AuthContext = createContext<IAuth>({
 export  interface  IAuth {
   user:  User  |  null;  //type User comes from firebase
   loading:  boolean;
-  signIn: (creds:  LoginFormValues) =>  void;
+  signIn: (creds:  SigninFormValues) =>  void;
   signUp: (creds:  UserFormValues) =>  void;
   signOut: () =>  void;
 }
@@ -69,7 +69,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   }
 
   //Sign in
-  const  signIn = async (creds:  LoginFormValues) => {
+  const  signIn = async (creds:  SigninFormValues) => {
     
     setIsLoading(true);
     firebaseSignIn(creds)
