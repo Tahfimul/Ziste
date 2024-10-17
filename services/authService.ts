@@ -6,13 +6,13 @@ import { firebaseAuth } from './firebase';
 //required if you want to keep logged in after user exits the browser or closes tab
 setPersistence(firebaseAuth,  browserLocalPersistence);
 
-type LoginFormValues = 
+export type LoginFormValues = 
 {
     email:string,
     password:string
 }
 
-type UserFormValues = 
+export type UserFormValues = 
 {
     email:string,
     password:string

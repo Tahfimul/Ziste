@@ -2,9 +2,10 @@
 import GradientBorder from "@/components/GradientBorder";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
-
+import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 export default function Catalog() {
     return (
+        <AuthContextProvider>
         <>
         <header className="bg-white">
         <Navbar/>
@@ -31,6 +32,7 @@ export default function Catalog() {
         </div>
         </header>
         </>
+        </AuthContextProvider>
 
     );
 }
