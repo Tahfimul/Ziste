@@ -1,4 +1,5 @@
 // app/chat/page.tsx
+// source: chatgpt
 "use client";
 import styles from './ChatPage.module.css';  
 import Navbar from '../../components/Navbar2';

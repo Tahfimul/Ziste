@@ -1,4 +1,5 @@
 // components/ChatWindow.tsx
+// source: chatgpt
 "use client";
 
 import { useState, useEffect } from 'react';
