@@ -1,16 +1,20 @@
 // app/page.tsx
-import { Navbar } from "../components/Navbar2";
-import Link from 'next/link';
-
+'use client'
+import App from '@/components/welcome'
+import Hero from '@/components/hero';
+import { useSession } from "next-auth/react";
+import { Navbar } from '@/components/Navbar2';
 export default function Home() {
+  const { data: session } = useSession();
   return (
     <>
-      <Navbar />
-      <h1>Connect with academia.</h1>
-      <h2>
-        <Link href="/login">Login</Link>
-        <Link href="/register">Register</Link>
-      </h2>
+      {session?.user ? 
+        (<Navbar/>):        
+        (<></>)
+
+      }
+      <App/>
+      <Hero/>
     </>
   );
 }

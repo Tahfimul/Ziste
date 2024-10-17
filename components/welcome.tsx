@@ -1,9 +1,11 @@
 import Logo from '@/app/assets/logo.png';
 import Image from 'next/image';
+import { useSession } from "next-auth/react";
 {/** import { song_myung } from '@/app/fonts/fonts'; **/}
 
 
-export const App = () => {
+const App = () => {
+    const { data: session } = useSession();
     return (
         <header className=" bg-white sticky h-7/8 w-full">
         
@@ -35,15 +37,19 @@ export const App = () => {
         </div>
 
         <div className='flex pt-16 pb-6 mx-auto justify-center gap-28'>
-            <div>
-                <a href="/login">
-                    <button className='flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]'>
-                        Login
-                    </button>
-                </a>
-            </div>
+            {session?.user ? 
+                (<></>):
+                (<div>
+                    <a href="/signin">
+                        <button className='flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]'>
+                            Sign In
+                        </button>
+                    </a>
+                </div>)
+            }
+            
 
-    {/** Static Logo Image btwn Login & Browse Buttons **/}
+    {/** Static Logo Image btwn SignIn & Browse Buttons **/}
             <div className='flex top-1 items-center'>
                 <Image src={Logo} alt="Logo" height={100} width={100}></Image>
             </div>
@@ -67,3 +73,5 @@ export const App = () => {
 
     );
 };
+
+export default App

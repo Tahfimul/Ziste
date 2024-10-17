@@ -1,5 +1,4 @@
-
-export const Hero = () => {
+const Hero = () => {
     return (
         <header className="bg-[#81B29A]">
             <div className="p-5 w-1/2 h-full bg-white">
@@ -13,3 +12,5 @@ export const Hero = () => {
         </header>
     );
 }
+
+export default Hero

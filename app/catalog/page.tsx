@@ -1,6 +1,7 @@
-import GradientBorder from "../../components/GradientBorder";
-import { Navbar } from "../../components/Navbar2";
-import { Searchbar } from "../../components/SearchBar";
+'use client'
+import GradientBorder from "@/components/GradientBorder";
+import { Navbar } from "@/components/Navbar2";
+import { Searchbar } from "@/components/SearchBar";
 
 export default function Catalog() {
     return (
