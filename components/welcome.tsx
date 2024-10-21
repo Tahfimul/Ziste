@@ -13,7 +13,7 @@ const App = () => {
 
     const { data: session } = useSession();
     return (
-        <header className=" bg-white sticky h-screen w-screen relative z-0">
+        <header className=" bg-white h-screen w-screen relative z-0">
 
             <AnimatePresence>
                 {viewSignin && <div className='absolute inset-0 z-40'><Signin setViewSignin={setViewSignin} /></div>}
