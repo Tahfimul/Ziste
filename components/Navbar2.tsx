@@ -1,9 +1,16 @@
 import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
 import { useSession, signOut } from "next-auth/react";
-
+import { AuthContext } from './contexts/AuthContextProvider';
+import { useContext } from 'react';
 export const Navbar = () => {
     const { data: session } = useSession();
+    const auth = useContext(AuthContext)
+
+    if (!auth.user)
+        return (<></>)
+
+
     return (
         <header className="sticky">
 
@@ -20,6 +27,16 @@ export const Navbar = () => {
                         (
                         <li className="px-4 py-3 h-full flex items-center">
                             <a href="/register"className="text-[#81B29A] transition-transform duration-300 ease-in-out transform hover:scale-105">Register</a>
+                        </li>
+                        )
+                        
+                    }
+
+                    {auth?.user ? 
+                        (<></>):
+                        (
+                        <li className="px-4 py-3 h-full flex items-center">
+                            <a href="/register"className="text-[#81B29A]">Register</a>
                         </li>
                         )
                         
@@ -47,6 +64,29 @@ export const Navbar = () => {
                             </div>
                         ) : (
                             <a href="/signin"className="text-[#3D405B] transition-transform duration-300 ease-in-out transform hover:scale-105">Sign In</a>
+                        )}
+
+                        {auth?.user ? (
+                            <div className="flex gap-x-2 items-center">
+                            <p>
+                                {auth.user.displayName} {auth.user.email}
+                            </p>
+                            <img 
+                            src={auth.user.photoURL!}
+                                alt=""
+                                className="w-10 h-10 rounded-full cursor-pointer"
+                            />
+                            <button
+                                onClick={async () => {
+                                    await auth.signOut()
+
+                                }}
+                            >
+                                Logout
+                            </button>
+                            </div>
+                        ) : (
+                            <a href="/signin"className="text-[#3D405B]">Sign In</a>
                         )}
                     </li>
                     {session?.user ? 

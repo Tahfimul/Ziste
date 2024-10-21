@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { firebaseAuth } from '../../services/firebase'; // Use the centralized auth export
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
-import FirebaseInitializer from '../../components/FirebaseInitializer';
+import AuthContextProvider from '../../components/contexts/AuthContextProvider';
 
 const ChatPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -31,12 +31,12 @@ const ChatPage = () => {
   }
 
   return (
-    <FirebaseInitializer>
+    <AuthContextProvider>
       <div>
         <h1>Chat</h1>
         <ChatList userId={userId} />
       </div>
-    </FirebaseInitializer>
+    </AuthContextProvider>
   );
 };
 

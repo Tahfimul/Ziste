@@ -1,13 +1,16 @@
 'use client'
-import { FilterBar } from "@/components/FilterBar";
-import GradientBorder from "@/components/GradientBorder";
+import { FilterBar } from "@/components/filterbar";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
+import AuthContextProvider from "@/components/contexts/AuthContextProvider";
+
 import { CourseCard } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
 
+
 export default function Catalog() {
     return (
+        <AuthContextProvider>
         <>
         <section id="catalog" className="bg-white">
             <Navbar/>
@@ -96,6 +99,7 @@ export default function Catalog() {
         </div>
         <PageBar/>
         </>
+        </AuthContextProvider>
 
     );
 }

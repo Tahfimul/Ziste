@@ -6,20 +6,20 @@ import { firebaseAuth } from './firebase';
 //required if you want to keep logged in after user exits the browser or closes tab
 setPersistence(firebaseAuth,  browserLocalPersistence);
 
-type LoginFormValues = 
+export type SigninFormValues = 
 {
     email:string,
     password:string
 }
 
-type UserFormValues = 
+export type UserFormValues = 
 {
     email:string,
     password:string
 }
 
 //Sign in functionality
-export const firebaseSignIn = async ({ email, password }: LoginFormValues) => {
+export const firebaseSignIn = async ({ email, password }: SigninFormValues) => {
  const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
  return result;
 };
