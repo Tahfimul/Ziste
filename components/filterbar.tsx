@@ -69,6 +69,7 @@ export const FilterBar = () => {
             <button
               role="combobox"
               aria-expanded={openSubject}
+              aria-controls="subject-options"
               className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-md text-black w-[220px] justify-between"
             >
               {subject
@@ -113,6 +114,7 @@ export const FilterBar = () => {
             <button
               role="combobox"
               aria-expanded={openLength}
+              aria-controls="length-options"
               className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-md text-black w-[200px] justify-between"
             >
               {length
@@ -157,6 +159,7 @@ export const FilterBar = () => {
             <button
               role="combobox"
               aria-expanded={openPrice}
+              aria-controls="price-options"
               className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-md text-black"
             >
               {price
@@ -201,6 +204,7 @@ export const FilterBar = () => {
             <button
               role="combobox"
               aria-expanded={openMaterial}
+              aria-controls="material-options"
               className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-md text-black w-[200px] justify-between"
             >
               {material

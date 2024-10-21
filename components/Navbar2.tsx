@@ -47,7 +47,7 @@ export const Navbar = () => {
                             <p>
                                 {session.user.name} {session.user.email}
                             </p>
-                            <img 
+                            <Image 
                             src={session.user.image!}
                                 alt=""
                                 className="w-10 h-10 rounded-full cursor-pointer"
@@ -71,7 +71,7 @@ export const Navbar = () => {
                             <p>
                                 {auth.user.displayName} {auth.user.email}
                             </p>
-                            <img 
+                            <Image 
                             src={auth.user.photoURL!}
                                 alt=""
                                 className="w-10 h-10 rounded-full cursor-pointer"
