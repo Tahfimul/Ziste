@@ -31,7 +31,7 @@ export default function Profile() {
                     </GradientBorder>
                 </div>
                 <div className={`${
-                activeTab === "bookmarks" ? "ml-[23vw] w-[11.5vw]" : "ml-[6vw]"} bg-[#E07A5F] w-[185px] py-1 ml-20 transition-all duration-200`}></div>
+                activeTab === "bookmarks" ? "ml-[23.2vw] w-[11.45vw]" : "ml-[6vw]"} bg-[#E07A5F] w-[185px] py-1 ml-20 transition-all duration-200`}></div>
                 </>
             ) : (
                 <>
