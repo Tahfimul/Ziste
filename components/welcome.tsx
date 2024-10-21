@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSession } from "next-auth/react";
 
 import React from "react";
-import Signin from "./Signin";
+import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
 
 const App = () => {
