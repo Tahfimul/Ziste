@@ -78,7 +78,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                     <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] h-[20vh] max-h-[40vh] w-[43.5vw] shadow-lg rounded-lg bg-gray-50">
                         <ul className="list-disc list-inside grid grid-cols-2 gap-x-3">
                             <li>This Is It</li>
-                            <li>If I'm Honest</li>
+                            <li>If Im Honest</li>
                             <li>Ethics & Morality in Poetry</li>
                             <li>Ethics & Morality in Poetry</li>
                         </ul>
