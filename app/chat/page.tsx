@@ -2,12 +2,12 @@
 // source: chatgpt
 "use client";
 import styles from './ChatPage.module.css';  
-import Navbar from '../../components/Navbar2';
+import {Navbar} from '../../components/Navbar2';
 import { useEffect, useState } from 'react';
 import { firebaseAuth } from '../../services/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
-import FirebaseInitializer from '../../components/FirebaseInitializer';
+import AuthContextProvider from '../../components/contexts/AuthContextProvider';
 
 const ChatPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -33,14 +33,14 @@ const ChatPage = () => {
   }
 
   return (
-    <FirebaseInitializer>
+    <AuthContextProvider>
       <div className={styles.chatPage}>
         <Navbar/>
         <div className={styles.chatContainer}>
           <ChatList userId={userId} />
         </div>
       </div>
-    </FirebaseInitializer>
+    </AuthContextProvider>
   );
 };
 
