@@ -14,14 +14,14 @@ export default function Catalog() {
         <>
         <section id="catalog" className="bg-white">
             <Navbar/>
-            <div className="flex justify-center p-3">
-                <h1 className="text-6xl text-black">Course Catalog</h1>
+            <div className="flex justify-center py-[0.8vh]">
+                <h1 className="text-[6vw] text-black">Course Catalog</h1>
             </div>
             <Searchbar/>
             <FilterBar/>
         </section>
 
-        <h1 className="flex py-4 pl-48 text-black font-medium">5 listings:</h1>
+        <h1 className="flex py-[2vh] pl-[12vw] text-black font-semibold text-[1.5vw]">5 listings:</h1>
 
         {/* Course Cards Container */}
         <div className="relative z-10 justify-center gap-4">

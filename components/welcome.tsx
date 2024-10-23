@@ -28,8 +28,8 @@ const App = () => {
             </AnimatePresence>
 
         {/** top-right gradient blob svg + animation */}
-        <div className="absolute -right-0 -top-1">
-        <svg width="549" height="509" viewBox="0 0 549 509" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="absolute -right-[0vw] -top-[0.1vh] overflow-hidden" style={{ position: 'absolute', zIndex: -100 }}>
+        <svg width="66.7vw" height="70vh" preserveAspectRatio="xMidYMid meet" viewBox="0 0 193 509" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M294.998 170C252.366 133.484 170.5 184.547 106.999 163.5C19.5 134.5 -14.4862 33.7469 6.49704 0.691351H548.997V508.5C548.997 508.5 505.537 396.95 478.998 383C439.998 362.5 398.998 368.5 373.998 362.5C309.864 347.108 345.206 213.005 294.998 170Z" fill="url(#paint0_radial_222_3)">
         <animate
             attributeName="d"
@@ -57,8 +57,8 @@ const App = () => {
         {/** END OF top-right gradient blob svg + animation */}
 
         {/** bottom-right gradient blob svg + animation */}
-        <div className="absolute z-1 -right-0 bottom-0 overflow-hidden">
-        <svg width="700" height="617" viewBox="0 0 700 617" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="absolute z-1 right-[0vw] bottom-[0vh] overflow-x-hidden">
+        <svg width="54.6vw" height="89.7vh" preserveAspectRatio="xMidYMid meet" viewBox="0 0 700 585" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M89.5 545.504C51.3011 566.305 0.5 617 0.5 617H700V0C700 0 657.935 169.583 641 181.5C614 200.5 554.457 201.208 518 225.5C467.225 259.333 511.58 415.303 451 420.5C396.119 425.208 412.811 403.022 358 408.5C308.606 413.437 308.769 530.65 261.355 545.504C213.154 560.605 133.933 521.309 89.5 545.504Z" fill="url(#paint0_radial_244_3)">
         <animate
             attributeName="d"
@@ -87,7 +87,7 @@ const App = () => {
 
         {/** top-left gradient blob svg + animation **/}
         <div className="absolute top-0 left-0">
-        <svg width="655" height="315" viewBox="0 0 655 315" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="55.5vw" height="50vh" viewBox="0 0 655 315" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M134 224.5C84.1907 240.338 0 15 0 315V-100H700C700 -100 550.434 76.1692 471.5 92.5C389.799 109.403 334.579 41.7553 258.5 76C189.491 107.062 206.119 201.567 134 224.5Z" fill="url(#paint0_radial_245_4)">
         <animate
             attributeName="d"
@@ -115,8 +115,8 @@ const App = () => {
         {/** END OF top-left gradient blob svg + animation **/}
 
         {/** left (long) gradient blob svg + animation **/}
-        <div className="absolute left-0 -top-8 bottom-0 overflow-hidden">
-        <svg width="339" height="769" viewBox="0 0 339 769" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="absolute -left-[38.3vw] bottom-[0.2vh] overflow-hidden" style={{ position: 'absolute', zIndex: -10 }}>
+        <svg width="100vw" height="99vh" preserveAspectRatio="xMidYMid meet" viewBox="0 0 339 769" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 0V769H296C296 769 381.502 624.5 310 600C238.498 575.5 262.101 511.468 238.498 474C214.895 436.532 151.271 466 134 390.5C116.729 315 242.112 303.438 250 209.5C254.283 158.5 234.926 107.994 189.5 62C149.5 21.5 91.6806 0 61.6806 0H0Z" fill="url(#paint0_radial_222_4)">
         <animate
             attributeName="d"
@@ -142,8 +142,8 @@ const App = () => {
         {/** END OF left (long) gradient blob svg + animation */}
 
         {/** bottom-left gradient blob svg + animation **/}
-        <div className="bottom-0" style={{ position: 'absolute', zIndex: -1 }}>
-        <svg width="532" height="197" viewBox="0 0 532 197" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="-bottom-[0vh] overflow-hidden" style={{ position: 'absolute', zIndex: -100 }}>
+        <svg width="40.6vw" height="28.5vh" viewBox="0 0 532 185" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M-0.000305176 197V82C-0.000305176 82 7.0224 -15.5145 73 3C134.699 27.8452 46.749 103.351 204.125 123.351C261.5 123.351 397.294 84.6501 462.5 91.9999C555.913 102.529 427.034 167 517.034 197H-0.000305176Z" fill="url(#paint0_radial_245_5)">
         <animate
             attributeName="d"
@@ -170,18 +170,19 @@ const App = () => {
         </div>
         {/** END OF bottom-left gradient blob svg + animation **/}
 
-        <div className="justify-center pt-36 mx-80" style={{
-                background: 'linear-gradient(to right, #E07A5F, #F2CC8F, #81B29A, #6E739E, #3D405B)',
-                backgroundSize: '50% 100%',
+        <div className="justify-center pt-[19vh]">
+            <h3 className="flex mx-auto justify-center py-3 px-5 text-[10vw] font-semibold text-transparent bg-clip-text gradient-animate"
+            style={{
+                background: 'linear-gradient(to right, #E07A5F, #F2CC8F, #81B29A, #6E739E)',
+                backgroundSize: '62% 50%',
                 backgroundPosition: 'center',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-              }}>
-            <h3 className="flex mx-auto justify-center py-3 px-5 text-9xl font-semibold text-transparent bg-clip-text"
+              }}
             >Zíste</h3>
-        </div>
+        
 
-        <div className='flex pt-14 pb-6 mx-auto justify-center gap-28'>
+        <div className='flex pt-[2vh] pb-6 mx-auto justify-center items-center gap-[4vw]'>
             {session?.user ? 
                 (<></>):
                 (<></>)
@@ -191,25 +192,25 @@ const App = () => {
                 (<></>):
                 (<div>
                         <button
-                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
+                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
                             onClick={() => auth.setShowSignIn()}
                         >
-                            Sign in
+                            Login
                         </button>
                  </div>)
             }
         
             {/** Static Logo Image btwn SignIn & Browse Buttons **/}
 
-            <div className='flex top-1 items-center'>
+            <div className='flex'>
 
-                <Image src={Logo} alt="Logo" height={100} width={100}></Image>
+                <Image src={Logo} alt="Logo" style={{width:'15vw', height:'15vh'}}></Image>
 
             </div>
             
             <div>
                 <a href="/catalog">
-                    <button className="flex font-semibold shadow-md rounded-full px-6 py-4 text-2xl text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F] transition-transform duration-250 ease-in-out transform hover:scale-105" 
+                    <button className="flex font-semibold shadow-md rounded-full px-6 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F] transition-transform duration-250 ease-in-out transform hover:scale-105" 
                     style={{ position: 'relative', zIndex: 100 }}>
                         Browse
                     </button>
@@ -217,14 +218,15 @@ const App = () => {
             </div>
         </div>
         
-        <div className='flex py-5 mx-auto justify-center text-black text-xl'>
+        <div className='flex py-[2.5vh] mx-auto justify-center text-black text-xl'>
             <a href="#hero" className="flex justify-center transition-transform duration-300 ease-in-out transform hover:scale-105">
-                <button className="flex justify-center">
+                <button className="flex justify-center items-center text-[1.7vw]">
                     Learn More
-                    <Image src={DownCircleArrow} alt="Down Arrow" height={28} width={28} className="ml-1"></Image>
+                    <Image src={DownCircleArrow} alt="Down Arrow" style={{width:'3vw', height:'4vh'}}></Image>
                 </button>
             </a>
             
+        </div>
         </div>
         </header>
     );

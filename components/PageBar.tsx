@@ -13,29 +13,29 @@ import {
 export const PageBar = () => {
     return (
         <>
-        <div className="py-4">
+        <div className="py-[4vh]">
         <Pagination className="flex justify-center items-center">
         <PaginationContent>
             <PaginationItem>
-            <PaginationPrevious href="#" className="text-lg"/>
+            <PaginationPrevious href="#" className="text-[1.7vw]"/>
             </PaginationItem>
             <PaginationItem>
-            <PaginationLink href="#" className="text-lg">1</PaginationLink>
+            <PaginationLink href="#" className="text-[1.7vw]">1</PaginationLink>
             </PaginationItem>
             <PaginationItem>
             <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-            <PaginationNext href="#" className="text-lg"/>
+            <PaginationNext href="#" className="text-[1.7vw]"/>
             </PaginationItem>
         </PaginationContent>
         </Pagination>
         </div>
-        <div className="flex justify-end mr-8 pb-20">
+        <div className="flex justify-end mr-[3vw] pb-[14vh]">
             <a href="#catalog">
-                <button className="flex w-[172px] px-3 py-1 pr-0 rounded-full text-md bg-[#E07A5F]">
+                <button className="flex justify-center items-center w-[18vw] px-4 py-1 rounded-full text-[1.7vw] bg-[#E07A5F] shadow-md transform-transition duration-75 ease-in-out transform hover:scale-105">
                     Go Back to Top
-                    <ChevronsUp className="mx-1 h-6 w-6 shrink-0 opacity-50" />
+                    <ChevronsUp className="justify-center items-center ml-[0.3vw] h-[4vh] w-[2.4vw] shrink-0 opacity-50" />
                 </button>
             </a>
         </div>

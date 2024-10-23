@@ -33,7 +33,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
             <div className="flex gap-3">
                 <div className="flex flex-col">
                     <h1 className="text-lg px-2 mb-2 mt-[2vw] font-semibold bg-[#81B29A] bg-opacity-70 ml-[6vw] rounded-sm">Payment Information:</h1>
-                    <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] w-[55vw] shadow-lg rounded-lg bg-gray-50">
+                    <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] h-[20vh] max-h-[40vh] w-[55vw] shadow-lg rounded-lg bg-gray-50">
                         {userRole === "Student" ? (
                             <>
                             <h2>Name on Card: {cardName}</h2>
