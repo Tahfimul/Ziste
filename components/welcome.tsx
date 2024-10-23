@@ -3,7 +3,6 @@ import Logo from '@/app/assets/logo.svg';
 import DownCircleArrow from '@/app/assets/reshot-chevron-arrow-down-circle.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
-
 import React, { useEffect } from "react";
 import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
@@ -22,7 +21,7 @@ const App = () => {
     },
     [auth.showSignIn])
     return (
-        <header className=" bg-white sticky h-screen w-screen relative z-0">
+        <header className=" bg-white h-screen w-screen relative z-0">
 
             <AnimatePresence>
                 {viewSignin && <div className='absolute inset-0 z-40'><Signin/></div>}

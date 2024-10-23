@@ -25,14 +25,12 @@ export const Navbar = () => {
                         )
                         
                     }
-                    <li className="px-4 py-3 h-full flex items-center">
-                       
-                        {auth?.user ? (
+                    <li className="px-4 py-3 h-full flex items-center">      {auth?.user ? (
                             <div className="flex gap-x-2 items-center">
                             <p>
                                 {auth.user.displayName} {auth.user.email}
                             </p>
-                            <img 
+                            <Image 
                             src={auth.user.photoURL!}
                                 alt=""
                                 className="w-10 h-10 rounded-full cursor-pointer"
