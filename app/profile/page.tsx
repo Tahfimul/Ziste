@@ -21,7 +21,7 @@ export default function Profile() {
             <Navbar/>
             {userRole === "Student" ? (
                 <>
-                <div className="flex items-center gap-10 ml-[6vw] py-3">
+                <div className="flex items-center gap-[2vw] ml-[6vw] py-3">
                     <button className="text-6xl text-black" onClick={() => setActiveTab("profile")}>Profile</button>
                     <GradientBorder className="rounded-full gradient-animate">
                         <button className="flex px-3 py-1.5 rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
@@ -31,7 +31,7 @@ export default function Profile() {
                     </GradientBorder>
                 </div>
                 <div className={`${
-                activeTab === "bookmarks" ? "ml-[23.2vw] w-[11.45vw]" : "ml-[6vw]"} bg-[#E07A5F] w-[185px] py-1 ml-20 transition-all duration-200`}></div>
+                activeTab === "bookmarks" ? "ml-[6vw] w-[11.45vw]" : "ml-[6vw]"} bg-[#E07A5F] w-[185px] py-1 ml-[6vw] transition-all duration-200`}></div>
                 </>
             ) : (
                 <>
@@ -42,6 +42,8 @@ export default function Profile() {
         </header>
         {activeTab === "bookmarks" ? (
             <>
+            <header className="pt-[3vh]"></header>
+
             <CourseCard
             courseTitle="Philosophy of Power and Leadership"
             professorName="Professor Tyrion Lannister"
@@ -83,7 +85,7 @@ export default function Profile() {
         )}
         <footer>
             <div className="my-[3vh]">
-                <button className="px-3 py-2 ml-[6vw] text-lg bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
+                <button className="px-3 py-2 ml-[6vw] text-lg text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
             </div>
         </footer>
         </>
