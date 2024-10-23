@@ -1,7 +1,8 @@
 //sources:
 //1. https://medium.com/@sajadshafi/implementing-firebase-auth-in-react-js-typescript-vite-js-88465ac84170
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence, signInWithPopup } from 'firebase/auth';
 import { firebaseAuth } from './firebase';
+import { error } from 'console';
 
 //required if you want to keep logged in after user exits the browser or closes tab
 setPersistence(firebaseAuth,  browserLocalPersistence);
@@ -18,10 +19,19 @@ export type UserFormValues =
     password:string
 }
 
+const provider = new GoogleAuthProvider();
+
 //Sign in functionality
 export const firebaseSignIn = async ({ email, password }: SigninFormValues) => {
  const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
  return result;
+};
+
+//Sign in functionality
+export const googleSignIn = async () => {
+    const result = await signInWithPopup(firebaseAuth, provider).catch((error)=>{console.log(error)});
+    
+    return result;
 };
 
 //Sign up functionality

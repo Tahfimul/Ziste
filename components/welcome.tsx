@@ -3,20 +3,28 @@ import Logo from '@/app/assets/logo.svg';
 import DownCircleArrow from '@/app/assets/reshot-chevron-arrow-down-circle.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
-
-import React from "react";
+import React, { useEffect } from "react";
 import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
+import { AuthContext } from '@/components/contexts/AuthContextProvider';
+import { useContext } from 'react';
 
 const App = () => {
+    const auth = useContext(AuthContext)
+
     const [viewSignin, setViewSignin] = React.useState<boolean>(false);
 
     const { data: session } = useSession();
+
+    useEffect(()=>{
+        setViewSignin(auth.showSignIn)
+    },
+    [auth.showSignIn])
     return (
         <header className=" bg-white h-screen w-screen relative z-0">
 
             <AnimatePresence>
-                {viewSignin && <div className='absolute inset-0 z-40'><Signin setViewSignin={setViewSignin} /></div>}
+                {viewSignin && <div className='absolute inset-0 z-40'><Signin/></div>}
             </AnimatePresence>
 
         {/** top-right gradient blob svg + animation */}
@@ -177,15 +185,21 @@ const App = () => {
         <div className='flex pt-[2vh] pb-6 mx-auto justify-center items-center gap-[4vw]'>
             {session?.user ? 
                 (<></>):
+                (<></>)
+            }
+
+            {auth?.user ? 
+                (<></>):
                 (<div>
                         <button
-                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]  transition-transform duration-250 ease-in-out transform hover:scale-105 z-10"
-                            onClick={() => setViewSignin(true)}
+                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
+                            onClick={() => auth.setShowSignIn()}
                         >
                             Login
                         </button>
                  </div>)
             }
+        
             {/** Static Logo Image btwn SignIn & Browse Buttons **/}
 
             <div className='flex'>

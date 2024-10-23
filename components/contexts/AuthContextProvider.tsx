@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 export const AuthContext = createContext<IAuth>({
  user: firebaseAuth.currentUser,
  loading: false,
+ showSignIn:false,
+ setShowSignIn:()=>{},
  signIn: () => {},
  signUp: () => {},
  signOut: () => {},
@@ -22,6 +24,8 @@ export const AuthContext = createContext<IAuth>({
 export  interface  IAuth {
   user:  User  |  null;  //type User comes from firebase
   loading:  boolean;
+  showSignIn: boolean;
+  setShowSignIn: ()=>void;
   signIn: (creds:  SigninFormValues) =>  void;
   signUp: (creds:  UserFormValues) =>  void;
   signOut: () =>  void;
@@ -35,6 +39,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   const [currentUser,  setCurrentUser] =  useState<User  |  null>(null);
   const [isLoading,  setIsLoading] =  useState<boolean>(false);
   const [isAuthLoading,  setIsAuthLoading] =  useState<boolean>(true);
+  const [showSignIn, setShowSignIn] = useState<boolean>(false);
 
   const router = useRouter();
     //Sign up
@@ -98,6 +103,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
 
   //Sign out
   const signOut = async () => {
+    setShowSignIn(false);
     setIsLoading(true);
     try {
      await firebaseSignOut();
@@ -109,14 +115,21 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
      alert(error)
     }
   }
+
+  const setShowSignin =()=>{setShowSignIn(!showSignIn)};
+
   //create Auth Values
   const authValues: IAuth = {
     user: currentUser,
     loading: isLoading,
+    showSignIn: showSignIn,
+    setShowSignIn:setShowSignin,
     signIn,
     signUp,
     signOut,
   }
+
+ 
 
   useEffect(() => {
     const setupAnalytics = async () => {
