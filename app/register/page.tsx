@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { db } from '../../services/firebase'; // Centralized auth and db exports
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
-import { Navbar } from "../../components/Navbar2";
+import {Navbar} from "../../components/Navbar2";
 import { firebaseSignUp } from '@/services/authService';
 const Register = () => {
   const [email, setEmail] = useState('');

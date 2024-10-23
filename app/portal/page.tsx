@@ -1,6 +1,9 @@
 'use client'
-import { Navbar } from "../../components/Navbar2";
+
+import {Navbar} from "@/components/Navbar2";
+
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
+
 export default function Catalog() {
     return (
         <AuthContextProvider >

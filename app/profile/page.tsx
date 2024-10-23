@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
 import GradientBorder from "@/components/GradientBorder";
-import { Navbar } from "@/components/Navbar2";
+import {Navbar} from "@/components/Navbar2";
 import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
