@@ -192,7 +192,7 @@ const App = () => {
                 (<></>):
                 (<div>
                         <button
-                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
+                            className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A] transition-transform duration-250 ease-in-out transform hover:scale-105"
                             onClick={() => auth.setShowSignIn()}
                         >
                             Login
