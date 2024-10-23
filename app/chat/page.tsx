@@ -1,8 +1,10 @@
 // app/chat/page.tsx
+// source: chatgpt
 "use client";
-
+import styles from './ChatPage.module.css';  
+import Navbar from '../../components/Navbar2';
 import { useEffect, useState } from 'react';
-import { auth } from '../../services/firebase'; // Use the centralized auth export
+import { firebaseAuth } from '../../services/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
 import FirebaseInitializer from '../../components/FirebaseInitializer';
@@ -12,7 +14,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setUserId(user.uid);
       } else {
@@ -32,9 +34,11 @@ const ChatPage = () => {
 
   return (
     <FirebaseInitializer>
-      <div>
-        <h1>Chat</h1>
-        <ChatList userId={userId} />
+      <div className={styles.chatPage}>
+        <Navbar/>
+        <div className={styles.chatContainer}>
+          <ChatList userId={userId} />
+        </div>
       </div>
     </FirebaseInitializer>
   );

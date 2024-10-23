@@ -1,3 +1,4 @@
+// source: chatgpt
 "use client";
 import { useEffect, ReactNode } from 'react';
 import { isSupported, initializeAnalytics } from 'firebase/analytics';

@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { auth } from '@/services/firebase'; 
-import { signInWithEmailAndPassword } from 'firebase/auth'; // Import the function
 import { useRouter } from 'next/navigation';
 import { useSession, signIn } from "next-auth/react";
-
+import { firebaseSignIn} from '@/services/authService';
 const Signin = ()=>
 {
     const { data: session } = useSession();
@@ -22,7 +20,8 @@ const Signin = ()=>
       e.preventDefault();
       
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        // await signInWithEmailAndPassword(firebaseAuth, email, password);
+        await firebaseSignIn({email, password})
         router.push('/chat'); // Redirect to chat page upon successful SignIn
       } catch (err) {
         setError('SignIn failed. Please check your credentials.');

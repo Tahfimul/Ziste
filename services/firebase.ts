@@ -27,6 +27,6 @@ if (typeof window !== 'undefined') {
 }
 
 const db = getFirestore(app);
-const auth = getAuth(app);
+const firebaseAuth = getAuth(app);
 
-export { app, db, analytics, auth };
+export { app, db, analytics, firebaseAuth };

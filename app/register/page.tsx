@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from 'react';
-import { auth, db } from '../../services/firebase'; // Centralized auth and db exports
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../../services/firebase'; // Centralized auth and db exports
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
-import { Navbar } from "../../components/Navbar2";
-
+import Navbar from "../../components/Navbar2";
+import { firebaseSignUp } from '@/services/authService';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +16,8 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      const userCredential = await firebaseSignUp({email, password})
       const user = userCredential.user;
 
       // Save user info to Firestore
