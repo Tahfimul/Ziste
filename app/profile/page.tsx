@@ -1,10 +1,12 @@
 "use client";
+
+import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading';
 import GradientBorder from "@/components/GradientBorder";
 import { Navbar } from "@/components/Navbar2";
 import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
-import { useState } from "react";
 
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
@@ -14,6 +16,17 @@ export default function Profile() {
     const cardName = "Shlama Dama DingDong";
     const cardNum = "...(ending in 3240)";
     const billAddress = "545 Sesame Street"
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // Set loading to false after 2 seconds
+        }, 2000);
+
+        return () => clearTimeout(timer); // Clean up timer on unmount
+    }, []);
+    
+    if (loading) return <Loading/>;
 
     return (
         <>
