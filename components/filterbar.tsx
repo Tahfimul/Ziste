@@ -60,8 +60,8 @@ export const FilterBar = () => {
 
   return (
     <header>
-      <div className="flex justify-center items-center gap-8">
-        <h1 className="text-md font-medium text-black">Filter:</h1>
+      <div className="flex justify-center items-center py-[0.5vh] gap-[2vw]">
+        <h1 className="text-[1.5vw] items-center text-black">Filter:</h1>
 
         {/* Subject Dropdown */}
         <Popover open={openSubject} onOpenChange={setOpenSubject}>
@@ -70,20 +70,20 @@ export const FilterBar = () => {
               role="combobox"
               aria-expanded={openSubject}
               aria-controls="subject-options"
-              className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-md text-black w-[220px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
             >
               {subject
                 ? subjects.find((s) => s.value === subject)?.label
                 : "Subject"}
-              <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
+              <ChevronsUpDown className="ml-[0.5vw] mt-1 h-[3vh] w-[3vw] shrink-0 opacity-50" />
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[17vw] p-0">
             <Command>
               <CommandList>
                 <CommandGroup>
                   {subjects.map((subjectOption) => (
-                    <CommandItem
+                    <CommandItem className="text-[1.4vw]"
                       key={subjectOption.value}
                       value={subjectOption.value}
                       onSelect={(currentValue) => {
@@ -93,7 +93,7 @@ export const FilterBar = () => {
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
+                          "mr-2 h-[2vh] w-[2vw]",
                           subject === subjectOption.value
                             ? "opacity-100"
                             : "opacity-0"
@@ -115,20 +115,20 @@ export const FilterBar = () => {
               role="combobox"
               aria-expanded={openLength}
               aria-controls="length-options"
-              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-md text-black w-[200px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-[1.5vw] text-black w-[16vw] justify-between"
             >
               {length
                 ? lengths.find((l) => l.value === length)?.label
                 : "Course Length"}
-              <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
-            </button>
+              <ChevronsUpDown className="ml-[0.5vw] mt-1 h-[3vh] w-[3vw] shrink-0 opacity-50" />
+              </button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[16vw] p-0">
             <Command>
               <CommandList>
                 <CommandGroup>
                   {lengths.map((lengthOption) => (
-                    <CommandItem
+                    <CommandItem className="text-[1.4vw]"
                       key={lengthOption.value}
                       value={lengthOption.value}
                       onSelect={(currentValue) => {
@@ -138,7 +138,7 @@ export const FilterBar = () => {
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
+                          "mr-2 h-[2vh] w-[2vw]",
                           length === lengthOption.value
                             ? "opacity-100"
                             : "opacity-0"
@@ -160,20 +160,20 @@ export const FilterBar = () => {
               role="combobox"
               aria-expanded={openPrice}
               aria-controls="price-options"
-              className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-md text-black"
+              className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-[1.5vw] text-black"
             >
               {price
                 ? prices.find((p) => p.value === price)?.label
                 : "Price"}
-              <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
-            </button>
+              <ChevronsUpDown className="ml-[0.5vw] mt-1 h-[3vh] w-[3vw] shrink-0 opacity-50" />
+              </button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[13vw] p-0">
             <Command>
               <CommandList>
                 <CommandGroup>
                   {prices.map((priceOption) => (
-                    <CommandItem
+                    <CommandItem className="text-[1.4vw]"
                       key={priceOption.value}
                       value={priceOption.value}
                       onSelect={(currentValue) => {
@@ -183,7 +183,7 @@ export const FilterBar = () => {
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
+                          "mr-2 h-[2vh] w-[2vw]",
                           price === priceOption.value
                             ? "opacity-100"
                             : "opacity-0"
@@ -205,20 +205,20 @@ export const FilterBar = () => {
               role="combobox"
               aria-expanded={openMaterial}
               aria-controls="material-options"
-              className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-md text-black w-[200px] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
             >
               {material
                 ? materials.find((m) => m.value === material)?.label
                 : "Materials"}
-              <ChevronsUpDown className="ml-2 mt-1 h-4 w-4 shrink-0 opacity-50" />
-            </button>
+              <ChevronsUpDown className="ml-[0.5vw] mt-1 h-[3vh] w-[3vw] shrink-0 opacity-50" />
+              </button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[17vw] p-0">
             <Command>
               <CommandList>
                 <CommandGroup>
                   {materials.map((materialOption) => (
-                    <CommandItem
+                    <CommandItem className="text-[1.4vw]"
                       key={materialOption.value}
                       value={materialOption.value}
                       onSelect={(currentValue) => {
@@ -228,7 +228,7 @@ export const FilterBar = () => {
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
+                          "mr-2 h-[2vh] w-[2vw]",
                           material === materialOption.value
                             ? "opacity-100"
                             : "opacity-0"
