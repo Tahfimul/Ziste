@@ -4,19 +4,28 @@ import DownCircleArrow from '@/app/assets/reshot-chevron-arrow-down-circle.svg';
 import Image from 'next/image';
 import { useSession } from "next-auth/react";
 
-import React from "react";
-import Signin from "./Signin";
+import React, { useEffect } from "react";
+import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
+import { AuthContext } from '@/components/contexts/AuthContextProvider';
+import { useContext } from 'react';
 
 const App = () => {
+    const auth = useContext(AuthContext)
+
     const [viewSignin, setViewSignin] = React.useState<boolean>(false);
 
     const { data: session } = useSession();
+
+    useEffect(()=>{
+        setViewSignin(auth.showSignIn)
+    },
+    [auth.showSignIn])
     return (
         <header className=" bg-white sticky h-screen w-screen relative z-0">
 
             <AnimatePresence>
-                {viewSignin && <div className='absolute inset-0 z-40'><Signin setViewSignin={setViewSignin} /></div>}
+                {viewSignin && <div className='absolute inset-0 z-40'><Signin/></div>}
             </AnimatePresence>
 
         {/** top-right gradient blob svg + animation */}
@@ -176,15 +185,21 @@ const App = () => {
         <div className='flex pt-14 pb-6 mx-auto justify-center gap-28'>
             {session?.user ? 
                 (<></>):
+                (<></>)
+            }
+
+            {auth?.user ? 
+                (<></>):
                 (<div>
                         <button
                             className="flex font-semibold shadow-md rounded-full px-9 py-4 text-2xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
-                            onClick={() => setViewSignin(true)}
+                            onClick={() => auth.setShowSignIn()}
                         >
                             Sign in
                         </button>
                  </div>)
             }
+        
             {/** Static Logo Image btwn SignIn & Browse Buttons **/}
 
             <div className='flex top-1 items-center'>
