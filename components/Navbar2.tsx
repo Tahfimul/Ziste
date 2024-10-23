@@ -4,6 +4,7 @@ import { AuthContext } from '@/components/contexts/AuthContextProvider';
 import { useContext } from 'react';
 export const Navbar = () => {
     const auth = useContext(AuthContext)
+    
 
     return (
         <header className="sticky">
@@ -25,16 +26,20 @@ export const Navbar = () => {
                         )
                         
                     }
-                    <li className="px-4 py-3 h-full flex items-center">      {auth?.user ? (
+                    <li className="px-4 py-3 h-full flex items-center">      
+                        {auth?.user ? (
                             <div className="flex gap-x-2 items-center">
                             <p>
-                                {auth.user.displayName} {auth.user.email}
+                                {auth?.user?.displayName} {auth?.user?.email}
                             </p>
-                            <Image 
-                            src={auth.user.photoURL!}
-                                alt=""
-                                className="w-10 h-10 rounded-full cursor-pointer"
-                            />
+                            {auth?.user?.photoURL?
+                                (<Image 
+                                    src={auth.user.photoURL!}
+                                        alt=""
+                                        className="w-10 h-10 rounded-full cursor-pointer"
+                                    />):(<></>)
+                            }
+                            
                             <button
                                 onClick={async () => {
                                     await auth.signOut()
