@@ -10,7 +10,7 @@ export default function Catalog() {
         <AuthContextProvider >
             
             <Navbar />
-                <h1 className="text-black text-3xl">portal</h1>
+                <div className="mt-[12vh]">
                     <EnrolledCourseCard
                     courseTitle="Media Ethics in the Age of Technology"
                     professorName="Professor Peter Parker"
@@ -22,6 +22,7 @@ export default function Catalog() {
                     materials="Textbook Free"
                     date="Oct. 31st"
                     />
+                </div>
         </AuthContextProvider>
     );
 }
