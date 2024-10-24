@@ -36,25 +36,32 @@ const Register = () => {
   return (
     <div>
       <Navbar/>
-      <h1>Register</h1>
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
-      {error && <p>{error}</p>}
+      <div className='flex flex-col gap-[2vh] items-center justify-center mt-[12vh]'>
+        <h1 className='justify-center  text-[4vw]'>Register</h1>
+        <div className='flex justify-center items-center'>
+          <form onSubmit={handleRegister}>
+            <input
+              className='px-[1vw] py-[0.5vh] mx[1vw] focus:ring-0 outline-none border-2 border-black rounded-lg text-[1.5vw]'
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className='px-[1vw] py-[0.5vh] mx-[1vw] focus:ring-0 outline-none border-2 border-black rounded-lg text-[1.5vw]'
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className='flex justify-center my-[1.5vh] bg-[#e1613d] rounded-md px-[1vw] py-[0.5py] text-[1.5vw]'>Register</button>
+          </form>
+        </div>
+        {error && <p>{error}</p>}
+        
+      </div>
     </div>
   );
 };
