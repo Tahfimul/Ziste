@@ -63,6 +63,7 @@ const ChatList = ({ userId }: ChatListProps) => {
     // Fetch users and find the target user
     const usersCollection = await getDocs(collection(db, 'users'));
     const targetUser = usersCollection.docs.find(doc => {
+      
       const data = doc.data();
       return data.name === userToFind || data.email === userToFind;
     });

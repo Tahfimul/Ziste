@@ -5,16 +5,13 @@ import Hero from '@/components/hero';
 
 import {Navbar} from '@/components/Navbar2';
 import AuthContextProvider from '@/components/contexts/AuthContextProvider';
-
 export default function Home() {
   return (
     <AuthContextProvider>
-      <>
+      
         <Navbar/>
-
         <App/>
         <Hero/>
-      </>
     </AuthContextProvider>
   );
 }

@@ -4,18 +4,22 @@
 'use client'
 import {Navbar} from "../../components/Navbar2";
 import VideoCall from '../../components/VideoCall'
-
+import AuthContextProvider from "@/components/contexts/AuthContextProvider";
+import Chat from "@/components/Chat";
 const page = () =>
 {
 
  
     
     return (
-        <>
-        <Navbar/>
-        <h1>Welcome to the dashboard!</h1>
-        <VideoCall/>
-        </>
+        <AuthContextProvider>
+            
+            <Navbar/>
+            <div className="mt-[12vh]">
+                <VideoCall/>
+                <Chat/>
+            </div>
+        </AuthContextProvider>
         
     );
 }
