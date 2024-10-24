@@ -64,7 +64,7 @@ const startNewConversation = async () => {
 
   // Convert input to lowercase for case-insensitive comparison
   const usersArray = usersInput.split(',').map(user => user.trim().toLowerCase());
-  let targetUserIds: string[] = []; // Explicitly declare as string[]
+  const targetUserIds: string[] = []; // Explicitly declare as string[]
 
   // Fetch users and find target users
   const usersCollection = await getDocs(collection(db, 'users'));
