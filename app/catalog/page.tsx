@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
 import { FilterBar } from "@/components/filterbar";
-import { Navbar } from "@/components/Navbar2";
+import { Navbar } from "@/components/Navbar";
 import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 

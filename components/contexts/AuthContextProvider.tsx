@@ -153,6 +153,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
 
   //If loading for the first time when visiting the page
   if (isAuthLoading) return <><Loading /></>;
+  
   return (<AuthContext.Provider  value={authValues}>{children}</AuthContext.Provider>);
 };
 

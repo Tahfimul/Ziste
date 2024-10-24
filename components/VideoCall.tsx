@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import CallBanner from './CallBanner'
-
+import { useSearchParams } from 'next/navigation';
 const VideoCall = ()=>
 {
+    const searchParams = useSearchParams();
+    const courseTitle = searchParams.get('courseTitle');
     const [called, setCalled] = useState<boolean>(false)
     // const videoRef = useRef<HTMLVideoElement>(null);
     // const [captureStream, setCaptureStream] = useState<MediaStream | null>(null);
@@ -63,6 +65,7 @@ const VideoCall = ()=>
 
     return (
         <>
+            <h1>{courseTitle}</h1>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={toggleCall}>{`${!called?'Start Call':'End Call'}`}</button>
             {/* <button className={`${captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={startCapture} disabled={captureStream!==null}>Start Screen Capture</button> */}
             {/* <button className={`${!captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={stopCapture} disabled={!captureStream}>Stop Screen Capture</button> */}
@@ -70,6 +73,7 @@ const VideoCall = ()=>
             called? <CallBanner title="Test Title" callEndCallback={toggleCall}/>:<></>
             }
             {/* <video ref={videoRef} autoPlay style={{ width: "100%", height: "auto" }} /> */}
+            
         
         </>
 

@@ -44,3 +44,8 @@ export const firebaseSignUp = async ({ email, password }: UserFormValues) => {
 export const  firebaseSignOut  =  async () => {
  await  signOut(firebaseAuth);
 };
+
+export const getCurrentUser = ()=>
+{
+    return firebaseAuth.currentUser;
+}

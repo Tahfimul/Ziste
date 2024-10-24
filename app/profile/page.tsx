@@ -3,26 +3,30 @@
 import { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
 import GradientBorder from "@/components/GradientBorder";
-import {Navbar} from "@/components/Navbar2";
+import {Navbar} from "@/components/Navbar";
 import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
-
+import { getCurrentUser, firebaseSignOut } from '@/services/authService';
+import { useRouter } from 'next/navigation';
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
-    const name = "Shlama Dama DingDong";
-    const email = "da_pimp_is_here@hotmail.com";
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const userRole = "Student";
-    const cardName = "Shlama Dama DingDong";
+    const [cardName, setCardName] = useState<string>("");
     const cardNum = "...(ending in 3240)";
     const billAddress = "545 Sesame Street"
     const [loading, setLoading] = useState(true);
-
+    const router = useRouter();
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false); // Set loading to false after 2 seconds
         }, 2000);
-
+                
+        setEmail(getCurrentUser()?.email as string)
+        setName(getCurrentUser()?.uid as string)
+        setCardName(getCurrentUser()?.uid as string)
         return () => clearTimeout(timer); // Clean up timer on unmount
     }, []);
     
@@ -98,7 +102,7 @@ export default function Profile() {
         )}
         <footer>
             <div className="mt-[3vh] mb-[5vh]">
-                <button className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
+                <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
             </div>
         </footer>
         </>
