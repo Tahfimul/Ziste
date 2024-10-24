@@ -1,7 +1,7 @@
 // app/chat/page.tsx
 // source: chatgpt
 "use client"
-import {Navbar} from '@/components/Navbar2';
+import {Navbar} from '@/components/Navbar';
 import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@/services/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';

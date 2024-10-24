@@ -1,6 +1,6 @@
 'use client'
 
-import {Navbar} from "@/components/Navbar2";
+import {Navbar} from "@/components/Navbar";
 
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { EnrolledCourseCard } from "@/components/EnrolledCourseCard";

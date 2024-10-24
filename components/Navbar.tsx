@@ -2,6 +2,7 @@ import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
 import { AuthContext } from '@/components/contexts/AuthContextProvider';
 import { useContext } from 'react';
+import Link from 'next/link';
 
 export const Navbar = () => {
     const auth = useContext(AuthContext)
@@ -31,7 +32,7 @@ export const Navbar = () => {
                         {auth?.user ? (
                             <div className="flex gap-x-[1vw] items-center">
                             <p>
-                                {auth?.user?.displayName} {auth?.user?.email}
+                                {auth?.user?.displayName} <Link href={'/profile'}>{auth?.user?.email}</Link>
                             </p>
                             {auth?.user?.photoURL?
                                 (<Image 
