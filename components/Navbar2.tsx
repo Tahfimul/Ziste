@@ -2,17 +2,18 @@ import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
 import { AuthContext } from '@/components/contexts/AuthContextProvider';
 import { useContext } from 'react';
+
 export const Navbar = () => {
     const auth = useContext(AuthContext)
     
 
     return (
-        <header className="sticky">
+        <header className="fixed top-0 left-0 w-full z-30">
 
-        <div className="flex px-8 h-24 mx-auto justify-between items-center bg-transparent">
+        <div className="flex px-[2vw] h-[11vh] mx-auto justify-between items-center bg-white bg-opacity-85 backdrop-blur-sm">
             
-        <a href= "/"><Image src={Logo} alt="Logo" height={45} width={45} className="mx-4"></Image></a>
-                <ul className="flex space-x-4 mx-5">
+        <a href= "/"><Image src={Logo} alt="Logo" className="justify-start items-center mx-[0vw]" style={{width:'7vw', height: '7vh'}}></Image></a>
+                <ul className="flex space-x-[2vw] mx-[2.2vw] text-[1.4vw] items-center">
                     <li className="px-4 py-3 h-full flex items-center">
                         <a href="/catalog" className="text-[#E07A5F] transition-transform duration-300 ease-in-out transform hover:scale-105">Courses</a>
                     </li>
@@ -21,14 +22,14 @@ export const Navbar = () => {
                         (<></>):
                         (
                         <li className="px-4 py-3 h-full flex items-center">
-                            <a href="/register"className="text-[#81B29A]">Register</a>
+                            <a href="/register"className="text-[#81B29A] transition-transform duration-300 ease-in-out transform hover:scale-105">Register</a>
                         </li>
                         )
                         
                     }
                     <li className="px-4 py-3 h-full flex items-center">      
                         {auth?.user ? (
-                            <div className="flex gap-x-2 items-center">
+                            <div className="flex gap-x-[1vw] items-center">
                             <p>
                                 {auth?.user?.displayName} {auth?.user?.email}
                             </p>
@@ -51,7 +52,7 @@ export const Navbar = () => {
                             </div>
                         ) : (
                             // <a href="/signin"className="text-[#3D405B]">Sign In</a>
-                            <button onClick={()=>{auth.setShowSignIn()}}>Sign In</button>
+                            <button className="text-[#3D405B] transition-transform duration-300 ease-in-out transform hover:scale-105" onClick={()=>{auth.setShowSignIn()}}>Sign In</button>
                         )}
                     </li>
                     {auth?.user ? 

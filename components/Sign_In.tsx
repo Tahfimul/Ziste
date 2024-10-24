@@ -38,7 +38,7 @@ const Signin: React.FC<SigninProps> = ()=>
 
     return  (
       <motion.div
-      className="w-auto h-screen bg-white absolute p-12 pt-20 flex flex-col items-center drop-shadow-[3px_1px_6px_rgba(0,0,0,0.1)] gap-8"
+      className="w-auto h-screen bg-white absolute p-12 pt-[20vh] flex flex-col items-center drop-shadow-[3px_1px_6px_rgba(0,0,0,0.1)] gap-8 z-100"
       initial={{ x: "-100%" }}
       animate={{ x: 0 }}
       exit={{ x: "-100%" }}
@@ -49,7 +49,7 @@ const Signin: React.FC<SigninProps> = ()=>
       >
       <FaArrowLeft
                   size={20}
-                  className="absolute top-8 right-8 cursor-pointer"
+                  className="absolute top-[12vh] right-8 cursor-pointer"
                   onClick={() => auth.setShowSignIn()}
               />
       <h1 className="text-6xl font-semibold">Sign In</h1>
