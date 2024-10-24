@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, getDoc, serverTimestamp, Timestamp, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { fetchUsers } from '../services/UserService';
 import ChatWindow from './ChatWindow';
@@ -55,39 +55,96 @@ const ChatList = ({ userId }: ChatListProps) => {
     return () => unsubscribe();
   }, [userId]);
 
-  // Start a new conversation
-  const startNewConversation = async () => {
-    const userToFind = prompt("Enter user name or email:");
-    if (!userToFind) return;
 
-    // Fetch users and find the target user
-    const usersCollection = await getDocs(collection(db, 'users'));
+
+// Start a new conversation or select an existing one
+const startNewConversation = async () => {
+  const usersInput = prompt("Enter user name(s) or email(s) separated by commas:");
+  if (!usersInput) return;
+
+  // Convert input to lowercase for case-insensitive comparison
+  const usersArray = usersInput.split(',').map(user => user.trim().toLowerCase());
+  let targetUserIds: string[] = []; // Explicitly declare as string[]
+
+  // Fetch users and find target users
+  const usersCollection = await getDocs(collection(db, 'users'));
+  
+  usersArray.forEach((userToFind) => {
     const targetUser = usersCollection.docs.find(doc => {
       const data = doc.data();
-      return data.name === userToFind || data.email === userToFind;
+      // Convert both the stored name and email to lowercase for comparison
+      return data.name?.toLowerCase() === userToFind || data.email?.toLowerCase() === userToFind;
     });
 
     if (targetUser) {
-      const usersArray = [targetUser.id, userId];
-
-      try {
-        const newConversation = await addDoc(collection(db, 'conversations'), {
-          users: usersArray,
-          createdAt: serverTimestamp(),
-        });
-
-        setSelectedConversation({
-          id: newConversation.id,
-          users: usersArray,
-          createdAt: undefined,
-        });
-      } catch (error) {
-        console.error("Error starting new conversation:", error);
-      }
+      targetUserIds.push(targetUser.id);
     } else {
-      alert("User not found.");
+      alert(`User ${userToFind} not found.`);
     }
-  };
+  });
+
+  if (targetUserIds.length === 0) return;
+
+  // Add the current user to the conversation users array
+  targetUserIds.push(userId);
+
+  try {
+    // Check if a conversation with the exact same users already exists
+    const conversationsCollection = await getDocs(collection(db, 'conversations'));
+    const existingConversation = conversationsCollection.docs.find(doc => {
+      const conversationData = doc.data();
+      const existingUsers = conversationData.users;
+      
+      // Check if the existing conversation has the same users (regardless of order)
+      return existingUsers.length === targetUserIds.length && 
+             targetUserIds.every(userId => existingUsers.includes(userId));
+    });
+
+    if (existingConversation) {
+      // Select the existing conversation and let users begin messaging
+      setSelectedConversation({
+        id: existingConversation.id,
+        users: existingConversation.data().users,
+        createdAt: existingConversation.data().createdAt,
+      });
+      console.log("Conversation already exists. Selected existing conversation.");
+    } else {
+      // If no existing conversation, create a new one
+      const newConversationRef = await addDoc(collection(db, 'conversations'), {
+        users: targetUserIds,
+        createdAt: serverTimestamp(),
+      });
+
+      // Fetch the document to ensure it's fully created and contains data
+      const newConversationSnapshot = await getDoc(newConversationRef);
+      
+      // Ensure the new conversation document exists and has data
+      if (newConversationSnapshot.exists()) {
+        const newConversationData = newConversationSnapshot.data();
+
+        if (newConversationData) {
+          // Select the newly created conversation
+          setSelectedConversation({
+            id: newConversationSnapshot.id,
+            users: newConversationData.users,
+            createdAt: newConversationData.createdAt,
+          });
+          console.log("New conversation created and selected.");
+        } else {
+          console.error("Error: New conversation data is undefined.");
+        }
+      } else {
+        console.error("Error: New conversation was created but document does not exist.");
+      }
+    }
+  } catch (error) {
+    console.error("Error starting new conversation:", error);
+  }
+};
+
+  
+
+
 
   return (
     <div className={styles.chatWrapper}>
