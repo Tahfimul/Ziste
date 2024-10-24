@@ -3,7 +3,7 @@ import DownCircleArrow from "@/app/assets/reshot-chevron-arrow-down-circle.svg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import Signin from "./SignIn";
+import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
 import { AuthContext } from "@/components/contexts/AuthContextProvider";
 import { useContext } from "react";
