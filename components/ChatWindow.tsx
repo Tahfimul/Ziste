@@ -3,7 +3,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import styles from './ChatWindow.module.css';
 
@@ -24,37 +24,36 @@ const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
+  // Fetch messages for the selected conversation
   useEffect(() => {
-    const q = query(collection(db, 'messages'), where('conversationId', '==', conversationId));
+    const q = query(collection(db, 'messages'), where('conversationId', '==', conversationId), orderBy('createdAt'));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({
+      const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
-        senderId: doc.data().senderId,
-        text: doc.data().text,
-        createdAt: doc.data().createdAt,
-      }));
+        ...doc.data(),
+      })) as Message[];
+
       setMessages(msgs);
     });
 
     return () => unsubscribe();
   }, [conversationId]);
 
+  // Handle sending a new message
   const sendMessage = async () => {
-    if (newMessage.trim() === '') return;
-
-    try {
+    if (newMessage.trim()) {
+      // Add a new message to Firestore
       await addDoc(collection(db, 'messages'), {
-        conversationId,
-        senderId: userId,
         text: newMessage,
+        userId,
+        conversationId,
         createdAt: serverTimestamp(),
       });
       setNewMessage('');
-    } catch (error) {
-      console.error("Error sending message: ", error);
     }
   };
+
 
   return (
     <div className={styles.chatWindow}>
