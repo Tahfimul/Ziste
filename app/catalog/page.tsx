@@ -27,7 +27,7 @@ export default function Catalog() {
     return (
         <AuthContextProvider>
         <>
-        <section id="catalog" className="bg-white">
+        <section id="catalog" className="bg-white pt-[4vw]">
             <Navbar/>
             <div className="flex justify-center py-[0.8vh] mt-[4vw]">
                 <h1 className="text-[6vw] text-black">Course Catalog</h1>
