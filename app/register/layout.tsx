@@ -16,10 +16,10 @@ const RegistrationLayout = ({ children }: LayoutProps) => {
         : pathname.includes("/interests") || pathname.includes("/experience")
         ? 2
         : 3;
-    const [background, setBackground] = React.useState<string>();
-    const updateBackground = (color: string) => {
-        setBackground(color);
-    };
+    // const [background, setBackground] = React.useState<string>();
+    // const updateBackground = (color: string) => {
+    //     setBackground(color);
+    // };
 
     return (
         <div className="min-h-screen flex flex-col ">

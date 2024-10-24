@@ -5,8 +5,8 @@ import { db } from "../../services/firebase"; // Centralized auth and db exports
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { firebaseSignUp } from "@/services/authService";
-import { FaCalendar } from "react-icons/fa";
-import RegisterProgress from "@/components/RegisterProgress";
+// import { FaCalendar } from "react-icons/fa";
+// import RegisterProgress from "@/components/RegisterProgress";
 
 const Register = () => {
     const [email, setEmail] = useState("");
