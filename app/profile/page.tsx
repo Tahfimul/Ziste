@@ -1,10 +1,12 @@
 "use client";
+
+import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading';
 import GradientBorder from "@/components/GradientBorder";
 import {Navbar} from "@/components/Navbar2";
 import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
-import { useState } from "react";
 
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
@@ -14,6 +16,17 @@ export default function Profile() {
     const cardName = "Shlama Dama DingDong";
     const cardNum = "...(ending in 3240)";
     const billAddress = "545 Sesame Street"
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // Set loading to false after 2 seconds
+        }, 2000);
+
+        return () => clearTimeout(timer); // Clean up timer on unmount
+    }, []);
+    
+    if (loading) return <Loading/>;
 
     return (
         <>
@@ -21,17 +34,17 @@ export default function Profile() {
             <Navbar/>
             {userRole === "Student" ? (
                 <>
-                <div className="flex items-center gap-[2vw] ml-[6vw] py-3">
-                    <button className="text-6xl text-black" onClick={() => setActiveTab("profile")}>Profile</button>
+                <div className="flex items-center gap-[2vw] ml-[6vw] py-3 mt-[5vw]">
+                    <button className="text-[5vw] text-black" onClick={() => setActiveTab("profile")}>Profile</button>
                     <GradientBorder className="rounded-full gradient-animate">
-                        <button className="flex px-3 py-1.5 rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
-                            <Bookmark className={`justify-end w-8 h-8 fill-[#e1613d] text-[#e1613d] transition-transform duration-100 ease-in-out transform cursor-pointer`} />
-                            <h2 className="justify-center">Bookmarks</h2>
+                        <button className="flex px-[1.5vw] py-[1vh] rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
+                            <Bookmark className={`justify-center w-[2vw] h-[4vh] mr-[0.5vw] fill-[#e1613d] text-[#e1613d] transition-transform duration-100 ease-in-out transform cursor-pointer`} />
+                            <h2 className="justify-center text-[1.5vw]">Bookmarks</h2>
                         </button>
                     </GradientBorder>
                 </div>
                 <div className={`${
-                activeTab === "bookmarks" ? "ml-[6vw] w-[11.45vw]" : "ml-[6vw]"} bg-[#E07A5F] w-[185px] py-1 ml-[6vw] transition-all duration-200`}></div>
+                activeTab === "bookmarks" ? "ml-[23.1vw] w-[14vw]" : "ml-[6vw]"} bg-[#E07A5F] rounded-[2vw] w-[15.5vw] py-[0.5vh] ml-[6vw] transition-all duration-200`}></div>
                 </>
             ) : (
                 <>
@@ -84,8 +97,8 @@ export default function Profile() {
             <ProfileInfo name={name} email={email} userRole={userRole} cardName={cardName} cardNum={cardNum} billAddress={billAddress}/>
         )}
         <footer>
-            <div className="my-[3vh]">
-                <button className="px-3 py-2 ml-[6vw] text-lg text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
+            <div className="mt-[3vh] mb-[5vh]">
+                <button className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
             </div>
         </footer>
         </>

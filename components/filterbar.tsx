@@ -115,7 +115,7 @@ export const FilterBar = () => {
               role="combobox"
               aria-expanded={openLength}
               aria-controls="length-options"
-              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-[1.5vw] text-black w-[16vw] justify-between"
+              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-[1.5vw] text-black w-[18vw] justify-between"
             >
               {length
                 ? lengths.find((l) => l.value === length)?.label
@@ -123,7 +123,7 @@ export const FilterBar = () => {
               <ChevronsUpDown className="ml-[0.5vw] mt-1 h-[3vh] w-[3vw] shrink-0 opacity-50" />
               </button>
           </PopoverTrigger>
-          <PopoverContent className="w-[16vw] p-0">
+          <PopoverContent className="w-[18vw] p-0">
             <Command>
               <CommandList>
                 <CommandGroup>

@@ -1,4 +1,7 @@
-'use client'
+"use client";
+
+import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading';
 import { FilterBar } from "@/components/filterbar";
 import { Navbar } from "@/components/Navbar2";
 import { Searchbar } from "@/components/SearchBar";
@@ -9,12 +12,24 @@ import { PageBar } from "@/components/PageBar";
 
 
 export default function Catalog() {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // Set loading to false after 2 seconds
+        }, 2000);
+
+        return () => clearTimeout(timer); // Clean up timer on unmount
+    }, []);
+    
+    if (loading) return <Loading/>;
+
     return (
         <AuthContextProvider>
         <>
         <section id="catalog" className="bg-white">
             <Navbar/>
-            <div className="flex justify-center py-[0.8vh]">
+            <div className="flex justify-center py-[0.8vh] mt-[4vw]">
                 <h1 className="text-[6vw] text-black">Course Catalog</h1>
             </div>
             <Searchbar/>

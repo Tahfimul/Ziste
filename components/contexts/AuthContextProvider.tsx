@@ -3,6 +3,7 @@
 //2. https://stackoverflow.com/questions/66943220/how-to-handle-firebase-onauthstatechanged-in-a-react-app-and-route-users-accordi
 "use client";
 import { useState, useEffect, ReactNode, createContext } from 'react';
+import Loading from '../Loading';
 import { isSupported, initializeAnalytics } from 'firebase/analytics';
 import { app, firebaseAuth } from '../../services/firebase';
 import { User } from 'firebase/auth'; 
@@ -151,7 +152,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   }, []);
 
   //If loading for the first time when visiting the page
-  if (isAuthLoading) return <><h1>Page loading</h1></>;
+  if (isAuthLoading) return <><Loading /></>;
   return (<AuthContext.Provider  value={authValues}>{children}</AuthContext.Provider>);
 };
 
