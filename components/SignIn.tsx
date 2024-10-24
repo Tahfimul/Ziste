@@ -57,7 +57,7 @@ const Signin: React.FC<SigninProps> = () => {
                 onSubmit={handleSignIn}
             >
                 <input
-                    className="p-4 bg-slate-200 rounded-md w-[30vw]"
+                    className="p-3 bg-[#f1f1f1] rounded-md w-[30vw] px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                     type="email"
                     placeholder="Email"
                     value={email}
@@ -65,7 +65,7 @@ const Signin: React.FC<SigninProps> = () => {
                     required
                 />
                 <input
-                    className="p-4 bg-slate-200 rounded-md w-[30vw]"
+                    className="p-3 bg-[#f1f1f1] rounded-md w-[30vw] px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                     type="password"
                     placeholder="Password"
                     value={password}

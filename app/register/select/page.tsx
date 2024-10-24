@@ -11,7 +11,7 @@ const RegisterSelect = () => {
         <div className="flex flex-col items-center mt-[12vh]">
             <h1 className="text-5xl font-bold mb-12">Are you a...</h1>
             <div className="flex flex-row gap-12">
-                <Link href="/register">
+                <Link href="/register/interests">
                     <div className="flex flex-col justify-center items-center h-[320px] w-[420px] bg-[#96CBB1] rounded-xl drop-shadow-md hover:drop-shadow-xl transition-drop-shadow duration-200 cursor-pointer hover:w-[450px]">
                         <FaGraduationCap
                             color="white"
