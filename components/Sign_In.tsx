@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { firebaseSignIn, googleSignIn} from '@/services/authService';
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
@@ -21,7 +20,6 @@ const Signin: React.FC<SigninProps> = ()=>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const router = useRouter();
   
     const handleSignIn = async (e: React.FormEvent) => {
       e.preventDefault();
