@@ -29,7 +29,6 @@ const Signin: React.FC<SigninProps> = ()=>
       try {
         // await signInWithEmailAndPassword(firebaseAuth, email, password);
         await firebaseSignIn({email, password})
-        router.push('/chat'); // Redirect to chat page upon successful SignIn
       } catch (err) {
         setError('SignIn failed. Please check your credentials.');
         console.error(err);
