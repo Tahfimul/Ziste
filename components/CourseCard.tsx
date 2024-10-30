@@ -3,7 +3,7 @@ import { Bookmark } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
-interface CourseCardProps {
+export interface CourseCardProps {
     courseTitle: string;
     professorName: string;
     schoolName: string;
