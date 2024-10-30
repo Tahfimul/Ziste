@@ -1,6 +1,5 @@
 // random color picking func. from chatGPT
 "use client";
-import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Image } from "lucide-react";
@@ -33,7 +32,7 @@ export const EnrolledCourseCard: React.FC<EnrolledCourseCardProps> = ({
       <button onClick={showEnrolledCourse} className="flex flex-col w-[23vw] h-[35vh] rounded-full bg-transparent shadow-xl transition-transform duration-200 ease-in-out transform hover:scale-105">
         
             <div className="flex items-center justify-center w-full h-[20vh] bg-gray-50 rounded-tr-xl rounded-tl-xl">
-                <Image className="justify-center w-20 h-20 text-gray-400"></Image>
+                <Image className="justify-center w-20 h-20 text-gray-400"></Image> {/** NOT NEXT IMAGE, BUT IMAGE ICON FROM LUCIDE-ICONS **/}
             </div>
 
             <div className="flex flex-col items-start justify-start gap-y-[0.5vh] w-full h-[15vh] rounded-br-xl rounded-bl-xl" style={{ backgroundColor: courseColor }}>
