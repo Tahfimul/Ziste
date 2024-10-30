@@ -10,19 +10,39 @@ export default function Catalog() {
         <AuthContextProvider >
             
             <Navbar />
-                <div className="mt-[12vh]">
-                    <EnrolledCourseCard
-                    courseTitle="Media Ethics in the Age of Technology"
-                    professorName="Professor Peter Parker"
-                    schoolName="New York Institute of Communication and Journalism"
-                    description="This course explores the evolving role of media in society, focusing on ethical journalism, privacy issues, and the responsibilities of digital reporting. From traditional newspapers to social media platforms, students will discuss the moral implications of truth, transparency, and bias in today’s fast-paced information age."
-                    subject="English"
-                    length="12 Weeks"
-                    price="$50"
-                    materials="Textbook Free"
-                    date="Oct. 31st"
-                    />
-                </div>
+            <h1 className="ml-[6vw] text-[4.5vw] text-black mt-[12vh]">Course Hub</h1>
+            <div className="grid grid-cols-3 justify-center mx-[10vw] mt-[3vh] mb-[10vh] gap-[4vw]">
+                <EnrolledCourseCard
+                courseTitle="Morality in Poetry"
+                professorName="Professor Remus Lupin"
+                index={1}
+                />
+                <EnrolledCourseCard
+                courseTitle="Media Ethics in the Age of Technology"
+                professorName="Professor Peter Parker"
+                index={2}
+                />
+                <EnrolledCourseCard
+                courseTitle="Existentialism and the Absurd in Modern Philosophy"
+                professorName="Professor Sherlock Holmes"
+                index={3}
+                />
+                <EnrolledCourseCard
+                courseTitle="The Evolution of Civil Rights"
+                professorName="Professor T'Challa Udaku"
+                index={4}
+                />
+                <EnrolledCourseCard
+                courseTitle="Philosophy of Power and Leadership"
+                professorName="Professor Tyrion Lannister"
+                index={5}
+                />
+                <EnrolledCourseCard
+                courseTitle="Gender and Identity in Contemporary Society"
+                professorName="Professor Hermione Granger"
+                index={6}
+                />
+            </div>
         </AuthContextProvider>
     );
 }

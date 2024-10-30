@@ -27,7 +27,7 @@ const Chat = () => {
   if (loading) return <p>Loading...</p>;
 
   if (!userId) {
-    return <p>Please log in to access the chat.</p>;
+    return <p className="ml-[6vw]">Please log in to access the chat.</p>;
   }
 
   return (
