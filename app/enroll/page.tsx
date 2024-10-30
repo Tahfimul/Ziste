@@ -20,8 +20,8 @@ export default function Enrollment() {
             <ArrowLeft></ArrowLeft>
             <h2 className="px-[0.5vw] text-[1.2vw]">Go Back to Catalog</h2>
         </a>
-        <div className="flex flex-col justify-start mx-[25vw] mt-[2.5vh] pt-[2vh] pb-[5vh] px-[3vw] w-[50vw] h-full shadow-sm bg-gray-100 rounded-xl">
-            <h2 className="flex justify-center items-center text-[3vw] py-[0.5vh] mt-[0.5vh]">
+        <div className="flex flex-col justify-start mx-[25vw] mt-[2.5vh] pt-[2vh] pb-[5vh] px-[3vw] w-[50vw] h-full shadow-md bg-gray-50 rounded-xl">
+            <h2 className="flex justify-center items-center text-[3vw] font-semibold py-[1.5vh] mt-[0.5vh]">
                 Secure Checkout
                 <LockIcon className="mx-[0.5vw]"></LockIcon>
             </h2>
