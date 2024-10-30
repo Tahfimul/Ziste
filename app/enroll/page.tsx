@@ -17,8 +17,8 @@ export default function Enrollment() {
         <Navbar/>
         <h1 className="ml-[6vw] text-[4.5vw] text-black mt-[12vh]">Payment & Enrollment</h1>
         <a  href='/catalog' className="inline-flex ml-[4vw] mt-[0.5vh] transition-transform duration-150 ease-in-out transform hover:translate-x-[-2vw]">
-            <ArrowLeft></ArrowLeft>
-            <h2 className="px-[0.5vw] text-[1.2vw]">Go Back to Catalog</h2>
+            <ArrowLeft className="w-[4vw] h-[4vh]"></ArrowLeft>
+            <h2 className="px-[0vw] text-[1.5vw]">Go Back to Catalog</h2>
         </a>
         <div className="flex flex-col justify-start mx-[25vw] mt-[2.5vh] pt-[2vh] pb-[5vh] px-[3vw] w-[50vw] h-full shadow-md bg-gray-50 rounded-xl">
             <h2 className="flex justify-center items-center text-[3vw] font-semibold py-[1.5vh] mt-[0.5vh]">
