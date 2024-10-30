@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 import Loading from '../../components/Loading';
-import { FilterBar } from "@/components/filterbar"; // Ensure this import matches your component's file name
+import { FilterBar } from "@/components/FilterBar";
 import { Navbar } from "@/components/Navbar";
 import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
