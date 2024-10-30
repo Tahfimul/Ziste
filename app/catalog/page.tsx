@@ -1,4 +1,4 @@
-//Filtering Function code from ChatGPT
+//Filtering & Search Functions code from ChatGPT
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -97,6 +97,7 @@ export default function Catalog() {
     const [selectedLength, setSelectedLength] = React.useState("");
     const [selectedPrice, setSelectedPrice] = React.useState("");
     const [selectedMaterial, setSelectedMaterial] = React.useState("");
+    const [searchTerm, setSearchTerm] = React.useState("");
 
     const filteredCourses = courses.filter((course) => {
         const priceValue = parseFloat(course.price.replace(/[$,]/g, "")); // Remove dollar sign and parse to float
@@ -109,7 +110,17 @@ export default function Catalog() {
             (selectedPrice === "50-150" && priceValue > 50 && priceValue <= 150) ||
             (selectedPrice === "150+" && priceValue > 150)
           )) &&
-          (!selectedMaterial || course.materials.toLowerCase() === selectedMaterial.toLowerCase())
+          (!selectedMaterial || course.materials.toLowerCase() === selectedMaterial.toLowerCase()) &&
+          (!searchTerm || (
+            course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.professorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.description.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        )
+          
+
         );
     });
 
@@ -133,7 +144,7 @@ export default function Catalog() {
             <div className="flex justify-center py-[0.8vh] mt-[4vw]">
                 <h1 className="text-[6vw] text-black">Course Catalog</h1>
             </div>
-            <Searchbar/>
+            <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <FilterBar
                 selectedSubject={selectedSubject} 
                 setSelectedSubject={setSelectedSubject} 
