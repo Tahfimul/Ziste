@@ -5,13 +5,17 @@ import { db } from "../../services/firebase"; // Centralized auth and db exports
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { firebaseSignUp } from "@/services/authService";
+// import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import for user to read their typed password
 // import { FaCalendar } from "react-icons/fa";
 // import RegisterProgress from "@/components/RegisterProgress";
 
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [birthday, setBirthday] = useState("");
     const [error, setError] = useState("");
+//    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -25,6 +29,8 @@ const Register = () => {
             // Save user info to Firestore
             await setDoc(doc(db, "users", user.uid), {
                 email,
+                name,
+                birthday,
                 createdAt: new Date(),
             });
 
@@ -54,24 +60,34 @@ const Register = () => {
                 <input
                     className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
                     placeholder="Username"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
                 />
                 <div className="self-start">
                     <input
                         className="p-3 bg-[#f1f1f1] rounded-md w-[22vw] px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
+                        type="date"
                         placeholder="Birthday"
+                        value={birthday}
+                        onChange={(e) => setBirthday(e.target.value)}
+                        required
                     />
                 </div>
                 <input
                     className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
-                    type="password"
+                    type={"password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+
                 <input
                     className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
+                    type="password"
                     placeholder="Confirm Password"
+                    
                 />
                 <button
                     type="submit"
