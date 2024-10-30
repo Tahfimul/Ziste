@@ -60,7 +60,7 @@ const handleBookmarkClick = () => {
                         <span className="flex px-[1.5vw] py-[1vh] h-[4.6vh] items-center rounded-full bg-[#81B29A] text-[1.5vw] text-black w-10% justify-between">{price}</span>
                         <span className="flex px-[1.5vw] py-[1vh] h-[4.6vh] items-center rounded-full bg-[#9fa5db] text-[1.5vw] text-black w-10% justify-between">{materials}</span>
                     </div>
-                    <Link href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}`}>
+                    <Link href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}`}>
                         <GradientBorder className="flex justify-end rounded-full p-0.5 gradient-animate transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md">
                             <div className="px-[1.5vw] py-[1.1vh] border-none rounded-full bg-white text-[1.5vw] text-black w-10% justify-between items-center transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate ">
                                 Enroll {date}
