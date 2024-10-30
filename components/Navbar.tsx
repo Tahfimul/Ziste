@@ -16,7 +16,7 @@ export const Navbar = () => {
         <a href= "/"><Image src={Logo} alt="Logo" className="justify-start items-center mx-[0vw]" style={{width:'7vw', height: '7vh'}}></Image></a>
                 <ul className="flex space-x-[2vw] mx-[2.2vw] text-[1.4vw] items-center">
                     <li className="px-4 py-3 h-full flex items-center">
-                        <a href="/catalog" className="text-[#E07A5F] transition-transform duration-300 ease-in-out transform hover:scale-105">Courses</a>
+                        <a href="/catalog" className="text-[#E07A5F] transition-transform duration-300 ease-in-out transform hover:scale-105">Catalog</a>
                     </li>
 
                     {auth?.user ? 

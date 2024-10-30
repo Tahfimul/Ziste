@@ -3,7 +3,7 @@ import { Bookmark } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
-interface CourseCardProps {
+export interface CourseCardProps {
     courseTitle: string;
     professorName: string;
     schoolName: string;
@@ -42,7 +42,7 @@ const handleBookmarkClick = () => {
                     </h1>
                     <Bookmark onClick={handleBookmarkClick} className={`justify-end w-[4.5vw] h-[4.5vh] transition-transform duration-100 ease-in-out transform hover:scale-110 cursor-pointer" ${isBookmark ? 'fill-[#e1613d] text-[#e1613d]' : 'fill-none'}`}/>
                 </div>
-            <a href="#" className="flex flex-col items-start">
+            <a href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}`} className="flex flex-col items-start">
 
               <h2 className="pt-[0.4vh]">
                 <span className="bg-[#aac9ba] px-[1vw] py-[0.5vh] mb-1 rounded-md text-[1.5vw] text-black">{professorName}</span>
