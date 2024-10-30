@@ -41,14 +41,14 @@ export default function Profile() {
                 <div className="flex items-center gap-[2vw] ml-[6vw] py-3 mt-[5vw]">
                     <button className="text-[5vw] text-black" onClick={() => setActiveTab("profile")}>Profile</button>
                     <GradientBorder className="rounded-full gradient-animate">
-                        <button className="flex px-[1.5vw] py-[1vh] rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
+                        <button className="flex px-[2vw] py-[1vh] rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
                             <Bookmark className={`justify-center w-[2vw] h-[4vh] mr-[0.5vw] fill-[#e1613d] text-[#e1613d] transition-transform duration-100 ease-in-out transform cursor-pointer`} />
                             <h2 className="justify-center text-[1.5vw]">Bookmarks</h2>
                         </button>
                     </GradientBorder>
                 </div>
                 <div className={`${
-                activeTab === "bookmarks" ? "ml-[24.5vw] w-[12vw]" : "ml-[6vw]"} bg-[#E07A5F] rounded-[2vw] w-[15.5vw] py-[0.5vh] transition-all duration-200`}></div>
+                activeTab === "bookmarks" ? "ml-[23vw] w-[10vw]" : "ml-[6vw]"} bg-[#E07A5F] rounded-[2vw] w-[15.5vw] py-[0.5vh] transition-all duration-200`}></div>
                 </>
             ) : (
                 <>
