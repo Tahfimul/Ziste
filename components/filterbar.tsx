@@ -82,6 +82,7 @@ export const FilterBar = ({
             <button
               role="combobox"
               aria-expanded={openSubject}
+              aria-controls="subject-options"
               className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
             >
               {selectedSubject
@@ -124,6 +125,7 @@ export const FilterBar = ({
             <button
               role="combobox"
               aria-expanded={openLength}
+              aria-controls="length-options"
               className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-[1.5vw] text-black w-[18vw] justify-between"
             >
               {selectedLength
@@ -166,6 +168,7 @@ export const FilterBar = ({
             <button
               role="combobox"
               aria-expanded={openPrice}
+              aria-controls="price-options"
               className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-[1.5vw] text-black"
             >
               {selectedPrice
@@ -208,6 +211,7 @@ export const FilterBar = ({
             <button
               role="combobox"
               aria-expanded={openMaterial}
+              aria-controls="material-options"
               className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
             >
               {selectedMaterial
@@ -225,7 +229,7 @@ export const FilterBar = ({
                     <CommandItem className="text-[1.4vw]"
                       key={materialOption.value}
                       value={materialOption.value}
-                      onSelect={(currentValue) => {
+                      onSelect={() => {
                         setSelectedMaterial(selectedMaterial === materialOption.value ? "" : materialOption.value);
                         setOpenMaterial(false);
                       }}
