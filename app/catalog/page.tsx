@@ -115,8 +115,9 @@ export default function Catalog() {
             course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
             course.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
             course.professorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.description.toLowerCase().includes(searchTerm.toLowerCase())
+            course.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) 
+            //||
+            //course.description.toLowerCase().includes(searchTerm.toLowerCase())
           )
         )
           
