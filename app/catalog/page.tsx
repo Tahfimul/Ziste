@@ -8,7 +8,6 @@ import { FilterBar } from "@/components/FilterBar";
 import { Navbar } from "@/components/Navbar";
 import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
-
 import { CourseCard, CourseCardProps } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
 
