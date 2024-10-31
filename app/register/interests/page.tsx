@@ -34,11 +34,11 @@ const StudentInterests = () => {
         { name: "Psychology", icon: <FaBrain color="#555" /> },
     ];
 
-    const [selectedInterests, setSelectedInterests] = React.useState<string[]>(
-        []
-    );
-
     const { student, setStudent } = useUser();
+
+    const [selectedInterests, setSelectedInterests] = React.useState<string[]>(
+        student.interests
+    );
 
     const handleSelectInterest = (interest: string) => {
         setSelectedInterests((prevInterests) => {
