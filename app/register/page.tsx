@@ -8,6 +8,7 @@ import { firebaseSignUp } from "@/services/authService";
 // import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import for user to read their typed password
 // import { FaCalendar } from "react-icons/fa";
 import { useUser } from "@/components/contexts/UserContext";
+import { Navbar } from "@/components/Navbar";
 
 const Register = () => {
     const [password, setPassword] = useState("");
@@ -77,6 +78,8 @@ const Register = () => {
         password === "";
 
     return (
+        <>
+        <Navbar />
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-5xl font-bold mt-2 py-10">Sign Up</h1>
             <form
@@ -141,6 +144,7 @@ const Register = () => {
                 </button>
             </form>
         </div>
+        </>
     );
 };
 
