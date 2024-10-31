@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/services/firebase';
 import GradientBorder from "@/components/GradientBorder";
 
 interface ProfileInfoProps {
@@ -9,13 +12,31 @@ interface ProfileInfoProps {
     billAddress: string;
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardName, cardNum, billAddress }) => (
-    <>
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ email, userRole, cardName, cardNum, billAddress }) => {
+    const [userName, setUserName] = useState<string>(email); // Default to email until Firestore fetches the name
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            const usersCollection = collection(db, 'users');
+            const q = query(usersCollection, where('email', '==', email));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                setUserName(userDoc.data().name || email); // Set the name from Firestore, fallback to email
+            }
+        };
+
+        fetchUserName();
+    }, [email]);
+
+    return (
+        <>
             <div className="flex items-center pt-[1vw] gap-2">
                 <GradientBorder className="flex ml-[7vw] my-[1vw] rounded-full justify-center gradient-animate">
                     <div className="rounded-full bg-gray-50 w-[14vw] h-[14vw]"></div>
                 </GradientBorder>
-                <div className="flex flex-col gap-[1vh] px-[1vw] ">
+                <div className="flex flex-col gap-[1vh] px-[1vw]">
                     <button className="px-[1.3vw] py-[1vh] bg-[#F2CC8F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#F2CC8F]">Change Profile Picture</button>
                     <button className="px-[1.3vw] py-[1vh] bg-[#9fa5db] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#9fa5db]">Change Password</button>
                     <button className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]">Change Payment</button>
@@ -24,7 +45,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                 <div className="flex flex-col">
                     <h1 className="text-[1.5vw] px-2 mb-2 font-semibold bg-[#F2CC8F] bg-opacity-70 rounded-sm">Personal Information:</h1>
                     <div className="flex flex-col gap-4 px-6 py-4 w-[53vw] h-[20vh] max-h-[40vh] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
-                        <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Name: {name}</h2>
+                        <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Name: {userName}</h2>
                         <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Email: {email}</h2>
                         <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Role: {userRole}</h2>
                     </div>
@@ -105,5 +126,6 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                            
     </>
 );
+};
 
 export default ProfileInfo;
