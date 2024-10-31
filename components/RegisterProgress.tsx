@@ -10,7 +10,7 @@ const RegisterProgress = ({ step }: RegisterProgressProps) => {
     const SELECTED = "#81B29A";
     const UNSELECTED = "#D9D9D9";
 
-    console.log("This is the step :", step);
+    // console.log("This is the step :", step);
 
     return (
         <div className="flex flex-row gap-12 justify-center mt-10">
