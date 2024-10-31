@@ -7,7 +7,7 @@ interface GradientBorderProps {
   
   const GradientBorder = ({ children, className = '' }: GradientBorderProps) => {
     return (
-      <div className={`relative p-1 bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#3D405B] ${className}`}>
+      <div className={`relative p-1 bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] ${className}`}>
         {children}
       </div>
     );

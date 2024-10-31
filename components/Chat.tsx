@@ -1,15 +1,13 @@
 // app/chat/page.tsx
 // source: chatgpt
-"use client";
-import styles from '../../components/ChatList.module.css';  
-import {Navbar} from '../../components/Navbar';
+"use client"
+import {Navbar} from '@/components/Navbar';
 import { useEffect, useState } from 'react';
-import { firebaseAuth } from '../../services/firebase'; 
+import { firebaseAuth } from '@/services/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
-import ChatList from '../../components/ChatList';
-import AuthContextProvider from '../../components/contexts/AuthContextProvider';
+import ChatList from '@/components/ChatList';
 
-const ChatPage = () => {
+const Chat = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -29,19 +27,19 @@ const ChatPage = () => {
   if (loading) return <p>Loading...</p>;
 
   if (!userId) {
-    return <p>Please log in to access the chat.</p>;
+    return <p className="ml-[6vw]">Please log in to access the chat.</p>;
   }
 
   return (
-    <AuthContextProvider>
-      <div className={styles.chatPage}>
+    <>
+      <div className="chatPage">
         <Navbar/>
-        <div className={styles.chatContainer}>
+        <div className="chatContainer">
           <ChatList userId={userId} />
         </div>
       </div>
-    </AuthContextProvider>
+    </>
   );
 };
 
-export default ChatPage;
+export default Chat;

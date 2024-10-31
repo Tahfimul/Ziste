@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import CallBanner from './CallBanner'
-
+import { useSearchParams } from 'next/navigation';
+import { ArrowLeft } from "lucide-react";
 const VideoCall = ()=>
 {
+    const searchParams = useSearchParams();
+    const courseTitle = searchParams.get('courseTitle');
     const [called, setCalled] = useState<boolean>(false)
     // const videoRef = useRef<HTMLVideoElement>(null);
     // const [captureStream, setCaptureStream] = useState<MediaStream | null>(null);
@@ -63,13 +66,21 @@ const VideoCall = ()=>
 
     return (
         <>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={toggleCall}>{`${!called?'Start Call':'End Call'}`}</button>
+            <h1 className="ml-[6vw] text-[3vw] text-black mt-[12vh]">{courseTitle}</h1>
+            <a  href='/portal' className="inline-flex ml-[4vw] mt-[0.5vh] transition-transform duration-150 ease-in-out transform hover:translate-x-[-2vw]">
+                <ArrowLeft></ArrowLeft>
+                <h2 className="px-[0.5vw] text-[1.2vw]">Go Back to Course Hub</h2>
+            </a>
+            <div className="my-[2vh] ml-[6vw]">
+                <button className="bg-[#81B29A] bg-opacity-85 hover:bg-opacity-100 text-white font-bold py-2 px-4 rounded" onClick={toggleCall}>{`${!called?'Start Call':'End Call'}`}</button>
+            </div>
             {/* <button className={`${captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={startCapture} disabled={captureStream!==null}>Start Screen Capture</button> */}
             {/* <button className={`${!captureStream ? 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}`} onClick={stopCapture} disabled={!captureStream}>Stop Screen Capture</button> */}
             {
             called? <CallBanner title="Test Title" callEndCallback={toggleCall}/>:<></>
             }
             {/* <video ref={videoRef} autoPlay style={{ width: "100%", height: "auto" }} /> */}
+            
         
         </>
 

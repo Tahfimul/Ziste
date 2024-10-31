@@ -1,71 +1,58 @@
-// components/Sign_In.tsx
+import { useState } from 'react';
+import { firebaseSignIn, googleSignIn} from '@/services/authService';
+import { motion } from "framer-motion";
+import { FaArrowLeft } from "react-icons/fa";
+import { AuthContext } from '@/components/contexts/AuthContextProvider';
+import { useContext } from 'react';
 
-"use client"; // Ensure this is a client component
+interface SigninProps {
+  // setViewSignin: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Signin: React.FC<SigninProps> = ()=>
+{
+    const auth = useContext(AuthContext)
 
-import React, { useEffect, useState } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/navigation"; // Use next/navigation for app directory
-import { firebaseAuth } from "../services/firebase"; // Adjust the path as needed
+    // useEffect(()=>{
+    //   if(session?.user)
+    //     router.push('/', {scroll:false})
+    // },[session])
 
-const SignIn: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between sign-up and sign-in
-  const router = useRouter();
-
-  useEffect(() => {
-    const checkAuthState = () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      // If user is logged in, navigate to the protected route
-      if (user) {
-        router.push("/viewenrolledcoursepage"); // Adjust to your protected page
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+  
+    const handleSignIn = async (e: React.FormEvent) => {
+      e.preventDefault();
+      
+      try {
+        // await signInWithEmailAndPassword(firebaseAuth, email, password);
+        await firebaseSignIn({email, password})
+      } catch (err) {
+        setError('SignIn failed. Please check your credentials.');
+        console.error(err);
       }
     };
 
-    checkAuthState();
-  }, [router]);
-
-  const signInWithGoogle = async () => {
-    try {
-      console.log("Attempting to sign in with Google...");
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(firebaseAuth, provider);
-      console.log("User signed in: ", result.user);
-      router.push("/viewenrolledcoursepage"); // Adjust to your protected page
-    } catch (error) {
-      console.error("Error signing in with Google: ", error);
-    }
-  };
-
-  const handleEmailSignIn = async () => {
-    try {
-      const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
-      console.log("User signed in with email: ", result.user);
-      router.push("/viewenrolledcoursepage"); // Adjust to your protected page
-    } catch (error) {
-      console.error("Error signing in with email: ", error);
-    }
-  };
-
-  const handleSignUp = async () => {
-    try {
-      const result = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-      console.log("User signed up: ", result.user);
-      router.push("/viewenrolledcoursepage"); // Redirect after successful sign-up
-    } catch (error) {
-      console.error("Error signing up: ", error);
-    }
-  };
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="mb-4 text-2xl font-bold">{isSignUp ? "Sign Up" : "Sign In"}</h1>
-
-      {/* Email and Password Inputs */}
-      <div className="mb-4">
+    return  (
+      <motion.div
+      className="w-auto h-screen bg-white absolute p-12 pt-[20vh] flex flex-col items-center drop-shadow-[3px_1px_6px_rgba(0,0,0,0.1)] gap-8 z-100"
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "-100%" }}
+      transition={{
+          duration: 0.4,
+          ease: "easeInOut",
+      }}
+      >
+      <FaArrowLeft
+                  size={20}
+                  className="absolute top-[12vh] right-8 cursor-pointer"
+                  onClick={() => auth.setShowSignIn()}
+              />
+      <h1 className="text-6xl font-semibold">Sign In</h1>
+      <form className="w-auto h-screen bg-white flex flex-col items-center gap-8" onSubmit={handleSignIn}>
         <input
+          className="p-4 bg-slate-200 rounded-md w-[30vw]"
           type="email"
           placeholder="Email"
           value={email}
@@ -73,42 +60,29 @@ const SignIn: React.FC = () => {
           className="px-4 py-2 mb-2 border border-gray-300 rounded w-full"
         />
         <input
+          className="p-4 bg-slate-200 rounded-md w-[30vw]"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded w-full"
         />
-      </div>
-
-      {/* Sign In / Sign Up Button */}
+        <button type="submit">Sign In</button>
+      </form>
+      {error && <p>{error}</p>}
       <button
-        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300 mb-4"
-        onClick={isSignUp ? handleSignUp : handleEmailSignIn}
-      >
-        {isSignUp ? "Sign Up" : "Sign In"}
+            onClick={async () => {
+              await signIn('google',{
+                  callbackUrl: "/",
+              })
+              }
+            }
+            className="bg-sky-400 px-3 py-2 rounded"
+            >
+            Sign In with Google
       </button>
-
-      {/* Google Sign In Button */}
-      <button 
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 mb-4" 
-        onClick={signInWithGoogle}
-      >
-        Sign in with Google
-      </button>
-
-      {/* Toggle between Sign In and Sign Up */}
-      <p>
-        {isSignUp ? "Already have an account?" : "Don't have an account?"}
-        <span
-          className="text-blue-500 cursor-pointer"
-          onClick={() => setIsSignUp(!isSignUp)}
-        >
-          {isSignUp ? " Sign In" : " Sign Up"}
-        </span>
-      </p>
     </div>
-  );
-};
+    )
+}
 
 export default SignIn;
