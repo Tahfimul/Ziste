@@ -20,7 +20,7 @@ Back on terminal, type
 ```
 git clone
 ```
-followed by the link you coppied, then press enter.
+followed by the link you copied, then press enter.
 
 Once the repository has successfully cloned, enter
 ```
