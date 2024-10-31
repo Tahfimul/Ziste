@@ -61,8 +61,6 @@ const Register = () => {
                 professorDocRef: professorDocRef,
             });
 
-            console.log("Successs");
-
             router.push("/chat"); // Redirect to chat page upon successful registration
         } catch (err) {
             setError("Registration failed. Please try again.");
