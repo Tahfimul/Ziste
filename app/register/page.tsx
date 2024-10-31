@@ -14,7 +14,7 @@ const Register = () => {
     const [error, setError] = useState("");
     //    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
-    const { user, setUser, student, setStudent, professor, setProfessor } =
+    const { user, setUser, student } =
         useUser();
 
     const handleOnChange = (type: string, value: string) => {
@@ -22,6 +22,7 @@ const Register = () => {
             ...prevUser,
             [type]: value,
         }));
+
     };
 
     const handleRegister = async (e: React.FormEvent) => {
