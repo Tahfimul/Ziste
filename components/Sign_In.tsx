@@ -57,7 +57,7 @@ const Signin: React.FC<SigninProps> = ()=>
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="px-4 py-2 mb-2 border border-gray-300 rounded w-full"
+          required
         />
         <input
           className="p-4 bg-slate-200 rounded-md w-[30vw]"
@@ -65,24 +65,31 @@ const Signin: React.FC<SigninProps> = ()=>
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded w-full"
+          required
         />
-        <button type="submit">Sign In</button>
+        <button className="font-semibold shadow-md rounded-full px-6 py-2 text-xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
+          type='submit'>
+                Sign in
+        </button>
       </form>
       {error && <p>{error}</p>}
       <button
             onClick={async () => {
-              await signIn('google',{
-                  callbackUrl: "/",
-              })
+              await googleSignIn()
               }
             }
             className="bg-sky-400 px-3 py-2 rounded"
             >
             Sign In with Google
       </button>
-    </div>
+      <text>
+          New to Ziste{" "}
+          <span className="text-[#81B29A] font-bold">
+              <a href="/register">Create an account.</a>
+          </span>
+      </text>
+    </motion.div>
     )
 }
 
-export default SignIn;
+export default Signin

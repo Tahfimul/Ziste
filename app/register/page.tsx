@@ -55,7 +55,7 @@ const Register = () => {
 
             router.push("/chat"); // Redirect to chat page upon successful registration
         } catch (err) {
-            setError("Google sign-up failed. Please try again.");
+            setError("Google registration failed. Please try again.");
             console.error(err);
         }
     };
