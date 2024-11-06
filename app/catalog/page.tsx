@@ -140,9 +140,9 @@ export default function Catalog() {
     return (
         <AuthContextProvider>
         <>
-        <section id="catalog" className="bg-white pt-[4vw]">
+        <section id="catalog" className="bg-white pt-[3vw]">
             <Navbar/>
-            <div className="flex justify-center py-[0.8vh] mt-[4vw]">
+            <div className="flex justify-center py-[0.8vh] mt-[3vw]">
                 <h1 className="text-[6vw] text-black">Course Catalog</h1>
             </div>
             <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>

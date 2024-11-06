@@ -15,19 +15,23 @@ import {
 } from "@/components/ui/popover";
 
 const subjects = [
-  { value: "anthropology", label: "Anthropology" },
-  { value: "art", label: "Art" },
-  { value: "english", label: "English" },
-  { value: "gender studies", label: "Gender Studies" },
-  { value: "history", label: "History" },
-  { value: "language", label: "Language" },
-  { value: "literature", label: "Literature" },
-  { value: "music", label: "Music" },
-  { value: "mythology", label: "Mythology" },
-  { value: "philosophy", label: "Philosophy" },
-  { value: "poetry", label: "Poetry" },
-  { value: "politics", label: "Politics" },
-  { value: "religion", label: "Religion" },
+  { value: "Anthropology", label: "Anthropology" },
+  { value: "Art", label: "Art" },
+  { value: "English", label: "English" },
+  { value: "Gender Studies", label: "Gender Studies" },
+  { value: "History", label: "History" },
+  { value: "Language", label: "Language" },
+  { value: "Literature", label: "Literature" },
+  { value: "Music", label: "Music" },
+  { value: "Mythology", label: "Mythology" },
+  { value: "Philosophy", label: "Philosophy" },
+  { value: "Poetry", label: "Poetry" },
+  { value: "Politics", label: "Politics" },
+  { value: "Religion", label: "Religion" },
+  { value: "Sociology", label: "Sociology" },
+  { value: "Theater", label: "Theater" },
+
+
 ];
 
 const lengths = [
@@ -72,7 +76,7 @@ export const FilterBar = ({
   const [openMaterial, setOpenMaterial] = React.useState(false);
 
   return (
-    <header>
+    <>
       <div className="flex justify-center items-center py-[0.5vh] gap-[2vw]">
         <h1 className="text-[1.5vw] items-center text-black">Filter:</h1>
 
@@ -83,7 +87,7 @@ export const FilterBar = ({
               role="combobox"
               aria-expanded={openSubject}
               aria-controls="subject-options"
-              className="flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
+              className={`${selectedSubject ? "bg-[#F2CC8F]" : "bg-white border-[#F2CC8F]"} flex px-4 py-2 rounded-full bg-[#F2CC8F] shadow-md border-4 border-transparent text-[1.5vw] text-black w-[18vw] justify-between`}
             >
               {selectedSubject
                 ? subjects.find((s) => s.value === selectedSubject)?.label
@@ -126,7 +130,7 @@ export const FilterBar = ({
               role="combobox"
               aria-expanded={openLength}
               aria-controls="length-options"
-              className="flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md text-[1.5vw] text-black w-[18vw] justify-between"
+              className={`${selectedLength ? "bg-[#E07A5F]" : "bg-white border-[#E07A5F]"} flex px-4 py-2 rounded-full bg-[#E07A5F] shadow-md border-4 border-transparent text-[1.5vw] text-black w-[18vw] justify-between`}
             >
               {selectedLength
                 ? lengths.find((l) => l.value === selectedLength)?.label
@@ -169,7 +173,7 @@ export const FilterBar = ({
               role="combobox"
               aria-expanded={openPrice}
               aria-controls="price-options"
-              className="flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md text-[1.5vw] text-black"
+              className={`${selectedPrice ? "bg-[#81B29A]" : "bg-white border-[#81B29A]"} flex justify-center px-4 py-2 rounded-full bg-[#81B29A] shadow-md border-4 border-transparent text-[1.5vw] text-black`}
             >
               {selectedPrice
                 ? prices.find((p) => p.value === selectedPrice)?.label
@@ -212,7 +216,7 @@ export const FilterBar = ({
               role="combobox"
               aria-expanded={openMaterial}
               aria-controls="material-options"
-              className="flex px-4 py-2 rounded-full bg-[#9fa5db] shadow-md text-[1.5vw] text-black w-[17vw] justify-between"
+              className={`${selectedMaterial ? "bg-[#9fa5db]" : "bg-white border-[#9fa5db]"} flex px-4 py-2 rounded-full bg-[#9fa5db] border-4 border-transparent shadow-md text-[1.5vw] text-black w-[17vw] justify-between`}
             >
               {selectedMaterial
                 ? materials.find((m) => m.value === selectedMaterial)?.label
@@ -250,7 +254,17 @@ export const FilterBar = ({
             </Command>
           </PopoverContent>
         </Popover>
+
+        <button className="text-[1.5vw] px-[1vw] py-[0.5vh] bg-[#B5B2B2] rounded-sm shadow-md transition-transform duration-150 ease-in-out transform hover:scale-105"
+        onClick={()=>{
+        setSelectedSubject("");
+        setSelectedLength("");
+        setSelectedPrice("");
+        setSelectedMaterial("");
+        }}
+        >Clear
+        </button>
       </div>
-    </header>
+    </>
   );
 }
