@@ -31,7 +31,7 @@ export const PageBar = () => {
         </PaginationContent>
         </Pagination>
         </div>
-        <div className="flex justify-end mr-[3vw] pb-[14vh]">
+        <div className="flex justify-end mr-[3vw] pb-[0vh]">
             <a href="#catalog">
                 <button className="flex justify-center items-center w-[18vw] px-4 py-1 rounded-full text-[1.7vw] bg-[#E07A5F] shadow-md transform-transition duration-75 ease-in-out transform hover:scale-105">
                     Go Back to Top

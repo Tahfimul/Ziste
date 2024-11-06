@@ -10,6 +10,7 @@ import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { CourseCard, CourseCardProps } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
+import { Footer } from '@/components/Footer';
 
 export default function Catalog() {
     const courses: CourseCardProps[] = [
@@ -181,6 +182,7 @@ export default function Catalog() {
             )}
         </div>
         <PageBar/>
+        <Footer/>
         </>
         </AuthContextProvider>
     );
