@@ -142,8 +142,8 @@ export default function Catalog() {
         <>
         <section id="catalog" className="bg-white pt-[3vw]">
             <Navbar/>
-            <div className="flex justify-center py-[0.8vh] mt-[3vw]">
-                <h1 className="text-[6vw] text-black">Course Catalog</h1>
+            <div className="flex justify-center py-[0.8vh] mt-[1.5vh]">
+                <h1 className="text-[5vw] text-black">Course Catalog</h1>
             </div>
             <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <FilterBar
