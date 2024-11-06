@@ -14,8 +14,7 @@ const Register = () => {
     const [error, setError] = useState("");
     //    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
-    const { user, setUser, student, setStudent, professor, setProfessor } =
-        useUser();
+    const { user, setUser, student, professor } = useUser();
 
     const handleOnChange = (type: string, value: string) => {
         setUser((prevUser) => ({
@@ -46,7 +45,7 @@ const Register = () => {
             } else {
                 professorDocRef = await addDoc(collection(db, "professors"), {
                     userId: newUser.uid,
-                    interests: student.interests,
+                    courses: professor.courses,
                 });
             }
 
