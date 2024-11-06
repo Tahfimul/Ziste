@@ -98,6 +98,7 @@ export default function Catalog() {
     const [selectedPrice, setSelectedPrice] = React.useState("");
     const [selectedMaterial, setSelectedMaterial] = React.useState("");
     const [searchTerm, setSearchTerm] = React.useState("");
+    const totalItems = courses.length;
 
     const filteredCourses = courses.filter((course) => {
         const priceValue = parseFloat(course.price.replace(/[$,]/g, "")); // Remove dollar sign and parse to float
@@ -181,7 +182,7 @@ export default function Catalog() {
                 ))
             )}
         </div>
-        <PageBar/>
+        <PageBar totalItems={totalItems} />
         <Footer/>
         </>
         </AuthContextProvider>
