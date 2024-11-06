@@ -8,6 +8,7 @@ import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
 import { getCurrentUser, firebaseSignOut } from '@/services/authService';
+import { Footer } from '@/components/Footer';
 import { useRouter } from 'next/navigation';
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
@@ -100,11 +101,10 @@ export default function Profile() {
         ) : (
             <ProfileInfo name={name} email={email} userRole={userRole} cardName={cardName} cardNum={cardNum} billAddress={billAddress}/>
         )}
-        <footer>
-            <div className="mt-[3vh] mb-[5vh]">
-                <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
-            </div>
-        </footer>
+        <div className="mt-[3vh] mb-[5vh]">
+            <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
+        </div>
+        <Footer/>
         </>
     );
 }

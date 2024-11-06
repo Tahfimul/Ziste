@@ -24,7 +24,7 @@ const RegistrationLayout = ({ children }: LayoutProps) => {
 
     return (
         <UserProvider>
-            <div className="min-h-screen flex flex-col ">
+            <div className="mt-[10vh] min-h-screen flex flex-col ">
                 {/* Progress Bar */}
                 <RegisterProgress step={step} />
 

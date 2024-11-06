@@ -10,9 +10,29 @@ Ziste is a teaching based website where professors can upload, share and teach l
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## First step 
+## Running on your local computer 
+First, navigate to the folder where you would like to store the project
+```
+cd /
+```
+On this page, click "<>Code" and copy the link for the repository.
+Back on terminal, type
+```
+git clone
+```
+followed by the link you copied, then press enter.
 
-First, run the development server:
+Once the repository has successfully cloned, enter
+```
+cd ziste
+```
+in the terminal.
+To run the app, install recent updates using
+```
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
