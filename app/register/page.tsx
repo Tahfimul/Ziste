@@ -9,6 +9,8 @@ import { firebaseSignUp } from "@/services/authService";
 // import { FaCalendar } from "react-icons/fa";
 import { useUser } from "@/components/contexts/UserContext";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from '@/components/Footer';
+
 
 const Register = () => {
     const [password, setPassword] = useState("");
@@ -144,6 +146,7 @@ const Register = () => {
                 </button>
             </form>
         </div>
+        <Footer/>
         </>
     );
 };
