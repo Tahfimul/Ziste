@@ -4,6 +4,8 @@ import { ArrowLeft } from 'lucide-react';
 import { LockIcon } from 'lucide-react';
 import GradientBorder from '@/components/GradientBorder';
 import { useSearchParams } from 'next/navigation';
+import { Footer } from '@/components/Footer';
+
 
 export default function Enrollment() {
     const searchParams = useSearchParams();
@@ -21,15 +23,15 @@ export default function Enrollment() {
             <h2 className="px-[0vw] text-[1.5vw]">Go Back to Catalog</h2>
         </a>
         <div className="flex flex-col justify-start mx-[25vw] mt-[2.5vh] pt-[2vh] pb-[5vh] px-[3vw] w-[50vw] h-full shadow-md bg-gray-50 rounded-xl">
-            <h2 className="flex justify-center items-center text-[3vw] font-semibold py-[1.5vh] mt-[0.5vh]">
+            <h2 className="flex justify-center items-center text-[3vw] font-semibold pt-[1.5vh] mt-[0.5vh]">
                 Secure Checkout
                 <LockIcon className="mx-[0.5vw]"></LockIcon>
             </h2>
 
             <h3 className="px-[1vw] my-[1vh] mt-[2vh] text-[2vw] rounded-full bg-[#F2CC8F]">Selected Course</h3>
-            <h4 className="mb-[2vh] px-[0.5vw] py-[0.5vh] text-[1.8vw] font-medium"><i>{courseName || "No course selected"}</i></h4>
-            <h4 className="mb-[2vh] px-[0.5vw] py-[0.5vh] text-[1.8vw] font-light">Taught By: {professorName || ""}</h4>
-            <h4 className="mb-[2vh] px-[0.5vw] py-[0.5vh] text-[1.8vw] font-medium text-red-400">Price: {price || ""}</h4>
+            <h4 className="mb-[0vh] px-[0.5vw] pt-[0.5vh] text-[1.8vw] font-medium"><i>{courseName || "No course selected"}</i></h4>
+            <h4 className="mb-[0vh] px-[0.5vw] pt-[0.5vh] text-[1.3vw] font-light">Taught By: {professorName || ""}</h4>
+            <h4 className="mb-[0vh] px-[0.5vw] pt-[0.5vh] text-[1.3vw] font-medium text-red-400">Price: {price || ""}</h4>
 
 
             <h3 className="px-[1vw] my-[1vh] mt-[2vh] text-[2vw] rounded-full bg-[#81B29A]">Payment Information</h3>
@@ -63,9 +65,7 @@ export default function Enrollment() {
                 </GradientBorder>
             </div>
         </div>
-        <footer className="my-[15vh]">
-
-        </footer>
+        <Footer/>
         </>
     );
 }
