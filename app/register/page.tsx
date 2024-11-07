@@ -48,6 +48,7 @@ const Register = () => {
                 professorDocRef = await addDoc(collection(db, "professors"), {
                     userId: newUser.uid,
                     courses: professor.courses,
+                    experience: professor.experience,
                 });
             }
 
