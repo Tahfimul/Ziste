@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/services/firebase';
 import GradientBorder from "@/components/GradientBorder";
 
 interface ProfileInfoProps {
@@ -9,8 +12,28 @@ interface ProfileInfoProps {
     billAddress: string;
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardName, cardNum, billAddress }) => (
-    <>
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ email, userRole, cardName, cardNum, billAddress }) => {
+    const [userName, setUserName] = useState<string>(email); // Default to email until Firestore fetches the name
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            const usersCollection = collection(db, 'users');
+            const q = query(usersCollection, where('email', '==', email));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const data = userDoc.data();
+                const fullName = `${data.firstName} ${data.lastName}`;
+                setUserName(fullName || email); // Set full name from Firestore, fallback to email
+            }
+        };
+
+        fetchUserName();
+    }, [email]);
+
+    return (
+        <>
             <div className="flex items-center pt-[1vw] gap-2">
                 <GradientBorder className="flex ml-[7vw] my-[1vw] rounded-full justify-center gradient-animate">
                     <div className="rounded-full bg-gray-50 w-[14vw] h-[14vw]"></div>
@@ -24,7 +47,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                 <div className="flex flex-col">
                     <h1 className="text-[1.5vw] px-2 mb-2 font-semibold bg-[#F2CC8F] bg-opacity-70 rounded-sm">Personal Information:</h1>
                     <div className="flex flex-col gap-4 px-6 py-4 w-[53vw] h-[20vh] max-h-[40vh] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
-                        <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Name: {name}</h2>
+                        <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Name: {userName}</h2>
                         <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Email: {email}</h2>
                         <h2 className="flex overflow-hidden whitespace-nowrap text-ellipsis">Role: {userRole}</h2>
                     </div>
@@ -36,7 +59,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                     <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] h-[20vh] max-h-[40vh] w-[55vw] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
                         {userRole === "Student" ? (
                             <>
-                            <h2>Name on Card: {cardName}</h2>
+                            <h2>Name on Card: {cardName || userName} </h2>
                             <h2>Card Number: {cardNum}</h2>
                             <h2>Billing Address: {billAddress}</h2>
                             </>
@@ -105,5 +128,6 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                            
     </>
 );
+};
 
 export default ProfileInfo;

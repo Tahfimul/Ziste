@@ -9,6 +9,9 @@ import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
 import { getCurrentUser, firebaseSignOut } from '@/services/authService';
 import { useRouter } from 'next/navigation';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
     const [name, setName] = useState<string>('');
@@ -20,13 +23,31 @@ export default function Profile() {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     useEffect(() => {
+
         const timer = setTimeout(() => {
-            setLoading(false); // Set loading to false after 2 seconds
-        }, 2000);
-                
-        setEmail(getCurrentUser()?.email as string)
-        setName(getCurrentUser()?.uid as string)
-        setCardName(getCurrentUser()?.uid as string)
+            setLoading(false); // Set loading to false after fetching data
+        }, 300);
+
+        const fetchUserData = async () => {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                setEmail(currentUser.email as string);
+
+                // Get user data from Firestore
+                const userDocRef = doc(db, 'users', currentUser.uid); 
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    const userData = userDocSnap.data();
+
+                    setName(`${userData.firstName} ${userData.lastName}`);
+                    setCardName(`${userData.firstName} ${userData.lastName}`);
+                }
+            }
+        };
+
+        // Call the function immediately within useEffect
+        fetchUserData();
+
         return () => clearTimeout(timer); // Clean up timer on unmount
     }, []);
     

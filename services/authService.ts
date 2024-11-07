@@ -8,6 +8,7 @@ import {
     setPersistence,
     browserLocalPersistence,
     signInWithPopup,
+    sendEmailVerification as sendVerification
 } from "firebase/auth";
 import { firebaseAuth } from "./firebase";
 
@@ -49,13 +50,16 @@ export const googleSignIn = async () => {
 
 //Sign up functionality
 export const firebaseSignUp = async ({ email, password }: UserFormValues) => {
-    const result = await createUserWithEmailAndPassword(
-        firebaseAuth,
-        email,
-        password
-    );
+    const result = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+    const newUser = result.user;
+
+    // Send email verification
+    await sendVerification(newUser);
+
     return result;
 };
+
+export { sendVerification };
 
 //Sign out functionality
 export const firebaseSignOut = async () => {
@@ -65,3 +69,4 @@ export const firebaseSignOut = async () => {
 export const getCurrentUser = () => {
     return firebaseAuth.currentUser;
 };
+
