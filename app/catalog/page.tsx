@@ -10,6 +10,7 @@ import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { CourseCard, CourseCardProps } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
+import { Footer } from '@/components/Footer';
 
 export default function Catalog() {
     const courses: CourseCardProps[] = [
@@ -97,6 +98,7 @@ export default function Catalog() {
     const [selectedPrice, setSelectedPrice] = React.useState("");
     const [selectedMaterial, setSelectedMaterial] = React.useState("");
     const [searchTerm, setSearchTerm] = React.useState("");
+    const totalItems = courses.length;
 
     const filteredCourses = courses.filter((course) => {
         const priceValue = parseFloat(course.price.replace(/[$,]/g, "")); // Remove dollar sign and parse to float
@@ -139,10 +141,10 @@ export default function Catalog() {
     return (
         <AuthContextProvider>
         <>
-        <section id="catalog" className="bg-white pt-[4vw]">
+        <section id="catalog" className="bg-white pt-[3vw]">
             <Navbar/>
-            <div className="flex justify-center py-[0.8vh] mt-[4vw]">
-                <h1 className="text-[6vw] text-black">Course Catalog</h1>
+            <div className="flex justify-center py-[0.8vh] mt-[1.5vh]">
+                <h1 className="text-[5vw] text-black">Course Catalog</h1>
             </div>
             <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <FilterBar
@@ -180,7 +182,8 @@ export default function Catalog() {
                 ))
             )}
         </div>
-        <PageBar/>
+        <PageBar totalItems={totalItems} />
+        <Footer/>
         </>
         </AuthContextProvider>
     );

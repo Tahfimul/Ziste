@@ -8,6 +8,7 @@ import { firebaseAuth } from '../../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
 import AuthContextProvider from '../../components/contexts/AuthContextProvider';
+import { Footer } from '@/components/Footer';
 
 const ChatPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -40,6 +41,7 @@ const ChatPage = () => {
           <ChatList userId={userId} />
         </div>
       </div>
+      <Footer/>
     </AuthContextProvider>
   );
 };

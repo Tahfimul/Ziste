@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { firebaseAuth } from "../../services/firebase";
 import { sendEmailVerification } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { Footer } from '@/components/Footer';
+import Loading from '../../components/Loading';
 
 const VerifyEmail = () => {
     const [loading, setLoading] = useState(true);
@@ -41,7 +43,7 @@ const VerifyEmail = () => {
         }
     };
 
-    if (loading) return <p className="text-5xl font-bold font-bold mt-2 py-10">Loading...</p>;
+    if (loading) return <Loading/>;
 
     return (
         <>
@@ -61,9 +63,10 @@ const VerifyEmail = () => {
                     </button>
                 )}
                 <p className="mt-4 text-sm text-gray-500">
-                    If you dont see the email, please check your spam folder.
+                    After verifying your email, reload the page. If you dont see the email, please check your spam folder.
                 </p>
             </div>
+            <Footer/>
         </>
     );
 };
