@@ -12,7 +12,7 @@ const RegisterSelect = () => {
     const handleOnSubmit = (type: string) => {
         setUser({ ...user, isStudent: type === "student" });
         if (type === "student") router.push("/register/interests");
-        else router.push("/register");
+        else router.push("/register/experience");
     };
 
     return (

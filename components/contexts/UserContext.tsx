@@ -12,7 +12,21 @@ interface Student {
     interests: string[];
 }
 
+export interface ExperienceCourse {
+    title: string;
+    descriptions: string[];
+}
+
+export interface Experience {
+    institution: string;
+    startDate: string;
+    endDate: string;
+    role: string;
+    courses: ExperienceCourse[];
+}
+
 interface Professor {
+    experience: Experience[];
     courses: string[];
 }
 
@@ -42,7 +56,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         isStudent: true,
     });
     const [student, setStudent] = useState<Student>({ interests: [] });
-    const [professor, setProfessor] = useState<Professor>({ courses: [] });
+    const [professor, setProfessor] = useState<Professor>({
+        experience: [],
+        courses: [],
+    });
 
     return (
         <UserContext.Provider
