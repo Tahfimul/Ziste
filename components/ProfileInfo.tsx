@@ -72,7 +72,9 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardNa
                 ) : (
                     <div className="flex flex-col">
                         <h1 className="text-[1.5vw] px-2 mb-2 mt-[2vw] font-semibold bg-[#F2CC8F] bg-opacity-70 rounded-sm">Experience: </h1>
-                        <div className="flex flex-col gap-4 px-6 py-4 h-[20vh] max-h-[40vh] w-[32vw] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]"></div>
+                        <div className="flex flex-col gap-4 px-6 py-4 h-[20vh] max-h-[40vh] w-[32vw] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
+                            <p>Zilch.</p>
+                        </div>
                     </div>
                 )}
             </div>         

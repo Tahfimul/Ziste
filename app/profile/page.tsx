@@ -8,6 +8,7 @@ import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
 import { getCurrentUser, firebaseSignOut } from '@/services/authService';
+import { Footer } from '@/components/Footer';
 import { useRouter } from 'next/navigation';
 import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase';
@@ -108,14 +109,14 @@ export default function Profile() {
                 <div className="flex items-center gap-[2vw] ml-[6vw] py-3 mt-[5vw]">
                     <button className="text-[5vw] text-black" onClick={() => setActiveTab("profile")}>Profile</button>
                     <GradientBorder className="rounded-full gradient-animate">
-                        <button className="flex px-[1.5vw] py-[1vh] rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
+                        <button className="flex px-[2vw] py-[1vh] rounded-full items-center bg-white" onClick={() => setActiveTab("bookmarks")}>
                             <Bookmark className={`justify-center w-[2vw] h-[4vh] mr-[0.5vw] fill-[#e1613d] text-[#e1613d] transition-transform duration-100 ease-in-out transform cursor-pointer`} />
                             <h2 className="justify-center text-[1.5vw]">Bookmarks</h2>
                         </button>
                     </GradientBorder>
                 </div>
                 <div className={`${
-                activeTab === "bookmarks" ? "ml-[24.5vw] w-[12vw]" : "ml-[6vw]"} bg-[#E07A5F] rounded-[2vw] w-[15.5vw] py-[0.5vh] transition-all duration-200`}></div>
+                activeTab === "bookmarks" ? "ml-[23vw] w-[10vw]" : "ml-[6vw]"} bg-[#E07A5F] rounded-[2vw] w-[15.5vw] py-[0.5vh] transition-all duration-200`}></div>
                 </>
             ) : (
                 <>
@@ -152,11 +153,10 @@ export default function Profile() {
         ) : (
             <ProfileInfo name={name} email={email} userRole={userRole} cardName={cardName} cardNum={cardNum} billAddress={billAddress}/>
         )}
-        <footer>
-            <div className="mt-[3vh] mb-[5vh]">
-                <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
-            </div>
-        </footer>
+        <div className="mt-[3vh] mb-[5vh]">
+            <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
+        </div>
+        <Footer/>
         </>
     );
 }

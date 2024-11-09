@@ -2,6 +2,7 @@
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import RegisterProgress from "../../components/RegisterProgress";
+import { UserProvider } from "@/components/contexts/UserContext";
 
 interface LayoutProps {
     children: ReactNode;
@@ -22,13 +23,15 @@ const RegistrationLayout = ({ children }: LayoutProps) => {
     // };
 
     return (
-        <div className="min-h-screen flex flex-col ">
-            {/* Progress Bar */}
-            <RegisterProgress step={step} />
+        <UserProvider>
+            <div className="mt-[10vh] min-h-screen flex flex-col ">
+                {/* Progress Bar */}
+                <RegisterProgress step={step} />
 
-            {/* Content area for each page */}
-            <div className="flex-grow">{children}</div>
-        </div>
+                {/* Content area for each page */}
+                <div className="flex-grow">{children}</div>
+            </div>
+        </UserProvider>
     );
 };
 
