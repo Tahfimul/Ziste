@@ -11,10 +11,14 @@ interface ProfileInfoProps {
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, email, userRole, cardName, cardNum, billAddress }) => (
     <>
+            
             <div className="flex items-center pt-[1vw] gap-2">
                 <GradientBorder className="flex ml-[7vw] my-[1vw] rounded-full justify-center gradient-animate">
-                    <div className="rounded-full bg-gray-50 w-[14vw] h-[14vw]"></div>
+                    <div className="rounded-full bg-gray-50 w-[14vw] h-[14vw]">
+                        
+                    </div>
                 </GradientBorder>
+                
                 <div className="flex flex-col gap-[1vh] px-[1vw] ">
                     <button className="px-[1.3vw] py-[1vh] bg-[#F2CC8F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#F2CC8F]">Change Profile Picture</button>
                     <button className="px-[1.3vw] py-[1vh] bg-[#9fa5db] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#9fa5db]">Change Password</button>

@@ -9,6 +9,23 @@ import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
 import { getCurrentUser, firebaseSignOut } from '@/services/authService';
 import { useRouter } from 'next/navigation';
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+
+type course =
+{
+    courseTitle: string,
+    professorName:string,
+    schoolName:string,
+    description:string,
+    subject:string,
+    length:string,
+    price:string,
+    materials:string,
+    date:string
+
+}
+
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("profile");
     const [name, setName] = useState<string>('');
@@ -19,16 +36,66 @@ export default function Profile() {
     const billAddress = "545 Sesame Street"
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const [enrolledCourses, setEnrolledCourses] = useState<course[]>([])
+
     useEffect(() => {
+        if (loading) {
+            (async () => { 
+                try {
+                    let enrolledCoursesCollection = await getDocs(collection(db, 'enrolled_courses'));
+                    console.log(enrolledCoursesCollection.size);
+    
+                    if (enrolledCoursesCollection.size === 0) {
+                        const enrolled_courses_c = collection(db, 'enrolled_courses');
+                        await setDoc(doc(enrolled_courses_c, `Philosophy of Power and Leadership`), {
+                            courseTitle: "Philosophy of Power and Leadership",
+                            professorName: "Professor Tyrion Lannister",
+                            schoolName: "Westeros Institute of Political Studies",
+                            description: "Explore the dynamics of power, ethics in leadership, and the moral dilemmas of governance through history. This course dissects political theories, real-world case studies, and the complexities of decision-making in high-stakes environments.",
+                            subject: "Politics",
+                            length: "4 Weeks",
+                            price: "$150",
+                            materials: "",
+                            date: "Oct. 31st"
+                        });
+                    }
+    
+                    enrolledCoursesCollection = await getDocs(collection(db, 'enrolled_courses'));
+                    const courses: course[] = [];
+                    enrolledCoursesCollection.forEach((c) => {
+                        const c_ = c.data();
+                        const c_model = {
+                            courseTitle: c_.courseTitle,
+                            professorName: c_.professorName,
+                            schoolName: c_.schoolName,
+                            description: c_.description,
+                            subject: c_.subject,
+                            length: c_.length,
+                            price: c_.price,
+                            materials: c_.materials,
+                            date: c_.date
+                        } as course;
+                        courses.push(c_model);
+                    });
+                    setEnrolledCourses(courses);
+                    setLoading(false);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            })();
+        }
+    
         const timer = setTimeout(() => {
             setLoading(false); // Set loading to false after 2 seconds
         }, 2000);
-                
-        setEmail(getCurrentUser()?.email as string)
-        setName(getCurrentUser()?.uid as string)
-        setCardName(getCurrentUser()?.uid as string)
+    
+        setEmail(getCurrentUser()?.email as string);
+        setName(getCurrentUser()?.uid as string);
+        setCardName(getCurrentUser()?.uid as string);
+    
         return () => clearTimeout(timer); // Clean up timer on unmount
-    }, []);
+    }, []); // Empty dependency array, meaning this effect will run once on component mount
+    
     
     if (loading) return <Loading/>;
 
@@ -59,43 +126,28 @@ export default function Profile() {
         </header>
         {activeTab === "bookmarks" ? (
             <>
+            {console.log('bookmarks clicked')}
             <header className="pt-[3vh]"></header>
 
-            <CourseCard
-            courseTitle="Philosophy of Power and Leadership"
-            professorName="Professor Tyrion Lannister"
-            schoolName="Westeros Institute of Political Studies"
-            description="Explore the dynamics of power, ethics in leadership, and the moral dilemmas of governance through history. This course dissects political theories, real-world case studies, and the complexities of decision-making in high-stakes environments."
-            subject="Politics"
-            length="4 Weeks"
-            price="$150"
-            materials=""
-            date="Oct. 31st"
-          />
+            {enrolledCourses.map((course)=>{
+                {console.log(course)}
+                return(
+                <CourseCard
+                    key={course.courseTitle}
+                    courseTitle={course.courseTitle}
+                    professorName={course.professorName}
+                    schoolName={course.schoolName}
+                    description={course.description}
+                    subject={course.subject}
+                    length={course.length}
+                    price={course.price}
+                    materials={course.materials}
+                    date={course.date}
+              />
+                );
+            })}
 
-          <CourseCard
-            courseTitle="The Evolution of Civil Rights"
-            professorName="Professor T'Challa Udaku"
-            schoolName="Wakanda Institute of Global Justice"
-            description="A comprehensive look at the global civil rights movements of the 20th century, from apartheid to racial equality, and the leaders who inspired change. This course examines the challenges and progress made in human rights."
-            subject="History"
-            length="12 Weeks"
-            price="$45"
-            materials="Textbook Free"
-            date="Oct. 31st"
-          />
-
-          <CourseCard
-            courseTitle="Media Ethics in the Age of Technology"
-            professorName="Professor Peter Parker"
-            schoolName="New York Institute of Communication and Journalism"
-            description="This course explores the evolving role of media in society, focusing on ethical journalism, privacy issues, and the responsibilities of digital reporting. From traditional newspapers to social media platforms, students will discuss the moral implications of truth, transparency, and bias in today’s fast-paced information age."
-            subject="English"
-            length="12 Weeks"
-            price="$50"
-            materials="Textbook Free"
-            date="Oct. 31st"
-          />
+            
           </>
         ) : (
             <ProfileInfo name={name} email={email} userRole={userRole} cardName={cardName} cardNum={cardNum} billAddress={billAddress}/>
