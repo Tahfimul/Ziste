@@ -7,12 +7,12 @@ import {Navbar} from "@/components/Navbar";
 import { Bookmark } from "lucide-react";
 import ProfileInfo from "@/components/ProfileInfo";
 import { CourseCard } from "@/components/CourseCard";
-import { getCurrentUser, firebaseSignOut } from '@/services/authService';
+import { firebaseSignOut } from '@/services/authService';
 import { Footer } from '@/components/Footer';
 import { useRouter } from 'next/navigation';
 import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase';
-
+import { UserContextProvider } from '@/components/contexts/UserContextProvider';
 type course =
 {
     courseTitle: string,
@@ -89,10 +89,25 @@ export default function Profile() {
         const timer = setTimeout(() => {
             setLoading(false); // Set loading to false after 2 seconds
         }, 2000);
-    
-        setEmail(getCurrentUser()?.email as string);
-        setName(getCurrentUser()?.uid as string);
-        setCardName(getCurrentUser()?.uid as string);
+
+        // try
+        // {
+        //     setEmail(useUser().user.email);
+        //     setName(`${useUser().user.firstName} ${useUser().user.lastName}`)
+        //     setCardName(`${useUser().user.firstName} ${useUser().user.lastName}`)
+        // }
+        // catch (e)
+        // {
+        //     console.error(e)
+        // }
+        
+        setEmail('email');
+        setName('name');
+        setCardName('name');
+
+        // setEmail(getCurrentUser()?.email as string);
+        // setName(getCurrentUser()?.uid as string);
+        // setCardName(getCurrentUser()?.uid as string);
     
         return () => clearTimeout(timer); // Clean up timer on unmount
     }, []); // Empty dependency array, meaning this effect will run once on component mount
@@ -101,7 +116,7 @@ export default function Profile() {
     if (loading) return <Loading/>;
 
     return (
-        <>
+        <UserContextProvider>
         <header>
             <Navbar/>
             {userRole === "Student" ? (
@@ -157,6 +172,6 @@ export default function Profile() {
             <button onClick={()=>{firebaseSignOut(); router.push('/');}} className="px-[1.5vw] py-[1vh] ml-[6vw] text-[1.4vw] text-white bg-[#E07A5F] shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate hover:scale-105">Sign Out</button>
         </div>
         <Footer/>
-        </>
+        </UserContextProvider>
     );
 }

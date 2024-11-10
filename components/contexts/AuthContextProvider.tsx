@@ -2,7 +2,7 @@
 //1. https://medium.com/@sajadshafi/implementing-firebase-auth-in-react-js-typescript-vite-js-88465ac84170
 //2. https://stackoverflow.com/questions/66943220/how-to-handle-firebase-onauthstatechanged-in-a-react-app-and-route-users-accordi
 "use client";
-import { useState, useEffect, ReactNode, createContext } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import Loading from '../Loading';
 import { isSupported, initializeAnalytics } from 'firebase/analytics';
 import { app, firebaseAuth } from '../../services/firebase';
@@ -11,26 +11,17 @@ import { SigninFormValues, UserFormValues } from '@/services/authService';
 import { firebaseSignUp, firebaseSignIn, firebaseSignOut } from '@/services/authService';
 import { useRouter } from 'next/navigation';
 
-export const AuthContext = createContext<IAuth>({
- user: firebaseAuth.currentUser,
- loading: false,
- showSignIn:false,
- setShowSignIn:()=>{},
- signIn: () => {},
- signUp: () => {},
- signOut: () => {},
-});
+import { AuthContext, IAuth } from './AuthContext';
+// interface User_Obj {
+//   email: string;
+//   firstName: string;
+//   lastName: string;
+//   birthday: string;
+//   isStudent: boolean;
+// }
 
-//IAuth context
-export  interface  IAuth {
-  user:  User  |  null;  //type User comes from firebase
-  loading:  boolean;
-  showSignIn: boolean;
-  setShowSignIn: ()=>void;
-  signIn: (creds:  SigninFormValues) =>  void;
-  signUp: (creds:  UserFormValues) =>  void;
-  signOut: () =>  void;
-}
+
+
 
 interface AuthContextProviderProps {
   children: ReactNode;
@@ -78,13 +69,14 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   const  signIn = async (creds:  SigninFormValues) => {
     
     setIsLoading(true);
-    firebaseSignIn(creds)
-         .then(signInResult  => {
+    await firebaseSignIn(creds)
+         .then(async (signInResult)  => {
            const { user } =  signInResult;
            if  (user) {
              setCurrentUser(user);
+             
              //redirect user to targeted route
-             router.push('/', {scroll:false})
+            //  router.push('/', {scroll:false})
            } 
            else { 
             alert("couldn't sign in")

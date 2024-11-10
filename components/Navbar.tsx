@@ -1,6 +1,6 @@
 import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
-import { AuthContext } from '@/components/contexts/AuthContextProvider';
+import { AuthContext } from '@/components/contexts/AuthContext';
 import { useContext } from 'react';
 import Link from 'next/link';
 

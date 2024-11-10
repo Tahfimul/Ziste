@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
-import { AuthContext } from "@/components/contexts/AuthContextProvider";
+import { AuthContext } from "@/components/contexts/AuthContext";
 import { useContext } from "react";
 
 const App = () => {
