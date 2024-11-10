@@ -13,11 +13,13 @@ interface ProfileInfoProps {
     billAddress: string;
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole, cardName, cardNum, billAddress }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole}) => {
 
     const [name_, setName] = useState<string|undefined>(undefined)
-   
-     
+    const [editPayment, setEditPayment] = useState<boolean>(false)
+    const [cardName, setCardName] = useState<string>('') 
+    const [cardNumber, setCardNumber] = useState<string>('')
+    const [billAddress, setBillingAddress] = useState<string>('')
      const userContext = useContext(UserContext);
      const authContext = useContext(AuthContext);
      useEffect(()=>{
@@ -71,7 +73,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole, cardName, car
                                 <div className="flex flex-col gap-[1vh] px-[1vw] ">
                                     <button className="px-[1.3vw] py-[1vh] bg-[#F2CC8F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#F2CC8F]">Change Profile Picture</button>
                                     <button className="px-[1.3vw] py-[1vh] bg-[#9fa5db] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#9fa5db]">Change Password</button>
-                                    <button className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]">Change Payment</button>
+                                    <button onClick={()=>{setEditPayment(true)}} disabled={editPayment} className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]">Change Payment</button>
                                     <button className="px-[1.3vw] py-[1vh] bg-[#E07A5F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#E07A5F]">Delete Account</button>
                                 </div>
                                 <div className="flex flex-col">
@@ -86,20 +88,74 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole, cardName, car
                             <div className="flex gap-3">
                                 <div className="flex flex-col">
                                     <h1 className="text-[1.5vw] px-2 mb-2 mt-[2vw] font-semibold bg-[#81B29A] bg-opacity-70 ml-[6vw] rounded-sm">Payment Information:</h1>
-                                    <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] h-[20vh] max-h-[40vh] w-[55vw] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
-                                        {userRole === "Student" ? (
-                                            <>
-                                            <h2>Name on Card: {cardName}</h2>
-                                            <h2>Card Number: {cardNum}</h2>
-                                            <h2>Billing Address: {billAddress}</h2>
-                                            </>
-                                        ) : (
-                                            <>
-                                            <h2>Name on Account: {name}</h2>
-                                            <h2>Bank: </h2>
-                                            <h2>Routing Number: </h2>
-                                            </>
-                                        )}
+                                    <div className="flex flex-col gap-4 px-6 py-4 ml-[6vw] h-[25vh] max-h-[40vh] w-[50vw] shadow-lg rounded-lg bg-gray-50 text-[1.23vw]">
+                                        {(()=>{
+                                            
+                                            if(userRole === "Student") 
+                                                if(editPayment)
+                                                    return(
+                                                        <div className="space-y-4">
+                                                            <div className="flex items-center">
+                                                                <label htmlFor="cardName" className="text-sm mr-2">Name on Card:</label>
+                                                                <input 
+                                                                id="cardName" 
+                                                                type="text" 
+                                                                value={cardName}
+                                                                onChange={(e)=>{setCardName(e.target.value)}}
+                                                                className="px-2 py-1 border rounded-sm"
+                                                                placeholder="Enter your name on Card"
+                                                                />
+                                                            </div>
+                                                            
+                                                            <div className="flex items-center">
+                                                                <label htmlFor="cardNumber" className="text-sm mr-2">Card Number:</label>
+                                                                <input 
+                                                                id="cardNumber" 
+                                                                type="cardNumber" 
+                                                                value={cardNumber}
+                                                                onChange={(e)=>{setCardNumber(e.target.value)}}
+                                                                className="px-2 py-1 border rounded-sm"
+                                                                placeholder="Enter your Card Number"
+                                                                />
+                                                            </div>
+
+                                                            <div className="flex items-center">
+                                                                <label htmlFor="billingAddress" className="text-sm mr-2">Billing Address:</label>
+                                                                <input 
+                                                                id="billingAddress" 
+                                                                type="billingAddress" 
+                                                                value={billAddress}
+                                                                onChange={(e)=>{setBillingAddress(e.target.value)}}
+                                                                className="px-2 py-1 border rounded-sm"
+                                                                placeholder="Enter your billing address"
+                                                                />
+                                                            </div>
+
+                                                            <div className="flex items-center">
+                                                                <button className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]" onClick={()=>{console.log(cardName); console.log(cardNumber); console.log(billAddress); setEditPayment(false);}}>submit</button>
+                                                            </div>
+                                                        </div>
+                                                    ) 
+                                                else
+                                                    return(
+                                                        <>
+                                                        <h2>Name on Card: {userContext.user.cardName}</h2>
+                                                        <h2>Card Number: {userContext.user.cardNum}</h2>
+                                                        <h2>Billing Address: {userContext.user.billAddress}</h2>
+                                                        </>
+                                                    ) 
+                                            else 
+                                                if (editPayment)
+                                                    return(<></>)
+                                                else
+                                                    return(
+                                                        <>
+                                                        <h2>Name on Account: {name}</h2>
+                                                        <h2>Bank: </h2>
+                                                        <h2>Routing Number: </h2>
+                                                        </>
+                                                    )
+                                        })()}
                                     </div>
                                 </div>
                                 {userRole === "Student" ? (
@@ -159,12 +215,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole, cardName, car
                         
                     </UserContext.Consumer>)
             }
-        }
-            
-            
-                            
-                            
-                            
+        }                  
                            
     </AuthContext.Consumer>
 );

@@ -14,6 +14,9 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         lastName: "",
         birthday: "",
         isStudent: true,
+        cardName: "",
+        cardNum: "",
+        billAddress: ""
     });
     const [student, setStudent] = useState<Student>({ interests: [] });
     const [professor, setProfessor] = useState<Professor>({ courses: [] });
@@ -28,22 +31,52 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
             console.log('email:')
             console.log(user_.data().email)
             if(user_.data().isStudent || user_.data().isStudent === undefined)
-                setUser({
-                    email:user_.data().email as string,
-                    firstName: user_.data().firstName as string,
-                    lastName: user_.data().lastName as string,
-                    birthday: user_.data().birthday as string,
-                    isStudent: true
-                })
+                if(user_.data().cardName)
+                    setUser({
+                        email:user_.data().email as string,
+                        firstName: user_.data().firstName as string,
+                        lastName: user_.data().lastName as string,
+                        birthday: user_.data().birthday as string,
+                        isStudent: true,
+                        cardName: user_.data().cardName as string,
+                        cardNum: user_.data().cardNum as string,
+                        billAddress: user_.data().billAddress as string
+                    })
+                else
+                    setUser({
+                        email:user_.data().email as string,
+                        firstName: user_.data().firstName as string,
+                        lastName: user_.data().lastName as string,
+                        birthday: user_.data().birthday as string,
+                        isStudent: true,
+                        cardName: '',
+                        cardNum: '',
+                        billAddress: ''
+                    })
             else
-                setUser({
-                    email:user_.data().email as string,
-                    firstName: user_.data().firstName as string,
-                    lastName: user_.data().lastName as string,
-                    birthday: user_.data().birthday as string,
-                    isStudent: false
-                })
-        }
+                if(user_.data().cardName)
+                    setUser({
+                        email:user_.data().email as string,
+                        firstName: user_.data().firstName as string,
+                        lastName: user_.data().lastName as string,
+                        birthday: user_.data().birthday as string,
+                        isStudent: false,
+                        cardName: user_.data().cardName as string,
+                        cardNum: user_.data().cardNum as string,
+                        billAddress: user_.data().billAddress as string
+                    })
+                else
+                    setUser({
+                        email:user_.data().email as string,
+                        firstName: user_.data().firstName as string,
+                        lastName: user_.data().lastName as string,
+                        birthday: user_.data().birthday as string,
+                        isStudent: false,
+                        cardName: '',
+                        cardNum: '',
+                        billAddress: ''
+                    })
+            }
             
 
         })

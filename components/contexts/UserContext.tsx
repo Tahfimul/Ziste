@@ -6,6 +6,9 @@ export interface User {
     lastName: string;
     birthday: string;
     isStudent: boolean;
+    cardName: string;
+    cardNum: string;
+    billAddress: string;
 }
 
 export interface Student {
@@ -24,6 +27,7 @@ export interface UserContextType {
     professor: Professor;
     setProfessor: React.Dispatch<React.SetStateAction<Professor>>;
     findUser: (email:string)=>void;
+    
 }
 
 // Initialize context with undefined, to be checked in the custom hook
