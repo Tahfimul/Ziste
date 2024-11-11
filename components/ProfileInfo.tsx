@@ -73,7 +73,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole}) => {
                                 <div className="flex flex-col gap-[1vh] px-[1vw] ">
                                     <button className="px-[1.3vw] py-[1vh] bg-[#F2CC8F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#F2CC8F]">Change Profile Picture</button>
                                     <button className="px-[1.3vw] py-[1vh] bg-[#9fa5db] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#9fa5db]">Change Password</button>
-                                    <button onClick={()=>{setEditPayment(true)}} disabled={editPayment} className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]">Change Payment</button>
+                                    <button onClick={()=>{setCardName(userContext.user.cardName); setCardNumber(userContext.user.cardNum); setBillingAddress(userContext.user.billAddress); setEditPayment(true);}} disabled={editPayment} className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]">Change Payment</button>
                                     <button className="px-[1.3vw] py-[1vh] bg-[#E07A5F] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#E07A5F]">Delete Account</button>
                                 </div>
                                 <div className="flex flex-col">
@@ -132,7 +132,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, userRole}) => {
                                                             </div>
 
                                                             <div className="flex items-center">
-                                                                <button className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]" onClick={()=>{console.log(cardName); console.log(cardNumber); console.log(billAddress); setEditPayment(false);}}>submit</button>
+                                                                <button className="px-[1.3vw] py-[1vh] bg-[#81B29A] border-2 border-transparent rounded-2xl shadow-lg text-[1.3vw] transition-transform duration-100 ease-in-out transform hover:bg-transparent hover:border-[#81B29A]" onClick={()=>{userContext.updatePaymentInfo(cardName, cardNumber, billAddress); setEditPayment(false);}}>submit</button>
                                                             </div>
                                                         </div>
                                                     ) 

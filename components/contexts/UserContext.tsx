@@ -27,7 +27,7 @@ export interface UserContextType {
     professor: Professor;
     setProfessor: React.Dispatch<React.SetStateAction<Professor>>;
     findUser: (email:string)=>void;
-    
+    updatePaymentInfo: (cardName: string, cardNumber: string, billAddress: string)=>void;
 }
 
 // Initialize context with undefined, to be checked in the custom hook
