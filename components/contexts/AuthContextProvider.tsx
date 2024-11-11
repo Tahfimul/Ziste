@@ -8,7 +8,7 @@ import { isSupported, initializeAnalytics } from 'firebase/analytics';
 import { app, firebaseAuth } from '../../services/firebase';
 import { User } from 'firebase/auth'; 
 import { SigninFormValues, UserFormValues } from '@/services/authService';
-import { firebaseSignUp, firebaseSignIn, firebaseSignOut } from '@/services/authService';
+import { firebaseSignUp, firebaseSignIn, firebaseSignOut, changePassword_, deleteAccount_ } from '@/services/authService';
 import { useRouter } from 'next/navigation';
 
 import { AuthContext, IAuth } from './AuthContext';
@@ -111,6 +111,15 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
 
   const setShowSignin =()=>{setShowSignIn(!showSignIn)};
 
+  const changePassword = (password:string)=>
+  {
+      changePassword_(password)
+  };
+
+  const deleteAccount = ()=>
+  {
+    deleteAccount_()
+  }
   //create Auth Values
   const authValues: IAuth = {
     user: currentUser,
@@ -120,6 +129,8 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
     signIn,
     signUp,
     signOut,
+    changePassword,
+    deleteAccount
   }
 
  

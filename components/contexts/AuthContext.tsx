@@ -11,6 +11,8 @@ export const AuthContext = createContext<IAuth>({
     signIn: () => {},
     signUp: () => {},
     signOut: () => {},
+    changePassword: ()=>{},
+    deleteAccount: ()=>{}
    });
 
 //IAuth context
@@ -22,4 +24,6 @@ export  interface  IAuth {
     signIn: (creds:  SigninFormValues) =>  void;
     signUp: (creds:  UserFormValues) =>  void;
     signOut: () =>  void;
+    changePassword: (password:string)=>void;
+    deleteAccount: ()=>void;
   }

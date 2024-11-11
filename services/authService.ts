@@ -8,6 +8,9 @@ import {
     setPersistence,
     browserLocalPersistence,
     signInWithPopup,
+    updatePassword,
+    User,
+    deleteUser
 } from "firebase/auth";
 import { firebaseAuth } from "./firebase";
 
@@ -65,3 +68,13 @@ export const firebaseSignOut = async () => {
 export const getCurrentUser = () => {
     return firebaseAuth.currentUser;
 };
+
+export const changePassword_ = (password:string)=>
+{
+    updatePassword(getCurrentUser() as User, password)
+}
+
+export const deleteAccount_ = ()=>
+{
+    deleteUser(getCurrentUser() as User)
+}
