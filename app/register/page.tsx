@@ -40,6 +40,7 @@ const Register = () => {
 
             const newUser = userCredential.user;
 
+
             let studentDocRef = null;
             let professorDocRef = null;
             if (user.isStudent) {
@@ -65,7 +66,8 @@ const Register = () => {
                 professorDocRef: professorDocRef,
             });
 
-            router.push("/chat"); // Redirect to chat page upon successful registration
+            setError("Registration successful! Please check your email to verify your account.");
+            router.push("/verifyEmail"); // Redirect to chat page upon successful registration
         } catch (err) {
             setError("Registration failed. Please try again.");
             console.error(err);

@@ -10,7 +10,8 @@ import {
     signInWithPopup,
     updatePassword,
     User,
-    deleteUser
+    deleteUser,
+    sendEmailVerification,
 } from "firebase/auth";
 import { firebaseAuth } from "./firebase";
 
@@ -52,11 +53,10 @@ export const googleSignIn = async () => {
 
 //Sign up functionality
 export const firebaseSignUp = async ({ email, password }: UserFormValues) => {
-    const result = await createUserWithEmailAndPassword(
-        firebaseAuth,
-        email,
-        password
-    );
+    const result = await createUserWithEmailAndPassword( firebaseAuth, email, password);
+    if (result.user) {
+        await sendEmailVerification(result.user); // Correctly sends verification email
+    }
     return result;
 };
 
