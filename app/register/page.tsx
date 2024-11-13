@@ -115,6 +115,26 @@ const Register = () => {
                     onChange={(e) => handleOnChange("lastName", e.target.value)}
                     required
                 />
+
+            {/* Birthday Label and Input */}
+            <div className="flex flex-col w-full">
+                <label className="flex items-center text-gray-700 font-medium">
+                    Birthday
+                    <span
+                        className="ml-2 text-gray-500 relative group cursor-pointer"
+                    >
+                        {/* Circle with question mark */}
+                        <span className="flex justify-center items-center w-5 h-5 rounded-full bg-gray-500 text-white text-xs group-hover:bg-gray-400">
+                            ?
+                        </span>
+                        {/* Tooltip on hover over the circle */}
+                        <span
+                            className="absolute left-1/2 -translate-x-1/2 -top-9 w-64 p-2 rounded-lg bg-gray-700 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        >
+                            When you provide your birthday, we can get you the right experience for your age.
+                        </span>
+                    </span>
+                </label>
                 <input
                     className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
                     type="date"
@@ -123,6 +143,8 @@ const Register = () => {
                     onChange={(e) => handleOnChange("birthday", e.target.value)}
                     required
                 />
+            </div>
+
                 <input
                     className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
                     type={"password"}
