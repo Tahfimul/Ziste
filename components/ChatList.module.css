@@ -1,39 +1,47 @@
 /* app/chat/ChatList.module.css */
 /* source: chatgpt*/ 
 .chatWrapper {
-    display: flex;
-    height: 100%;
-  }
-  
-  .chatList {
-    width: 25%; /* 25% of the screen for chat list */
-    background-color: #e0e0e0;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-  }
-  
-  .startChatBtn {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-  }
-  
-  .startChatBtn:hover {
-    background-color: #0056b3;
-  }
-  
-  .chatWindow {
-    width: 75%; /* 75% of the screen for chat window */
-    padding: 20px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  display: flex;
+  height: 100%;
+}
+
+.chatList {
+  width: 27vw; 
+  background-color: #e0e0e0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.startChatBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.startChatBtn:hover {
+  background-color: #0056b3;
+}
+
+.conversation {
+  border-color: black;
+  margin: 10px 0;
+  text-align: left;
+  border-width:1px;
+  border-color: black;
+  padding: 5px;
+}
+
+.chatWindow {
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

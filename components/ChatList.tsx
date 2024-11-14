@@ -1,7 +1,7 @@
 // components/ChatList.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { fetchUsers } from '../services/UserService';
@@ -14,7 +14,6 @@ interface Conversation {
   createdAt?: Timestamp; 
 }
 
-
 interface ChatListProps {
   userId: string;
 }
@@ -24,12 +23,17 @@ const ChatList = ({ userId }: ChatListProps) => {
   const [loading, setLoading] = useState(true);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [usersMap, setUsersMap] = useState<{ [key: string]: { name: string; email: string } }>({});
+  const [startingChat, setStartingChat] = useState(false);
 
   // Fetch users
   useEffect(() => {
     const fetchUserMap = async () => {
-      const map = await fetchUsers();
-      setUsersMap(map);
+      try {
+        const map = await fetchUsers();
+        setUsersMap(map);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
     };
 
     fetchUserMap();
@@ -47,31 +51,34 @@ const ChatList = ({ userId }: ChatListProps) => {
         createdAt: doc.data().createdAt || null,
       }));
       setConversations(convos);
-      if (convos.length > 0) {
+      if (convos.length > 0 && !selectedConversation) {
         setSelectedConversation(convos[0]);
       }
     });
 
     return () => unsubscribe();
-  }, [userId]);
+  }, [userId, selectedConversation]);
 
   // Start a new conversation
   const startNewConversation = async () => {
+    setStartingChat(true);
     const userToFind = prompt("Enter user name or email:");
-    if (!userToFind) return;
+    if (!userToFind) {
+      setStartingChat(false);
+      return;
+    }
 
     // Fetch users and find the target user
-    const usersCollection = await getDocs(collection(db, 'users'));
-    const targetUser = usersCollection.docs.find(doc => {
-      
-      const data = doc.data();
-      return data.name === userToFind || data.email === userToFind;
-    });
+    try {
+      const usersCollection = await getDocs(collection(db, 'users'));
+      const targetUser = usersCollection.docs.find(doc => {
+        const data = doc.data();
+        return data.name === userToFind || data.email === userToFind;
+      });
 
-    if (targetUser) {
-      const usersArray = [targetUser.id, userId];
+      if (targetUser) {
+        const usersArray = [targetUser.id, userId];
 
-      try {
         const newConversation = await addDoc(collection(db, 'conversations'), {
           users: usersArray,
           createdAt: serverTimestamp(),
@@ -82,44 +89,47 @@ const ChatList = ({ userId }: ChatListProps) => {
           users: usersArray,
           createdAt: undefined,
         });
-      } catch (error) {
-        console.error("Error starting new conversation:", error);
+      } else {
+        alert("User not found.");
       }
-    } else {
-      alert("User not found.");
+    } catch (error) {
+      console.error("Error starting new conversation:", error);
     }
+    setStartingChat(false);
   };
 
   return (
     <div className={styles.chatWrapper}>
-      {/* Left Side - Chat List */}
       <div className={styles.chatList}>
-        <button className={styles.startChatBtn} onClick={startNewConversation}>Start New Conversation</button>
+        <button className={styles.startChatBtn} onClick={startNewConversation} disabled={startingChat}>
+          {startingChat ? "Starting..." : "Start New Conversation"}
+        </button>
         {loading ? (
           <p>Loading conversations...</p>
         ) : (
           <ul>
             {conversations.map((conversation) => {
-              // Get user emails from the usersMap, excluding the current user
               const userEmails = conversation.users
-                .filter((id) => id !== userId) // Exclude the current user's ID
-                .map((id) => usersMap[id]?.email) // Get the user email from the map
-                .filter(email => email) // Ensure the email is not undefined
-                .join(', '); // Join emails with a comma
+                .filter((id) => id !== userId)
+                .map((id) => usersMap[id]?.email)
+                .filter(email => email)
+                .join(', ');
 
               return (
                 <li key={conversation.id}>
-                  <button onClick={() => setSelectedConversation(conversation)}>
-                    {userEmails || "Unnamed User"} {/* Fallback if no emails are found */}
-                  </button>
+                  <div className={styles.conversation}>
+                    <button onClick={() => setSelectedConversation(conversation)}>
+                      {userEmails || "Unnamed User"}
+                    </button>
+                  </div>
                 </li>
+                
               );
             })}
           </ul>
         )}
       </div>
 
-      {/* Right Side - Chat Window */}
       <div className={styles.chatWindow}>
         {selectedConversation ? (
           <ChatWindow conversationId={selectedConversation.id} userId={userId} />
