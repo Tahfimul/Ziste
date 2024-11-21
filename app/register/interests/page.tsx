@@ -12,7 +12,7 @@ import {
     FaLanguage,
     FaBrain,
 } from "react-icons/fa";
-import { useUser } from "@/components/contexts/UserContext";
+import { useUser } from "@/components/contexts/UserContextProvider";
 import { useRouter } from "next/navigation";
 
 interface Interest {
