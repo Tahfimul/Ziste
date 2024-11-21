@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FaGraduationCap, FaAppleAlt } from "react-icons/fa";
-import { useUser } from "@/components/contexts/UserContext";
+import { useUser } from "@/components/contexts/UserContextProvider";
 import { useRouter } from "next/navigation";
 
 const RegisterSelect = () => {

@@ -1,14 +1,11 @@
 "use client";
 
 import React from "react";
-import { FaPlus, FaPlusCircle, FaTimes } from "react-icons/fa";
-import { useUser } from "@/components/contexts/UserContext";
+import { FaPlus, FaPlusCircle } from "react-icons/fa";
+import { useUser } from "@/components/contexts/UserContextProvider";
 import { useRouter } from "next/navigation";
 
-import {
-    ExperienceCourse,
-    Experience,
-} from "@/components/contexts/UserContext";
+import { Experience } from "@/components/contexts/UserContextProvider";
 
 const ProfessorExperience = () => {
     const router = useRouter();
@@ -193,9 +190,8 @@ const ProfessorExperience = () => {
                             </button>
                         </div>
                         {experience.courses.map((course, courseIndex) => (
-                            <div>
+                            <div key={courseIndex}>
                                 <input
-                                    key={courseIndex}
                                     className="my-3 p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                                     value={course.title}
                                     placeholder="Course Title"

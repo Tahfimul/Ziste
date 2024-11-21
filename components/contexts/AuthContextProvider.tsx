@@ -12,6 +12,8 @@ import {
     firebaseSignUp,
     firebaseSignIn,
     firebaseSignOut,
+    changePassword_,
+    deleteAccount_,
 } from "@/services/authService";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +25,8 @@ export const AuthContext = createContext<IAuth>({
     signIn: () => {},
     signUp: () => {},
     signOut: () => {},
+    changePassword: () => {},
+    deleteAccount: () => {},
 });
 
 //IAuth context
@@ -34,6 +38,8 @@ export interface IAuth {
     signIn: (creds: SigninFormValues) => void;
     signUp: (creds: UserFormValues) => void;
     signOut: () => void;
+    changePassword: (password: string) => void;
+    deleteAccount: () => void;
 }
 
 interface AuthContextProviderProps {
@@ -121,6 +127,14 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         setShowSignIn(!showSignIn);
     };
 
+    const changePassword = (password: string) => {
+        changePassword_(password);
+    };
+
+    const deleteAccount = () => {
+        deleteAccount_();
+    };
+
     //create Auth Values
     const authValues: IAuth = {
         user: currentUser,
@@ -130,6 +144,8 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         signIn,
         signUp,
         signOut,
+        changePassword,
+        deleteAccount,
     };
 
     useEffect(() => {

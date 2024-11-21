@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { firebaseSignUp } from "@/services/authService";
 // import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import for user to read their typed password
 // import { FaCalendar } from "react-icons/fa";
-import { useUser } from "@/components/contexts/UserContext";
+import { useUser } from "@/components/contexts/UserContextProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
