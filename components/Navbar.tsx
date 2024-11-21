@@ -1,6 +1,6 @@
 import Logo from '@/app/assets/logo.svg';
 import Image from 'next/image';
-import { AuthContext } from '@/components/contexts/AuthContextProvider';
+import { AuthContext } from '@/components/contexts/AuthContext';
 import { useContext } from 'react';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ export const Navbar = () => {
                         (<></>):
                         (
                         <li className="px-4 py-3 h-full flex items-center">
-                            <a href="/register"className="text-[#81B29A] transition-transform duration-300 ease-in-out transform hover:scale-105">Register</a>
+                            <a href="/register/select"className="text-[#81B29A] transition-transform duration-300 ease-in-out transform hover:scale-105">Register</a>
                         </li>
                         )
                         

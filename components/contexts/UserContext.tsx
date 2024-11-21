@@ -1,14 +1,17 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, useContext } from "react";
 
-interface User {
+export interface User {
     email: string;
     firstName: string;
     lastName: string;
     birthday: string;
     isStudent: boolean;
+    cardName: string;
+    cardNum: string;
+    billAddress: string;
 }
 
-interface Student {
+export interface Student {
     interests: string[];
 }
 
@@ -30,17 +33,25 @@ interface Professor {
     courses: string[];
 }
 
-interface UserContextType {
+export interface UserContextType {
     user: User;
     setUser: React.Dispatch<React.SetStateAction<User>>;
     student: Student;
     setStudent: React.Dispatch<React.SetStateAction<Student>>;
     professor: Professor;
     setProfessor: React.Dispatch<React.SetStateAction<Professor>>;
+    findUser: (email: string) => void;
+    updatePaymentInfo: (
+        cardName: string,
+        cardNumber: string,
+        billAddress: string
+    ) => void;
 }
 
 // Initialize context with undefined, to be checked in the custom hook
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(
+    undefined
+);
 
 // Define the provider component
 interface UserProviderProps {

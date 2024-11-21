@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import RegisterProgress from "../../components/RegisterProgress";
-import { UserProvider } from "@/components/contexts/UserContext";
+import { UserContextProvider } from "@/components/contexts/UserContextProvider";
 
 interface LayoutProps {
     children: ReactNode;
@@ -23,7 +23,7 @@ const RegistrationLayout = ({ children }: LayoutProps) => {
     // };
 
     return (
-        <UserProvider>
+        <UserContextProvider>
             <div className="mt-[10vh] min-h-screen flex flex-col ">
                 {/* Progress Bar */}
                 <RegisterProgress step={step} />
@@ -31,7 +31,7 @@ const RegistrationLayout = ({ children }: LayoutProps) => {
                 {/* Content area for each page */}
                 <div className="flex-grow">{children}</div>
             </div>
-        </UserProvider>
+        </UserContextProvider>
     );
 };
 

@@ -8,6 +8,7 @@ import { firebaseAuth } from '../../services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
 import AuthContextProvider from '../../components/contexts/AuthContextProvider';
+import {Footer} from "@/components/Footer";
 
 const ChatPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -34,12 +35,17 @@ const ChatPage = () => {
 
   return (
     <AuthContextProvider>
-      <div className={styles.chatPage}>
+      <section id="chat" className="bg-white pt-[3vw]"></section>
         <Navbar/>
+        <div className="flex justify-left py-[0.8vh] mt-[1.5vh]">
+        <h1 className="text-[5vw] text-black">Chat</h1>
+      </div>
+      <div className={styles.chatPage}>
         <div className={styles.chatContainer}>
           <ChatList userId={userId} />
         </div>
       </div>
+      <Footer />
     </AuthContextProvider>
   );
 };

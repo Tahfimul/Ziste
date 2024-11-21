@@ -13,10 +13,10 @@ export const Footer = () => {
                 </div>
                 <div className="flex flex-col justify-center my-[2.5vh]">
                     <div className="flex justify-center gap-[5vw]">
-                        <button className="justify-center text-[#73779b] text-[1.5vw]">Contact Us</button>
+                        <button className="justify-center text-[#73779b] text-[1.5vw]"><a href="/contact">Contact Us </a></button>
                         <button className="justify-center text-[#73779b] text-[1.5vw]">Help</button>
-                        <button className="justify-center text-[#73779b] text-[1.5vw]">Learn More</button>
-                        <button className="justify-center text-[#73779b] text-[1.5vw]">Legal</button>
+                        <button className="justify-center text-[#73779b] text-[1.5vw]"><a href="/about">Learn More </a></button>
+                        <button className="justify-center text-[#73779b] text-[1.5vw]"><a href="/legal">Legal </a></button>
                     </div>
                 </div>
             </div>
