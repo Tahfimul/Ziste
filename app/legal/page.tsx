@@ -56,7 +56,7 @@ export default function legal() {
             </div>
             <div className="w-[0.5vw] ml-[30vw] mt-[22vh] rounded-full bg-gray-500"></div>
         </div>
-        <div className="flex flex-col items-start mt-[22vh] ml-[2vw] max-h-[60vh] overflow-y-auto pr-[2.5vw]">
+        <div className="flex flex-col items-start mt-[22vh] ml-[2vw] max-h-[58vh] overflow-y-auto pr-[2.5vw]">
             <section id="TermsAndConditions" className="ml-[2vw]">
                 <div className="flex flex-col">
                     <h2 className="flex justify-start w-full text-[#81B29A] mb-[1vh] text-[2.5vw] font-semibold">Terms and Conditions</h2>
