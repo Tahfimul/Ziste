@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FaGraduationCap, FaAppleAlt } from "react-icons/fa";
-import { useUser } from "@/components/contexts/UserContext";
+import { useUser } from "@/components/contexts/UserContextProvider";
 import { useRouter } from "next/navigation";
 
 const RegisterSelect = () => {
@@ -12,7 +12,7 @@ const RegisterSelect = () => {
     const handleOnSubmit = (type: string) => {
         setUser({ ...user, isStudent: type === "student" });
         if (type === "student") router.push("/register/interests");
-        else router.push("/register");
+        else router.push("/register/experience");
     };
 
     return (
