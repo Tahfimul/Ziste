@@ -1,11 +1,14 @@
 // app/chat/page.tsx
 // source: chatgpt
 "use client"
-import {Navbar} from '@/components/Navbar';
+// import styles from '@/components/ChatList.module.css';  
+// import {Navbar} from '@/components/Navbar';
 import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@/services/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '@/components/ChatList';
+import AuthContextProvider from '@/components/contexts/AuthContextProvider';
+// import {Footer} from "@/components/Footer";
 
 const Chat = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -27,17 +30,24 @@ const Chat = () => {
   if (loading) return <p>Loading...</p>;
 
   if (!userId) {
-    return <p className="ml-[6vw]">Please log in to access the chat.</p>;
+    return <p>Please log in to access the chat.</p>;
   }
 
   return (
     <>
-      <div className="chatPage">
-        <Navbar/>
-        <div className="chatContainer">
-          <ChatList userId={userId} />
-        </div>
-      </div>
+      <AuthContextProvider>
+          {/* <section id="chat" className="bg-white pt-[3vw]"></section>
+            <Navbar/>
+            <div className="flex justify-left py-[0.8vh] mt-[1.5vh]">
+              <h1 className="text-[5vw] text-black">Chat</h1>
+          </div> */}
+          {/* <div className={styles.chatPage}>
+            <div className={styles.chatContainer}> */}
+              <ChatList userId={userId} />
+            {/* </div>
+          </div> */}
+          {/* <Footer /> */}
+      </AuthContextProvider>
     </>
   );
 };

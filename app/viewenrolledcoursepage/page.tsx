@@ -6,6 +6,7 @@ import {Navbar} from "../../components/Navbar";
 import VideoCall from '../../components/VideoCall'
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import Chat from "@/components/Chat";
+import '@/styles/globals.css'
 const page = () =>
 {
 
@@ -17,7 +18,12 @@ const page = () =>
             <Navbar/>
             <div className="mt-[12vh]">
                 <VideoCall/>
-                <Chat/>
+
+                <div className="chatPage">
+                    <div className="chatContainer">
+                        <Chat/>
+                    </div>
+                </div>
             </div>
         </AuthContextProvider>
         
