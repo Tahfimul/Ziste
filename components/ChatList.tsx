@@ -6,8 +6,8 @@ import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestam
 import { db } from '../services/firebase';
 import { fetchUsers } from '../services/UserService';
 import ChatWindow from './ChatWindow';
-import styles from './ChatList.module.css';
-
+// import styles from './ChatList.module.css';
+import '@/styles/globals.css'
 interface Conversation {
   id: string;
   users: string[];
@@ -91,10 +91,12 @@ const ChatList = ({ userId }: ChatListProps) => {
   };
 
   return (
-    <div className={styles.chatWrapper}>
+    // <div className={styles.chatWrapper}>
+    <div className='chatWrapper'>
       {/* Left Side - Chat List */}
-      <div className={styles.chatList}>
-        <button className={styles.startChatBtn} onClick={startNewConversation}>Start New Conversation</button>
+      {/* <div className={styles.chatList}> */}
+      <div className='chatList'>
+        <button className='startChatBtn' onClick={startNewConversation}>Start New Conversation</button>
         {loading ? (
           <p>Loading conversations...</p>
         ) : (
@@ -120,7 +122,8 @@ const ChatList = ({ userId }: ChatListProps) => {
       </div>
 
       {/* Right Side - Chat Window */}
-      <div className={styles.chatWindow}>
+      {/* <div className={styles.chatWindow}> */}
+      <div className='chatWindow'>
         {selectedConversation ? (
           <ChatWindow conversationId={selectedConversation.id} userId={userId} />
         ) : (

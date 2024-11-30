@@ -7,6 +7,8 @@ import VideoCall from '../../components/VideoCall'
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import Chat from "@/components/Chat";
 import '@/styles/globals.css'
+import {Footer} from "@/components/Footer";
+
 const page = () =>
 {
 
@@ -25,6 +27,7 @@ const page = () =>
                     </div>
                 </div>
             </div>
+            <Footer />
         </AuthContextProvider>
         
     );
