@@ -1,52 +1,48 @@
 // app/chat/page.tsx
-// source: chatgpt
 "use client";
 import styles from '../../components/ChatList.module.css';  
-import {Navbar} from '../../components/Navbar';
-import { useEffect, useState } from 'react';
-import { firebaseAuth } from '../../services/firebase'; 
-import { onAuthStateChanged } from 'firebase/auth';
+import { Navbar } from '../../components/Navbar';
+import { useEffect, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import ChatList from '../../components/ChatList';
-import AuthContextProvider from '../../components/contexts/AuthContextProvider';
-import {Footer} from "@/components/Footer";
+import { Footer } from "@/components/Footer";
+import { AuthContext } from "@/components/contexts/AuthContextProvider";
 
 const ChatPage = () => {
-  const [userId, setUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const auth = useContext(AuthContext);
 
+  // Redirect to /not-logged-in if user is not authenticated
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        setUserId(user.uid);
-      } else {
-        setUserId(null);
-      }
-      setLoading(false);
-    });
+    if (!auth.user && !auth.loading) {
+      router.push('/not-logged-in');
+    }
+  }, [auth.user, auth.loading, router]);
 
-    return () => unsubscribe();
-  }, []);
+  // Show a loading state while waiting for auth status
+  if (auth.loading) {
+    return <p>Loading...</p>;
+  }
 
-  if (loading) return <p>Loading...</p>;
-
-  if (!userId) {
-    return <p>Please log in to access the chat.</p>;
+  // Ensure that unauthorized users are redirected
+  if (!auth.user) {
+    return null;
   }
 
   return (
-    <AuthContextProvider>
+    <>
+      <Navbar />
       <section id="chat" className="bg-white pt-[3vw]"></section>
-        <Navbar/>
-        <div className="flex justify-left py-[0.8vh] mt-[1.5vh]">
+      <div className="flex justify-left py-[0.8vh] mt-[1.5vh]">
         <h1 className="text-[5vw] text-black">Chat</h1>
       </div>
       <div className={styles.chatPage}>
         <div className={styles.chatContainer}>
-          <ChatList userId={userId} />
+          <ChatList userId={auth.user.uid} />
         </div>
       </div>
       <Footer />
-    </AuthContextProvider>
+    </>
   );
 };
 
