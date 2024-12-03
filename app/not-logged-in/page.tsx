@@ -13,7 +13,7 @@ export default function NotLoggedInPage() {
             <header>
                 <Navbar />
                 <div className="flex flex-col items-center justify-center mt-[10vw] text-center">
-                    <h1 className="text-[5vw] font-bold text-black">Access Denied</h1>
+                    <h1 className="text-[5vw] font-bold text-black">Sorry, cannot reach this page</h1>
                     <div className="mt-[2vh] bg-[#E07A5F] w-[15vw] h-[1vh] rounded-[2vw]"></div>
                     <p className="mt-[2vh] text-[1.8vw] text-gray-600">
                         You are not logged in. Please log in to access this page.

@@ -1,48 +1,54 @@
 // app/chat/page.tsx
 "use client";
-import styles from '../../components/ChatList.module.css';  
+import styles from '@/components/ChatList.module.css';  
 import { Navbar } from '../../components/Navbar';
-import { useEffect, useContext } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'; // For Next.js 13+ (use 'next/router' for earlier versions)
+import { firebaseAuth } from '../../services/firebase'; 
+import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '../../components/ChatList';
+import AuthContextProvider from '../../components/contexts/AuthContextProvider';
 import { Footer } from "@/components/Footer";
-import { AuthContext } from "@/components/contexts/AuthContextProvider";
 
 const ChatPage = () => {
   const router = useRouter();
-  const auth = useContext(AuthContext);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Redirect to /not-logged-in if user is not authenticated
   useEffect(() => {
-    if (!auth.user && !auth.loading) {
-      router.push('/not-logged-in');
-    }
-  }, [auth.user, auth.loading, router]);
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+        router.push('/not-logged-in'); // Redirect to the 'not-logged-in' page
+      }
+      setLoading(false);
+    });
 
-  // Show a loading state while waiting for auth status
-  if (auth.loading) {
-    return <p>Loading...</p>;
-  }
+    return () => unsubscribe();
+  }, [router]);
 
-  // Ensure that unauthorized users are redirected
-  if (!auth.user) {
-    return null;
+  if (loading) return <p>Loading...</p>;
+
+  if (!userId) {
+    return null; // Return null because the redirection will handle this case
   }
 
   return (
-    <>
-      <Navbar />
+    <AuthContextProvider>
       <section id="chat" className="bg-white pt-[3vw]"></section>
+      <Navbar />
       <div className="flex justify-left py-[0.8vh] mt-[1.5vh]">
         <h1 className="text-[5vw] text-black">Chat</h1>
       </div>
       <div className={styles.chatPage}>
         <div className={styles.chatContainer}>
-          <ChatList userId={auth.user.uid} />
+          <ChatList userId={userId} />
         </div>
       </div>
       <Footer />
-    </>
+    </AuthContextProvider>
   );
 };
 
