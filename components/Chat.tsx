@@ -8,9 +8,11 @@ import { firebaseAuth } from '@/services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatList from '@/components/ChatList';
 import AuthContextProvider from '@/components/contexts/AuthContextProvider';
+import {useRouter } from 'next/navigation';
 // import {Footer} from "@/components/Footer";
 
 const Chat = () => {
+  const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +22,7 @@ const Chat = () => {
         setUserId(user.uid);
       } else {
         setUserId(null);
+        router.push('/not-logged-in');
       }
       setLoading(false);
     });
@@ -30,7 +33,7 @@ const Chat = () => {
   if (loading) return <p>Loading...</p>;
 
   if (!userId) {
-    return <p>Please log in to access the chat.</p>;
+    return null;  // Return null because the redirection will handle this case
   }
 
   return (
