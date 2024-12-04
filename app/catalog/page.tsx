@@ -138,7 +138,9 @@ if (error) {
         </h1>
 
         {/* Course Cards Container */}
-        <div className="relative z-10 justify-center gap-4">
+        <div className="relative z-10 flex flex-col items-center gap-">
+
+            
           {courses
             .filter(course =>
               course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
