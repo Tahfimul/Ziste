@@ -11,6 +11,7 @@ import { db } from "@/services/firebase";
 import { DocumentData, QueryDocumentSnapshot, collection, getDocs, addDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import AddCourseModal from "@/components/AddCourseModal"; 
 import { Footer } from '@/components/Footer';
+import Loading from '../../components/Loading';
 
 interface Course {
   courseTitle: string;
@@ -87,9 +88,15 @@ const handleAddCourse = async (courseData: Course) => {
 const handleOpenModal = () => setIsModalOpen(true);
 const handleCloseModal = () => setIsModalOpen(false);
 
-if (loading) {
-  return <div>Loading courses...</div>;
-}
+useEffect(() => {
+    const timer = setTimeout(() => {
+        setLoading(false); // Set loading to false after 2 seconds
+    }, 2000);
+
+    return () => clearTimeout(timer); // Clean up timer on unmount
+}, []);
+
+if (loading) return <Loading/>;
 
 if (error) {
   return <div>{error}</div>;
@@ -98,10 +105,10 @@ if (error) {
   return (
     <AuthContextProvider>
       <>
-        <section id="catalog" className="bg-white">
+        <section id="catalog" className="bg-white pt-[3vw]">
           <Navbar />
           <div className="flex justify-center py-[0.8vh] mt-[70px]">
-            <h1 className="text-[6vw] text-black">Course Catalog</h1>
+            <h1 className="text-[5vw] text-black">Course Catalog</h1>
           </div>
           <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           
