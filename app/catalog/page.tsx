@@ -44,6 +44,7 @@ const [currentPage, setCurrentPage] = useState<number>(1);
 const [lastVisibleDoc, setLastVisibleDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 const itemsPerPage = 10;
 
+
 // Fetch courses from Firestore
 const fetchCourses = async (page: number) => {
   setLoading(true);
@@ -87,6 +88,34 @@ const handleAddCourse = async (courseData: Course) => {
 
 const handleOpenModal = () => setIsModalOpen(true);
 const handleCloseModal = () => setIsModalOpen(false);
+
+// Get the total number of courses
+const [filteredTotalCourses, setFilteredTotalCourses] = useState<number>(0);
+
+useEffect(() => {
+    const fetchFilteredCourses = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "courses"));
+        const allCourses = snapshot.docs.map(doc => doc.data() as Course);
+  
+        // Apply filters to count the filtered courses
+        const filteredCount = allCourses.filter(course =>
+          course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          (selectedSubject ? course.subject === selectedSubject : true) &&
+          (selectedLength ? course.length === selectedLength : true) &&
+          (selectedPrice ? course.price === selectedPrice : true) &&
+          (selectedMaterial ? course.materials === selectedMaterial : true)
+        ).length;
+  
+        setFilteredTotalCourses(filteredCount); // Update filtered course count
+      } catch (error) {
+        console.error("Failed to fetch filtered courses count:", error);
+      }
+    };
+  
+    fetchFilteredCourses();
+  }, [searchTerm, selectedSubject, selectedLength, selectedPrice, selectedMaterial]);
+  
 
 useEffect(() => {
     const timer = setTimeout(() => {
@@ -141,7 +170,7 @@ if (error) {
         </section>
 
         <h1 className="flex py-[2vh] pl-[12vw] text-black font-semibold text-[1.5vw]">
-          {courses.length} listings:
+          {filteredTotalCourses} listings:
         </h1>
 
         {/* Course Cards Container */}
