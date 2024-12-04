@@ -1,190 +1,171 @@
 //Filtering & Search Functions code from ChatGPT
-"use client";
-
-import { useEffect, useState } from 'react';
-import React from 'react';
-import Loading from '../../components/Loading';
+'use client'
+import { useState, useEffect } from "react";
 import { FilterBar } from "@/components/filterbar";
 import { Navbar } from "@/components/Navbar";
 import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
-import { CourseCard, CourseCardProps } from "@/components/CourseCard";
+import { CourseCard } from "@/components/CourseCard";
 import { PageBar } from "@/components/PageBar";
+import { db } from "@/services/firebase"; 
+import { DocumentData, QueryDocumentSnapshot, collection, getDocs, addDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
+import AddCourseModal from "@/components/AddCourseModal"; 
 import { Footer } from '@/components/Footer';
 
+interface Course {
+  courseTitle: string;
+  professorName: string;
+  schoolName: string;
+  description: string;
+  subject: string;
+  length: string;
+  price: string;
+  materials: string;
+  date: string;
+}
+
 export default function Catalog() {
-    const courses: CourseCardProps[] = [
-        {
-            courseTitle: "Ethics & Morality in Poetry",
-            professorName: "Professor Remus Lupin",
-            schoolName: "Hogwarts School of Witchcraft and Wizardry",
-            description: "A deep dive into poetic themes such as love, jealousy, revenge, etc. and how they not only reflect the climate of the times they were written, but how they also shaped the forecoming moral trends of ethical thinking.",
-            subject: "Poetry",
-            length: "9 Weeks",
-            price: "$69",
-            materials: "Textbook Free",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "The Mechanics of Manipulation and Abuse of Power",
-            professorName: "Professor Albus Dumbledore",
-            schoolName: "Hogwarts School of Witchcraft and Wizardry",
-            description: "Learn exactly how you can trick and manipulate everyone around you into following your agenda. Including naive preteen boys and Gothic Potions instructors.",
-            subject: "Politics",
-            length: "12 Weeks",
-            price: "$169",
-            materials: "Textbook Free",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "Philosophy of Power and Leadership",
-            professorName: "Professor Tyrion Lannister",
-            schoolName: "Westeros Institute of Political Studies",
-            description: "Explore the dynamics of power, ethics in leadership, and the moral dilemmas of governance through history. This course dissects political theories, real-world case studies, and the complexities of decision-making in high-stakes environments.",
-            subject: "Politics",
-            length: "4 Weeks",
-            price: "$150",
-            materials: "",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "The Evolution of Civil Rights",
-            professorName: "Professor T'Challa Udaku",
-            schoolName: "Wakanda Institute of Global Justice",
-            description: "A comprehensive look at the global civil rights movements of the 20th century, from apartheid to racial equality, and the leaders who inspired change. This course examines the challenges and progress made in human rights.",
-            subject: "History",
-            length: "12 Weeks",
-            price: "$45",
-            materials: "Textbook Free",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "Media Ethics in the Age of Technology",
-            professorName: "Professor Peter Parker",
-            schoolName: "New York Institute of Communication and Journalism",
-            description: "This course explores the evolving role of media in society, focusing on ethical journalism, privacy issues, and the responsibilities of digital reporting. From traditional newspapers to social media platforms, students will discuss the moral implications of truth, transparency, and bias in today’s fast-paced information age.",
-            subject: "English",
-            length: "12 Weeks",
-            price: "$50",
-            materials: "Textbook Free",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "Existentialism and the Absurd in Modern Philosophy",
-            professorName: "Professor Sherlock Holmes",
-            schoolName: "London Academy of Logic and Philosophy",
-            description: "Analyze existentialist themes and the philosophy of absurdity, reflecting on the meaning (or lack thereof) of life, morality, and individual freedom. This course will look at the works of key thinkers like Sartre, Camus, and Kierkegaard.",
-            subject: "Philosophy",
-            length: "9 Weeks",
-            price: "$100",
-            materials: "Low-Cost",
-            date: "Oct. 31st"
-        },
-        {
-            courseTitle: "Gender and Identity in Contemporary Society",
-            professorName: "Professor Hermione Granger",
-            schoolName: "Hogwarts School of Witchcraft and Wizardry",
-            description: "This course examines the complexities of gender and identity in today's world, focusing on intersectionality, representation, and societal norms. Students will analyze various media, literature, and historical contexts to understand how gender roles are constructed and challenged. Discussions will also explore activism and the impact of social movements on gender equality and identity politics.",
-            subject: "Gender Studies",
-            length: "12 Weeks",
-            price: "$250",
-            materials: "Textbook Free",
-            date: "Oct. 31st"
-        }
-    ];
+const [courses, setCourses] = useState<Course[]>([]);
+const [searchTerm, setSearchTerm] = useState<string>("");
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState<string | null>(null);
 
-    const [selectedSubject, setSelectedSubject] = React.useState("");
-    const [selectedLength, setSelectedLength] = React.useState("");
-    const [selectedPrice, setSelectedPrice] = React.useState("");
-    const [selectedMaterial, setSelectedMaterial] = React.useState("");
-    const [searchTerm, setSearchTerm] = React.useState("");
-    const totalItems = courses.length;
+// Modal state
+const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const filteredCourses = courses.filter((course) => {
-        const priceValue = parseFloat(course.price.replace(/[$,]/g, "")); // Remove dollar sign and parse to float
+// Filter state variables
+const [selectedSubject, setSelectedSubject] = useState<string>("");
+const [selectedLength, setSelectedLength] = useState<string>("");
+const [selectedPrice, setSelectedPrice] = useState<string>("");
+const [selectedMaterial, setSelectedMaterial] = useState<string>("");
 
-        return (
-          (!selectedSubject || course.subject.toLowerCase() === selectedSubject.toLowerCase()) &&
-          (!selectedLength || course.length.toLowerCase() === selectedLength.toLowerCase()) &&
-          (!selectedPrice || (
-            (selectedPrice === "0-50" && priceValue <= 50) ||
-            (selectedPrice === "50-150" && priceValue > 50 && priceValue <= 150) ||
-            (selectedPrice === "150+" && priceValue > 150)
-          )) &&
-          (!selectedMaterial || course.materials.toLowerCase() === selectedMaterial.toLowerCase()) &&
-          (!searchTerm || (
-            course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.professorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) 
-            //||
-            //course.description.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        )
+const [currentPage, setCurrentPage] = useState<number>(1);
+const [lastVisibleDoc, setLastVisibleDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+const itemsPerPage = 10;
+
+// Fetch courses from Firestore
+const fetchCourses = async (page: number) => {
+  setLoading(true);
+  try {
+    let coursesQuery = query(
+      collection(db, "courses"),
+      orderBy("date", "asc"),
+      limit(itemsPerPage)
+    );
+
+    if (page > 1 && lastVisibleDoc) {
+      coursesQuery = query(coursesQuery, startAfter(lastVisibleDoc));
+    }
+
+    const snapshot = await getDocs(coursesQuery);
+    const courseData = snapshot.docs.map(doc => doc.data() as Course);
+    setCourses(courseData);
+
+    setLastVisibleDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+    setLoading(false);
+  } catch (error) {
+    setError("Failed to fetch courses.");
+    setLoading(false);
+  }
+};
+
+
+useEffect(() => {
+  fetchCourses(currentPage);
+}, [currentPage]);
+
+const handleAddCourse = async (courseData: Course) => {
+  try {
+    await addDoc(collection(db, "courses"), courseData);
+    setCourses((prevCourses) => [...prevCourses, courseData]); // Update the state with the new course
+    setIsModalOpen(false); // Close the modal after submission
+  } catch (error) {
+    console.error("Error adding course: ", error);
+  }
+};
+
+const handleOpenModal = () => setIsModalOpen(true);
+const handleCloseModal = () => setIsModalOpen(false);
+
+if (loading) {
+  return <div>Loading courses...</div>;
+}
+
+if (error) {
+  return <div>{error}</div>;
+}
+
+  return (
+    <AuthContextProvider>
+      <>
+        <section id="catalog" className="bg-white">
+          <Navbar />
+          <div className="flex justify-center py-[0.8vh] mt-[70px]">
+            <h1 className="text-[6vw] text-black">Course Catalog</h1>
+          </div>
+          <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           
+          {/* Pass the filter state to FilterBar component */}
+          <FilterBar
+            selectedSubject={selectedSubject}
+            setSelectedSubject={setSelectedSubject}
+            selectedLength={selectedLength}
+            setSelectedLength={setSelectedLength}
+            selectedPrice={selectedPrice}
+            setSelectedPrice={setSelectedPrice}
+            selectedMaterial={selectedMaterial}
+            setSelectedMaterial={setSelectedMaterial}
+          />
 
-        );
-    });
+          {/* "List Course" Button */}
+          <button
+            onClick={handleOpenModal}
+            className="fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600 transition duration-200"
+          >
+            List Course
+          </button>
 
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false); // Set loading to false after 2 seconds
-        }, 2000);
-
-        return () => clearTimeout(timer); // Clean up timer on unmount
-    }, []);
-    
-    if (loading) return <Loading/>;
-
-    return (
-        <AuthContextProvider>
-        <>
-        <section id="catalog" className="bg-white pt-[3vw]">
-            <Navbar/>
-            <div className="flex justify-center py-[0.8vh] mt-[1.5vh]">
-                <h1 className="text-[5vw] text-black">Course Catalog</h1>
-            </div>
-            <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-            <FilterBar
-                selectedSubject={selectedSubject} 
-                setSelectedSubject={setSelectedSubject} 
-                selectedLength={selectedLength} 
-                setSelectedLength={setSelectedLength} 
-                selectedPrice={selectedPrice} 
-                setSelectedPrice={setSelectedPrice} 
-                selectedMaterial={selectedMaterial} 
-                setSelectedMaterial={setSelectedMaterial}
-            />
+          {/* Modal Component */}
+          <AddCourseModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleAddCourse}
+          />
         </section>
 
-        <h1 className="flex py-[2vh] pl-[12vw] text-black font-semibold text-[1.5vw]">{filteredCourses.length} listings:</h1>
+        <h1 className="flex py-[2vh] pl-[12vw] text-black font-semibold text-[1.5vw]">
+          {courses.length} listings:
+        </h1>
 
         {/* Course Cards Container */}
-        <div className="relative z-10 flex flex-col items-center gap-4">
-            {filteredCourses.length === 0 ? (
-                <h2 className="mb-[4vh] mt-[2vh] font-semibold text-[2vw]">No courses match</h2>
-            ) : (
-                filteredCourses.map(course => (
-                    <CourseCard
-                        key={course.courseTitle} // Add a unique key for React to track list items
-                        courseTitle={course.courseTitle}
-                        professorName={course.professorName}
-                        schoolName={course.schoolName}
-                        description={course.description}
-                        subject={course.subject}
-                        length={course.length}
-                        price={course.price}
-                        materials={course.materials}
-                        date={course.date}
-                    />
-                ))
-            )}
+        <div className="relative z-10 justify-center gap-4">
+          {courses
+            .filter(course =>
+              course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
+              (selectedSubject ? course.subject === selectedSubject : true) &&
+              (selectedLength ? course.length === selectedLength : true) &&
+              (selectedPrice ? course.price === selectedPrice : true) &&
+              (selectedMaterial ? course.materials === selectedMaterial : true)
+            )
+            .map(course => (
+              <CourseCard
+                key={course.courseTitle}
+                courseTitle={course.courseTitle}
+                professorName={course.professorName}
+                schoolName={course.schoolName}
+                description={course.description}
+                subject={course.subject}
+                length={course.length}
+                price={course.price}
+                materials={course.materials}
+                date={course.date}
+              />
+            ))}
         </div>
-        <PageBar totalItems={totalItems} />
-        <Footer/>
-        </>
-        </AuthContextProvider>
-    );
+
+        <PageBar totalItems={courses.length} onPageChange={setCurrentPage} />
+        <Footer />
+      </>
+    </AuthContextProvider>
+  );
 }

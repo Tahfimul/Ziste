@@ -5,13 +5,13 @@ import { getAuth } from 'firebase/auth';
 
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DB_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID
+  apiKey: "AIzaSyABNxS3MslHrEifIeFnJLVsDBQRAGL_s1w",
+  authDomain: "zistechat.firebaseapp.com",
+  projectId: "zistechat",
+  storageBucket: "zistechat.appspot.com",
+  messagingSenderId: "156729666335",
+  appId: "1:156729666335:web:3fe6c4405bf1fc42b15e2a",
+  measurementId: "G-6TW786VQFZ"
 };
   
 
