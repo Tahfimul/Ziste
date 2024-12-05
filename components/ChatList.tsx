@@ -45,7 +45,7 @@ const ChatList = ({ userId }: ChatListProps) => {
     fetchUserMap();
   }, []);
 
-  // Fetch conversations frxom Firestore
+  // Fetch conversations from Firestore
   useEffect(() => {
 
     setType(conversationType.CHAT);
