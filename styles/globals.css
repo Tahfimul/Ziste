@@ -106,7 +106,20 @@ html {
   flex-direction: column;
 }
 
+.viewEnrolledCoursePage {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .chatContainer {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.itemsContainer {
   display: flex;
   flex-grow: 1;
   height: 100%;
@@ -127,6 +140,22 @@ html {
   overflow-y: auto;
 }
 
+ .startChatBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .startChatBtn:hover {
+    background-color: #0056b3;
+  }
+
 .chatList ul {
   list-style: none;
   padding: 0;
@@ -136,7 +165,7 @@ html {
   margin-bottom: 10px;
 }
 
-.chatList button {
+/* .chatList button {
   width: 100%;
   padding: 10px;
   background-color: #ffffff;
@@ -144,7 +173,7 @@ html {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
+} */
 
 .chatList button:hover {
   background-color: #f0f0f0;
