@@ -1,5 +1,6 @@
 // source: chatgpt
-
+import { db } from '@/services/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker'; // Importing a date picker
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS for the date picker
@@ -42,6 +43,8 @@ const lengths = [
   { value: "12 weeks", label: "12 Weeks" },
 ];
 
+
+
 interface AddCourseModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -55,10 +58,12 @@ interface AddCourseModalProps {
     price: string;
     materials: string;
     date: string;
+    courseID: string;
   }) => void;
 }
 
 const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onSubmit }) => {
+  const [loading, setLoading] = useState(false);
   const [courseData, setCourseData] = useState({
     courseTitle: '',
     professorName: '',
@@ -97,11 +102,39 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onSubm
     setCourseData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const generateRandomCourseId = async (): Promise<string> => {
+    let courseId = "0";
+    let exists = true;
+
+    while (exists) {
+      courseId = Math.floor(100000 + Math.random() * 900000).toString();
+      const courseRef = doc(db, 'courses', courseId); // Assuming 'courses' is your collection
+      const docSnap = await getDoc(courseRef);
+      
+      if (!docSnap.exists()) {
+        exists = false; // ID is unique
+      }
+    }
+
+    return courseId;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (Object.values(courseData).every((val) => val)) {
-      onSubmit(courseData);
-      onClose();
+      setLoading(true); // Start loading state
+      
+      try {
+        const courseID = await generateRandomCourseId(); // Wait for the course ID to be generated
+        const courseDataWithID = { ...courseData, courseID }; // Add the generated courseID to courseData object
+  
+        onSubmit(courseDataWithID);  // Submit the courseData with the new courseID
+        onClose();  // Close the modal
+      } catch (error) {
+        console.error('Error generating course ID:', error);
+      } finally {
+        setLoading(false); // Stop loading state
+      }
     } else {
       alert("Please fill in all fields");
     }
