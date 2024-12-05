@@ -85,7 +85,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     //Sign in
     const signIn = async (creds: SigninFormValues) => {
-        setIsLoading(true);
+        setIsLoading(false);
         firebaseSignIn(creds)
             .then((signInResult) => {
                 const { user } = signInResult;
@@ -111,7 +111,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     //Sign out
     const signOut = async () => {
         setShowSignIn(false);
-        setIsLoading(true);
+        setIsLoading(false);
         try {
             await firebaseSignOut();
             setCurrentUser(null);

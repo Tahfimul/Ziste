@@ -257,7 +257,7 @@ const ProfessorExperience = () => {
                         professor.experience.length < 1 && "opacity-50"
                     }`}
                     onClick={handleOnSubmit}
-                    disabled={professor.experience.length < 1}
+                    // disabled={professor.experience.length < 1}
                 >
                     Next
                 </button>
