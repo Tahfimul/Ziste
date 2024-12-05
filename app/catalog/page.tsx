@@ -6,9 +6,9 @@ import { Navbar } from "@/components/Navbar";
 import { Searchbar } from "@/components/SearchBar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { CourseCard } from "@/components/CourseCard";
-import { PageBar } from "@/components/PageBar";
+// import { PageBar } from "@/components/PageBar";
 import { db } from "@/services/firebase"; 
-import { DocumentData, QueryDocumentSnapshot, collection, getDocs, addDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
+import { /**DocumentData, QueryDocumentSnapshot,limit, startAfter,*/ collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
 import AddCourseModal from "@/components/AddCourseModal"; 
 import { Footer } from '@/components/Footer';
 import Loading from '../../components/Loading';
@@ -40,30 +40,35 @@ const [selectedLength, setSelectedLength] = useState<string>("");
 const [selectedPrice, setSelectedPrice] = useState<string>("");
 const [selectedMaterial, setSelectedMaterial] = useState<string>("");
 
-const [currentPage, setCurrentPage] = useState<number>(1);
-const [lastVisibleDoc, setLastVisibleDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
-const itemsPerPage = 10;
+// const [currentPage, setCurrentPage] = useState<number>(1);
+// const [lastVisibleDoc, setLastVisibleDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+// const itemsPerPage = 10;
 
+// Todays date for course enrollment date comparison
+const today = new Date().toISOString().split('T')[0];  
 
 // Fetch courses from Firestore
-const fetchCourses = async (page: number) => {
+const fetchCourses = async (/**page: number*/) => {
   setLoading(true);
   try {
-    let coursesQuery = query(
+    const coursesQuery = query(
       collection(db, "courses"),
       orderBy("date", "asc"),
-      limit(itemsPerPage)
+      // limit(itemsPerPage)
     );
 
-    if (page > 1 && lastVisibleDoc) {
-      coursesQuery = query(coursesQuery, startAfter(lastVisibleDoc));
-    }
+    // if (page > 1 && lastVisibleDoc) {
+    //   coursesQuery = query(coursesQuery, startAfter(lastVisibleDoc));
+    // }
 
     const snapshot = await getDocs(coursesQuery);
     const courseData = snapshot.docs.map(doc => doc.data() as Course);
-    setCourses(courseData);
 
-    setLastVisibleDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+    // Filter out courses with past dates
+    const upcomingCourses = courseData.filter(course => course.date >= today);
+    setCourses(upcomingCourses);
+
+    // setLastVisibleDoc(snapshot.docs[snapshot.docs.length - 1] || null);
     setLoading(false);
   } catch (error) {
     setError("Failed to fetch courses.");
@@ -73,8 +78,10 @@ const fetchCourses = async (page: number) => {
 
 
 useEffect(() => {
-  fetchCourses(currentPage);
-}, [currentPage]);
+  fetchCourses();
+}, []);
+//   fetchCourses(currentPage);
+// }, [currentPage]);
 
 const handleAddCourse = async (courseData: Course) => {
   try {
@@ -93,29 +100,32 @@ const handleCloseModal = () => setIsModalOpen(false);
 const [filteredTotalCourses, setFilteredTotalCourses] = useState<number>(0);
 
 useEffect(() => {
-    const fetchFilteredCourses = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, "courses"));
-        const allCourses = snapshot.docs.map(doc => doc.data() as Course);
-  
-        // Apply filters to count the filtered courses
-        const filteredCount = allCourses.filter(course =>
-          course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          (selectedSubject ? course.subject === selectedSubject : true) &&
-          (selectedLength ? course.length === selectedLength : true) &&
-          (selectedPrice ? course.price === selectedPrice : true) &&
-          (selectedMaterial ? course.materials === selectedMaterial : true)
-        ).length;
-  
-        setFilteredTotalCourses(filteredCount); // Update filtered course count
-      } catch (error) {
-        console.error("Failed to fetch filtered courses count:", error);
-      }
-    };
-  
-    fetchFilteredCourses();
-  }, [searchTerm, selectedSubject, selectedLength, selectedPrice, selectedMaterial]);
-  
+  const fetchFilteredCourses = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "courses"));
+      const allCourses = snapshot.docs.map(doc => doc.data() as Course);
+
+      // Filter out past courses
+      const upcomingCourses = allCourses.filter(course => course.date >= today);
+
+      // Apply the additional filters
+      const filteredCount = upcomingCourses.filter(course =>
+        course.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedSubject ? course.subject === selectedSubject : true) &&
+        (selectedLength ? course.length === selectedLength : true) &&
+        (selectedPrice ? course.price === selectedPrice : true) &&
+        (selectedMaterial ? course.materials === selectedMaterial : true)
+      ).length;
+
+      setFilteredTotalCourses(filteredCount); // Update filtered course count
+    } catch (error) {
+      console.error("Failed to fetch filtered courses count:", error);
+    }
+  };
+
+  fetchFilteredCourses();
+}, [searchTerm, selectedSubject, selectedLength, selectedPrice, selectedMaterial]);
+
 
 useEffect(() => {
     const timer = setTimeout(() => {
@@ -201,7 +211,7 @@ if (error) {
             ))}
         </div>
 
-        <PageBar totalItems={courses.length} onPageChange={setCurrentPage} />
+        {/* <PageBar totalItems={courses.length} onPageChange={setCurrentPage} /> */}
         <Footer />
       </>
     </AuthContextProvider>

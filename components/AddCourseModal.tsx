@@ -1,6 +1,6 @@
 // source: chatgpt
 import { db } from '@/services/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc,  } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker'; // Importing a date picker
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS for the date picker
@@ -63,7 +63,7 @@ interface AddCourseModalProps {
 }
 
 const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [courseData, setCourseData] = useState({
     courseTitle: '',
     professorName: '',
@@ -122,7 +122,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onSubm
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (Object.values(courseData).every((val) => val)) {
-      setLoading(true); // Start loading state
+      //setLoading(true); // Start loading state
       
       try {
         const courseID = await generateRandomCourseId(); // Wait for the course ID to be generated
@@ -133,7 +133,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onSubm
       } catch (error) {
         console.error('Error generating course ID:', error);
       } finally {
-        setLoading(false); // Stop loading state
+        //setLoading(false); // Stop loading state
       }
     } else {
       alert("Please fill in all fields");
