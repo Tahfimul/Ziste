@@ -1,6 +1,8 @@
 "use client";
 import App from "@/components/welcome";
 import Hero from "@/components/hero";
+import Courses from "@/components/courseSection";
+import ProfCarousel from "@/components/profCardCarousel";
 import { Navbar } from "@/components/Navbar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { UserContextProvider } from "@/components/contexts/UserContextProvider";
@@ -18,6 +20,8 @@ export default function Home() {
                 {showSignIn && <SignIn />}
                 <App />
                 <Hero />
+                <Courses/>
+                <ProfCarousel/>
             </UserContextProvider>
         </AuthContextProvider>
     );
