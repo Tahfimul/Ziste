@@ -1,6 +1,6 @@
 //Source: ChatGPT
-//Shadcdn Component
-import * as React from "react";
+// Shadcdn Component (PageBar)
+import React, { useState, useEffect } from 'react';
 import {
   Pagination,
   PaginationContent,
@@ -11,17 +11,25 @@ import {
 } from "@/components/ui/pagination";
 import { ChevronsUp } from "lucide-react";
 
-export const PageBar = ({ totalItems }: { totalItems: number }) => {
-  const itemsPerPage = 5;
+export const PageBar = ({ totalItems, onPageChange }: { totalItems: number, onPageChange: (page: number) => void }) => {
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  useEffect(() => {
+    onPageChange(currentPage); // Fetch courses when the page changes
+  }, [currentPage, onPageChange]);
 
   const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const handlePrevious = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
@@ -41,7 +49,7 @@ export const PageBar = ({ totalItems }: { totalItems: number }) => {
               <PaginationItem key={i}>
                 <PaginationLink
                   href="#"
-                  className={`text-[1.7vw] ${currentPage === i + 1? "font-bold bg-[#B5B2B2] hover:bg-[#B5B2B2]" : ""}`}
+                  className={`text-[1.7vw] ${currentPage === i + 1 ? "font-bold bg-[#B5B2B2] hover:bg-[#B5B2B2]" : ""}`}
                   onClick={() => setCurrentPage(i + 1)}
                 >
                   {i + 1}
