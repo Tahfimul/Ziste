@@ -168,12 +168,12 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     }, []);
 
     //If loading for the first time when visiting the page
-    if (isAuthLoading)
-        return (
-            <>
-                <Loading />
-            </>
-        );
+    // if (isAuthLoading)
+    //     return (
+    //         <>
+    //             <Loading />
+    //         </>
+    //     );
 
     return (
         <AuthContext.Provider value={authValues}>

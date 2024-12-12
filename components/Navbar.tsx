@@ -157,9 +157,9 @@ export const Navbar = () => {
                         // Sign In Button for Guests
                         <li className="px-4 py-3 h-full flex items-center">
                             <Link href="/signIn">
-                                <a className="px-[1.5vw] py-[1vh] text-[1.4vw] text-white bg-[#E07A5F] shadow-md rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 gradient-animate">
+                                <div className="px-[1.5vw] py-[1vh] text-[1.4vw] text-white bg-[#E07A5F] shadow-md rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 gradient-animate">
                                     Sign In
-                                </a>
+                                </div>
                             </Link>
                         </li>
                     )}
