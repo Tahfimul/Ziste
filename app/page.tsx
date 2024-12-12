@@ -3,6 +3,7 @@ import App from "@/components/welcome";
 import Hero from "@/components/hero";
 import Courses from "@/components/courseSection";
 import ProfCarousel from "@/components/profCardCarousel";
+import Reviews from "@/components/reviews";
 import { Navbar } from "@/components/Navbar";
 import AuthContextProvider from "@/components/contexts/AuthContextProvider";
 import { UserContextProvider } from "@/components/contexts/UserContextProvider";
@@ -22,6 +23,7 @@ export default function Home() {
                 <Hero />
                 <Courses/>
                 <ProfCarousel/>
+                <Reviews/>
             </UserContextProvider>
         </AuthContextProvider>
     );
