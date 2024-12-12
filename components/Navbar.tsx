@@ -107,7 +107,10 @@ export const Navbar = () => {
                             {isDropdownOpen && (
                                 <div
                                     className="absolute top-[110%] right-0 bg-white shadow-lg rounded-lg w-[15vw] py-2 text-gray-700 text-[1.2vw] z-50 origin-top-right animate-slide-down"
-                                    style={{ border: "1px solid #ddd", boxShadow: "0 8px 15px rgba(0,0,0,0.1)" }}
+                                    style={{
+                                        border: "1px solid #ddd",
+                                        boxShadow: "0 8px 15px rgba(0,0,0,0.1)",
+                                    }}
                                 >
                                     {/* User Info */}
                                     <div className="flex items-center px-[1vw] py-[1vh] border-b border-gray-200">
@@ -153,12 +156,11 @@ export const Navbar = () => {
                     ) : (
                         // Sign In Button for Guests
                         <li className="px-4 py-3 h-full flex items-center">
-                            <button
-                                className="px-[1.5vw] py-[1vh] text-[1.4vw] text-white bg-[#E07A5F] shadow-md rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 gradient-animate"
-                                onClick={() => auth.setShowSignIn()}
-                            >
-                                Sign In
-                            </button>
+                            <Link href="/signIn">
+                                <a className="px-[1.5vw] py-[1vh] text-[1.4vw] text-white bg-[#E07A5F] shadow-md rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 gradient-animate">
+                                    Sign In
+                                </a>
+                            </Link>
                         </li>
                     )}
 
