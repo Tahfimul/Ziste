@@ -18,7 +18,9 @@ const ProfCarousel = () => {
 
                     }}
                     >
-                    <div className="flex-shrink-0 bg-slate-100 rounded-xl w-[15vw] h-[35vh]"></div>
+                    <div className="flex-shrink-0 bg-slate-100 rounded-xl w-[15vw] h-[35vh]">
+                        <div className="rounded-full"></div>
+                    </div>
                     <div className="flex-shrink-0 bg-red-100 rounded-xl w-[15vw] h-[35vh]"></div>
                     <div className="flex-shrink-0 bg-blue-100 rounded-xl w-[15vw] h-[35vh]"></div>
                     <div className="flex-shrink-0 bg-green-100 rounded-xl w-[15vw] h-[35vh]"></div>
