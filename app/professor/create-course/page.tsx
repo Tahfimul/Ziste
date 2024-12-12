@@ -9,12 +9,21 @@ import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
+import { db } from "@/services/firebase";
 
 const CourseCreation = () => {
     const router = useRouter();
     // const { professor } = useUser();
 
     const [showModal, setShowModal] = React.useState(false)
+
+    const [courseTitle, setCourseTitle] = React.useState("")
+    const [courseDescription, setCourseDescription] = React.useState("")
+    const [subject, setSubject] = React.useState("")
+    const [classSize, setClassSize] = React.useState(20)
+    const [courseStart, setCourseStart] = React.useState(Date())
+    const [courseEnd, setCourseEnd] = React.useState(Date())
+
     const [schedule, setSchedule] = React.useState({
         Monday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
         Tuesday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
@@ -45,7 +54,6 @@ const CourseCreation = () => {
     };
     
     const onCheckedChange = (day) => {
-        console.log(schedule[day])
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
             [day]: {
@@ -53,6 +61,16 @@ const CourseCreation = () => {
                 selected: !prevSchedule[day].selected,
             },
         }));
+    }
+
+    const onTimeChange = (day, type, newTime) => {
+        setSchedule((prevSchedule) => ({
+            ...prevSchedule,
+            [day]: {
+                ...prevSchedule[day],
+                [type]: newTime,
+            },
+        }))
     }
 
     const formatTime = (date) => {
@@ -81,15 +99,22 @@ const CourseCreation = () => {
                         <input
                             className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                             placeholder="Course Title"
-                            // value={user.email}
-                            onChange={() => {}}
+                            value={courseTitle}
+                            onChange={(e) => setCourseTitle(e.target.value)}
                             required
                         />
                         <input
                             className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                             placeholder="Subject"
-                            // value={user.email}
-                            onChange={() => {}}
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                            required
+                        />
+                        <textarea
+                            className="p-3 bg-[#f1f1f1] rounded-md w-full px-4 h-32 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
+                            placeholder="Course Description"
+                            value={courseDescription}
+                            onChange={(e) => setCourseDescription(e.target.value)}
                             required
                         />
                         <div className="flex flex-col">
@@ -97,8 +122,8 @@ const CourseCreation = () => {
                             <input
                                 className="p-3 bg-[#f1f1f1] rounded-md w-1/2 px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                                 type="number"
-                                // value={user.email}
-                                onChange={() => {}}
+                                value={classSize}
+                                onChange={(e) => setClassSize(e.target.value)}
                                 required
                             />
                         </div>
@@ -108,8 +133,8 @@ const CourseCreation = () => {
                                 <input
                                     className="p-3 bg-[#f1f1f1] rounded-md px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                                     type="date"
-                                    // value={user.email}
-                                    onChange={() => {}}
+                                    value={courseStart}
+                                    onChange={(e) => setCourseStart(e.target.value)}
                                     required
                                 />
                             </div>
@@ -119,8 +144,8 @@ const CourseCreation = () => {
                                 <input
                                     className="p-3 bg-[#f1f1f1] rounded-md px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                                     type="date"
-                                    // value={user.email}
-                                    onChange={() => {}}
+                                    value={courseEnd}
+                                    onChange={(e) => setCourseEnd(e.target.value)}
                                     required
                                 />
                             </div>
@@ -171,7 +196,7 @@ const CourseCreation = () => {
                                             <h2 className="text-xl mb-3">{day}</h2>
                                             <div className="flex flex-row">
                                                 <span>{formatTime(schedule[day].start)}</span>
-                                                <span className="pl-4">to</span>
+                                                <span className="px-4">to</span>
                                                 <span>{formatTime(schedule[day].end)}</span>
                                             </div>
                                         </div>
@@ -187,7 +212,7 @@ const CourseCreation = () => {
                         </button>
                         </div>
                     }
-                    {showModal && <ScheduleModal schedule={schedule} onCheckedChange={onCheckedChange} daysOfWeek={daysOfWeek} setShowModal={setShowModal}/>}
+                    {showModal && <ScheduleModal schedule={schedule} onCheckedChange={onCheckedChange} onTimeChange={onTimeChange} daysOfWeek={daysOfWeek} setShowModal={setShowModal}/>}
                 </div>
             </div>
         </div>
@@ -208,14 +233,14 @@ const ScheduleModal = (props) => {
                                         className={"pr-6"}
                                         date={props.schedule[day].start} 
                                         hourCycle={12}
-                                        onChange={() => {}}
+                                        onChange={(newTime) => props.onTimeChange(day, 'start', newTime)}
                                     />
-                                    <div className="">to</div>
+                                    <div className="px-4">to</div>
                                     <TimePicker
                                         className={"pl-6"}
                                         date={props.schedule[day].end} 
                                         hourCycle={12}
-                                        onChange={() => {}}
+                                        onChange={(newTime) => props.onTimeChange(day, 'end', newTime)}
                                     />
                                     <Switch className="ml-6" checked={props.schedule[day].selected} onCheckedChange={() => props.onCheckedChange(day)}/>
                                 </div>
@@ -223,12 +248,14 @@ const ScheduleModal = (props) => {
                         );
                     })}
             </div>
-            <button
-                className="bg-[#81B29A] text-white py-2 px-6 rounded-lg"
-                onClick={() => props.setShowModal(false)}
-            >
-                Done
-            </button>
+            <div className="mt-8 flex justify-center w-full"> {/* Centered button at the bottom */}
+                <button
+                    className="bg-[#81B29A] text-white py-2 px-6 rounded-lg"
+                    onClick={() => props.setShowModal(false)}
+                >
+                    Done
+                </button>
+            </div>
         </div>
     </div>
     )
