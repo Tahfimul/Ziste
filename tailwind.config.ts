@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			patekGreen: '#067035',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			'ziste-blue': '#3d405b',
