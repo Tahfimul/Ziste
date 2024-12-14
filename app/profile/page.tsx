@@ -24,7 +24,8 @@ type course = {
     length: string,
     price: string,
     materials: string,
-    date: string
+    date: string,
+    courseId: string,
 };
 
 export default function Profile() {
@@ -94,7 +95,8 @@ export default function Profile() {
                             length: c_.length,
                             price: c_.price,
                             materials: c_.materials,
-                            date: c_.date
+                            date: c_.date,
+                            courseId: c_.courseId,
                         } as course;
                         courses.push(c_model);
                     });
@@ -156,6 +158,7 @@ export default function Profile() {
                             price={course.price}
                             materials={course.materials}
                             date={course.date}
+                            courseID = {course.courseId}
                         />
                     ))}
                 </>

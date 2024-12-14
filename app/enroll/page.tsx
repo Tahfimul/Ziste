@@ -5,6 +5,12 @@ import { LockIcon } from 'lucide-react';
 import GradientBorder from '@/components/GradientBorder';
 import { useSearchParams } from 'next/navigation';
 import { Footer } from '@/components/Footer';
+import { useState } from 'react';
+import { useRouter } from "next/navigation";
+import { updateDoc, getDoc, doc, arrayUnion } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+import { getAuth } from 'firebase/auth';
+
 
 
 export default function Enrollment() {
@@ -12,6 +18,61 @@ export default function Enrollment() {
     const courseName = searchParams.get('courseName');
     const professorName = searchParams.get('professorName');
     const price = searchParams.get('price');
+    const courseId = searchParams.get('courseID');
+    
+
+    const router = useRouter(); // To handle navigation, if needed
+    const [loading, setLoading] = useState(false);
+
+    const handleEnroll = async () => {
+        setLoading(true); // Set loading state while processing
+
+        const auth = getAuth(); // Get Firebase authentication instance
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert("You must be logged in to enroll!");
+            setLoading(false);
+        return;
+        }
+        const userID = user?.uid;
+
+        try {
+            // Get the studentRef from the user's document
+            const userDocRef = doc(db, 'users', userID);
+            const userDoc = await getDoc(userDocRef);
+
+            if (!userDoc.exists()) {
+                console.error("User document does not exist.");
+                setLoading(false);
+                return;
+            }
+
+            const studentRef = userDoc.data().studentRef;
+
+            if (!studentRef) {
+                console.error("No student reference found in user document.");
+                setLoading(false);
+                return;
+            }
+
+            // Update the student's courses array
+            await updateDoc(studentRef, {
+                courses: arrayUnion(courseId), // Add the new course to the array
+            });
+
+            console.log("Course enrolled successfully!");
+            
+            // Optionally, navigate the user somewhere (e.g., course catalog)
+            router.push('/catalog');
+        } catch (error) {
+            console.error("Error enrolling in course: ", error);
+            alert("There was an error enrolling in the course.");
+        } finally {
+            setLoading(false); // Reset loading state
+        }
+    };
+
 
 
     return (
@@ -59,8 +120,10 @@ export default function Enrollment() {
             </div>
             <div>
                 <GradientBorder className="flex justify-center w-[9vw] mt-[4vh] rounded-full p-0.5 gradient-animate transition-transform duration-100 ease-in-out transform hover:scale-105 hover:shadow-md">
-                    <button className="justify-center w-full px-[1vw] py-[0.5vh] rounded-full bg-white text-[1.7vw]">
-                        Enroll
+                    <button className="justify-center w-full px-[1vw] py-[0.5vh] rounded-full bg-white text-[1.7vw]"
+                    onClick={handleEnroll} // Add click event handler for enrollment
+                    disabled={loading}>
+                        {loading ? "Enrolling..." : "Enroll"}
                     </button>
                 </GradientBorder>
             </div>
