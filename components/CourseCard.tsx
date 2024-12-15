@@ -13,6 +13,7 @@ export interface CourseCardProps {
     price: string;
     materials: string;
     date: string;
+    courseID: string;
 }
 
 export const CourseCard: React.FC<CourseCardProps> = ({
@@ -25,6 +26,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
     price,
     materials,
     date,
+    courseID,
 }) => {
 
 const [isBookmark, setBookmark] = useState(false);
@@ -42,7 +44,7 @@ const handleBookmarkClick = () => {
                     </h1>
                     <Bookmark onClick={handleBookmarkClick} className={`justify-end w-[4.5vw] h-[4.5vh] transition-transform duration-100 ease-in-out transform hover:scale-110 cursor-pointer" ${isBookmark ? 'fill-[#e1613d] text-[#e1613d]' : 'fill-none'}`}/>
                 </div>
-            <a href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}`} className="flex flex-col items-start">
+            <a href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}&courseID=${encodeURIComponent(courseID)}`} className="flex flex-col items-start">
 
               <h2 className="pt-[0.4vh]">
                 <span className="bg-[#aac9ba] px-[1vw] py-[0.5vh] mb-1 rounded-md text-[1.5vw] text-black">{professorName}</span>
@@ -60,7 +62,7 @@ const handleBookmarkClick = () => {
                         <span className="flex px-[1.5vw] py-[1vh] h-[4.6vh] items-center rounded-full bg-[#81B29A] text-[1.5vw] text-black w-10% justify-between">{price}</span>
                         <span className="flex px-[1.5vw] py-[1vh] h-[4.6vh] items-center rounded-full bg-[#9fa5db] text-[1.5vw] text-black w-10% justify-between">{materials}</span>
                     </div>
-                    <Link href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}`}>
+                    <Link href={`/enroll?courseName=${encodeURIComponent(courseTitle)}&professorName=${encodeURIComponent(professorName)}&price=${encodeURIComponent(price)}&courseID=${encodeURIComponent(courseID)}`}>
                         <GradientBorder className="flex justify-end rounded-full p-0.5 gradient-animate transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md">
                             <div className="px-[1.5vw] py-[1.1vh] border-none rounded-full bg-white text-[1.5vw] text-black w-10% justify-between items-center transition-transform duration-300 ease-in-out transform hover:bg-gradient-to-r from-[#E07A5F] via-[#81B29A] to-[#9fa5db] gradient-animate ">
                                 Enroll {date}

@@ -43,6 +43,7 @@ const Register = () => {
                 studentDocRef = await addDoc(collection(db, "students"), {
                     userId: newUser.uid,
                     interests: student.interests,
+                    courses: []
                 });
             } else {
                 professorDocRef = await addDoc(collection(db, "professors"), {
