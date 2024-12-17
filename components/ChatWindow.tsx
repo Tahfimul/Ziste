@@ -1,19 +1,14 @@
-// components/ChatWindow.tsx
-// source: chatgpt
-"use client";
-
 import { useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import styles from './ChatWindow.module.css';
 
 interface Message {
-    id: string;
-    senderId: string;
-    text: string;
-    createdAt: Timestamp; 
-  }
-  
+  id: string;
+  senderId: string;
+  text: string;
+  createdAt: Timestamp; 
+}
 
 interface ChatWindowProps {
   conversationId: string;
@@ -25,7 +20,12 @@ const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    const q = query(collection(db, 'messages'), where('conversationId', '==', conversationId));
+    // Add an orderBy clause to order by the 'createdAt' timestamp
+    const q = query(
+      collection(db, 'messages'), 
+      where('conversationId', '==', conversationId),
+      orderBy('createdAt', 'asc') // Sort messages by 'createdAt' in ascending order
+    );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => ({
