@@ -58,3 +58,12 @@
   .typingArea button:hover {
     background-color: #0056b3;
   }
+
+  .currentUserMessage {
+    background-color: aqua;
+  }
+
+  .otherUserMessage
+  {
+    background-color: #007bff;
+  }

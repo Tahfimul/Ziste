@@ -134,7 +134,8 @@ html {
 
 .chatList {
   width: 25%; /* 25% of the screen for chat list */
-  background-color: #e0e0e0;
+  /* background-color: #e0e0e0; */
+  color: #FFFF;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
