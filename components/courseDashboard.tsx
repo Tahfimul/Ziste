@@ -13,30 +13,27 @@ const CourseDashboard = () => {
     { id: "classInfo", name: "Class Info", bgColor: "#E07A5F" },
   ];
 
+  // Mock data
+  const professor = {
+    name: "Dr. Jane Doe",
+    avatar: "https://via.placeholder.com/100", // Replace with actual avatar URL
+    description: "Dr. Jane Doe has been teaching Computer Science for over 15 years, specializing in AI and Machine Learning.",
+  };
+
+  const classmates = [
+    { id: 1, name: "Alice Johnson" },
+    { id: 2, name: "Bob Smith" },
+    { id: 3, name: "Charlie Brown" },
+  ];
+
   const handleSelect = (id: string) => {
     setSelectedSection(id);
-  };
-
-  // Functions for adding and editing files
-  const handleAddFile = () => {
-    alert("Add file functionality will be here.");
-    // Implement file upload logic here
-  };
-
-  const handleEditSyllabus = () => {
-    alert("Edit syllabus functionality will be here.");
-    // Implement syllabus edit logic here
-  };
-
-  const handleEditMaterials = () => {
-    alert("Edit materials functionality will be here.");
-    // Implement materials edit logic here
   };
 
   return (
     <div className="flex space-x-6">
       {/* Left Side - Dashboard Links */}
-      <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4"> {/* Added margin-left */}
+      <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4">
         {sections.map((section) => (
           <button
             key={section.id}
@@ -58,14 +55,39 @@ const CourseDashboard = () => {
         ))}
       </div>
 
-      {/* Right Side - Section Details (Permanent Window) */}
+      {/* Right Side - Section Details */}
       <div className="w-[60vw]">
         <div className="bg-white shadow-lg rounded-lg p-6">
-          {/* Section Details */}
           {selectedSection === "professorInfo" && (
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Professor Info</h3>
-              <p className="text-gray-600">Here is the professor information.</p>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Welcome to the Classroom</h3>
+              <p className="text-lg text-gray-600 mb-6">Meet your professor:</p>
+
+              {/* Professor Details */}
+              <div className="flex items-center mb-8">
+                <img
+                  src={professor.avatar}
+                  alt="Professor Avatar"
+                  className="w-24 h-24 rounded-full mr-6"
+                />
+                <div>
+                  <h4 className="text-xl font-semibold text-gray-800">{professor.name}</h4>
+                  <p className="text-gray-600">{professor.description}</p>
+                </div>
+              </div>
+
+              {/* Classmates Section */}
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Meet your Classmates:</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {classmates.map((classmate) => (
+                  <div
+                    key={classmate.id}
+                    className="flex items-center justify-center p-4 bg-gray-100 rounded-lg shadow"
+                  >
+                    <span className="text-gray-800 font-medium">{classmate.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -73,20 +95,6 @@ const CourseDashboard = () => {
             <div>
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Syllabus</h3>
               <p className="text-gray-600">Here is the syllabus content.</p>
-              <div className="mt-4">
-                <button
-                  onClick={handleAddFile}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Add File
-                </button>
-                <button
-                  onClick={handleEditSyllabus}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-md ml-4"
-                >
-                  Edit Syllabus
-                </button>
-              </div>
             </div>
           )}
 
@@ -94,20 +102,6 @@ const CourseDashboard = () => {
             <div>
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Materials</h3>
               <p className="text-gray-600">Here are the materials for the course.</p>
-              <div className="mt-4">
-                <button
-                  onClick={handleAddFile}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Add File
-                </button>
-                <button
-                  onClick={handleEditMaterials}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-md ml-4"
-                >
-                  Edit Materials
-                </button>
-              </div>
             </div>
           )}
 

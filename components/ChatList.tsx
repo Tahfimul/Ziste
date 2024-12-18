@@ -326,61 +326,62 @@ const ChatList = ({ userId }: ChatListProps) => {
   }
 
   return (
-    // <div className={styles.chatWrapper}>
-    <div className='chatWrapper'>
-      {/* Left Side - Chat List */}
-      {/* <div className={styles.chatList}> */}
-      <div className='chatList bg-patekGreen'>
-        <button className='startChatBtn' onClick={startNewConversation}>Start New Conversation</button>
+    <div className="flex h-[75vh]">
+      {/* Chat List */}
+      <div className="w-1/3 bg-gray-100 p-4 overflow-y-auto border-r">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 w-full"
+          onClick={startNewConversation}
+        >
+          Start New Conversation
+        </button>
         {loading ? (
           <p>Loading conversations...</p>
         ) : (
           <>
-            <div className="flex items-center space-x-1 hover:bg-gray-200 cursor-pointer" onClick={toggleChannels}>
-              
-              <p>#</p>
-
-              <p className="">Channels</p>            
+            {/* Channels Section */}
+            <div
+              className="flex items-center space-x-2 cursor-pointer mb-2"
+              onClick={toggleChannels}
+            >
+              <p className="font-semibold">Channels</p>
             </div>
-            {
-              showChannels && 
-              <>             
-              </>
-            }
-           
-            
-            <div className="flex items-center space-x-1 hover:bg-gray-200 cursor-pointer" onClick={toggleDirectMessages}>
-              
-              <svg width="12" height="12" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 15L0.339745 0L17.6603 0L9 15Z" fill="#FFFF"/>
-              </svg>
-
-              <p className="">Direct messages</p>            
+            {showChannels && (
+              <div className="pl-4 text-gray-700">No channels available.</div>
+            )}
+  
+            {/* Direct Messages Section */}
+            <div
+              className="flex items-center space-x-2 cursor-pointer mt-4 mb-2"
+              onClick={toggleDirectMessages}
+            >
+              <p className="font-semibold">Direct Messages</p>
             </div>
-            { showDirectMessages &&
-                 <ul>
-                  {[...conversationTags.entries()].map(([key]) => (
-                    <li className="pl-4" key={key}>
-                      <button onClick={()=>queryConversation(key)}>
-                          {key}
-                      </button>
-                      
-                    </li>
-                  ))}
-               </ul>
-            }
+            {showDirectMessages && (
+              <ul>
+                {[...conversationTags.entries()].map(([key]) => (
+                  <li key={key} className="pl-4">
+                    <button
+                      className="text-blue-500 hover:underline text-left block w-full truncate"
+                      title={key} /* Tooltip for full name */
+                      onClick={() => queryConversation(key)}
+                    >
+                      {key}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </>
         )}
       </div>
-
-      {/* Right Side - Chat Window */}
-      {/* <div className={styles.chatWindow}> */}
-      <div className='chatWindow'>
+  
+      {/* Chat Window */}
+      <div className="w-2/3 bg-white p-4 overflow-y-auto">
         {selectedConversation2 ? (
-          // <ChatWindow conversationId={selectedConversation.id} userId={userId} />
           <ChatWindow conversationId={selectedConversation2.id} userId={userId} />
         ) : (
-          <p>Select a conversation to view messages</p>
+          <p className="text-gray-500">Select a conversation to view messages</p>
         )}
       </div>
     </div>
