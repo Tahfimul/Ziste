@@ -9,6 +9,7 @@ import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
 const CourseCreation = () => {
@@ -16,6 +17,7 @@ const CourseCreation = () => {
     // const { professor } = useUser();
 
     const [showModal, setShowModal] = React.useState(false)
+    const [error, setError] = React.useState("Testing the error out")
 
     const [courseTitle, setCourseTitle] = React.useState("")
     const [courseDescription, setCourseDescription] = React.useState("")
@@ -38,7 +40,7 @@ const CourseCreation = () => {
 
     const fileInputRef = React.useRef(null);
 
-    const handleUploadSyllabus = () => {
+    const handleOnClickSyllabus = () => {
         // Programmatically click the hidden file input
         if (fileInputRef.current) {
             fileInputRef.current.click();
@@ -86,6 +88,50 @@ const CourseCreation = () => {
         const formattedMinutes = minutes.toString().padStart(2, "0");
     
         return `${formattedHours}:${formattedMinutes} ${period}`;
+    }
+
+    // Use firebase storage to upload the syllabus file
+    const uploadSyllabus = () => {}
+
+    // Handle errors
+    const handleSubmit = async () => {
+        for (const [key, value] of Object.entries({
+            "Course title": courseTitle,
+            "Subject": subject,
+            "Course description": courseDescription,
+        })) {
+            if (value.trim() === "") {
+                setError(`${key} cannot be empty`);
+                return;
+            }
+        }
+
+        if (classSize === 0) {
+            setError("Class size cannot be 0")
+        }
+
+        // Handle more errors..
+
+        setError("")
+         try {
+            await addDoc(collection(db, "courses"), {
+                courseTitle: courseTitle,
+                subject: subject,
+                courseDescription: courseDescription,
+                classSize: classSize,
+                startDate: courseStart,
+                endDate: courseEnd,
+                schedule: schedule,
+                createdAt: new Date()
+
+            })
+
+            // uploadSyllabus()
+
+            console.log("Course successfully added")
+        } catch (e) {
+            console.log("Error creating a course: ", e)
+        }
     }
 
     return (
@@ -153,8 +199,8 @@ const CourseCreation = () => {
                     </form>
                     <div>
                         <button
-                            className="bg-[#E17B60] p-3 px-6 rounded-2xl text-white flex flex-row items-center mt-10"
-                            onClick={handleUploadSyllabus}
+                            className="bg-[#E17B60] p-3 px-6 rounded-2xl text-white flex flex-row items-center mt-10 mb-6"
+                            onClick={handleOnClickSyllabus}
                         >
                             <FaPlus size={12} />
                             <text className="pl-2">Upload Syllabus</text>
@@ -166,11 +212,12 @@ const CourseCreation = () => {
                             onChange={handleFileChange} // Handle file selection
                         />
                     </div>
+                    <div className="text-red-600">{error}</div>
                     <button
                         className={
-                            "bg-[#81B29A] text-white mt-10 py-3 px-10 rounded-lg drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)]"
+                            "bg-[#81B29A] text-white mt-2 py-3 px-10 rounded-lg drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)]"
                         }
-                        onClick={() => {}}
+                        onClick={handleSubmit}
                     >
                         Create Course
                     </button>
