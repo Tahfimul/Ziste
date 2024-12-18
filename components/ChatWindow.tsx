@@ -28,7 +28,7 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
@@ -36,9 +36,9 @@ const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
     console.log(userId);
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        setUserEmail(user.email);
+        setUserEmail(user.email as string);
       } else {
-        setUserEmail(null);
+        setUserEmail("");
       }
     });
 
@@ -109,10 +109,8 @@ const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
     <div className={styles.chatWindow}>
       <div className={styles.messageBox}>
         {messages.map((message) => (
-          <p key={message.timestamp}>{message.text}</p>
-          // <p key={message.id} className={message.senderId === userId ? styles.ownMessage : styles.otherMessage}>
-          //   {message.text}
-          // </p>
+          
+          message.user === userEmail ?<p className={styles.currentUserMessage} key={message.timestamp}>{message.text}</p>:<p className={styles.otherUserMessage} key={message.timestamp}>{message.text}</p>
         ))}
       </div>
       <div className={styles.typingArea}>

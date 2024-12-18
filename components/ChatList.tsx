@@ -56,9 +56,9 @@ const ChatList = ({ userId }: ChatListProps) => {
     fetchUserMap();
   }, []);
 
-<<<<<<< HEAD
+
   // Fetch conversations from Firestore
-=======
+
   useEffect(()=>{
 
     console.log(conversations)
@@ -169,7 +169,7 @@ const ChatList = ({ userId }: ChatListProps) => {
   }, [conversationTags]);
 
   // Fetch conversations frxom Firestore
->>>>>>> f70f27567e904073cc3e2ab1be277d87e82a0e24
+
   useEffect(() => {
 
     setType(undefined);
