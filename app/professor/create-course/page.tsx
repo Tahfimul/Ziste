@@ -3,21 +3,39 @@
 import React from "react";
 // import { useUser } from "@/components/contexts/UserContextProvider";
 import { FaPlus } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
+interface DaySchedule {
+    start: Date;
+    end: Date;
+    selected: boolean;
+}
+
+type Schedule = {
+    [key in 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday']: DaySchedule;
+};
+
+interface ScheduleModalProps {
+    daysOfWeek: (keyof Schedule)[];
+    schedule: Schedule;
+    onTimeChange: (day: keyof Schedule, type: 'start' | 'end', newTime: Date | undefined) => void;
+    onCheckedChange: (day: keyof Schedule) => void;
+    setShowModal: (show: boolean) => void;
+}
+
 const CourseCreation = () => {
-    const router = useRouter();
+    // const router = useRouter();
     // const { professor } = useUser();
 
     const [showModal, setShowModal] = React.useState(false)
-    const [error, setError] = React.useState("Testing the error out")
+    const [error, setError] = React.useState("")
 
     const [courseTitle, setCourseTitle] = React.useState("")
     const [courseDescription, setCourseDescription] = React.useState("")
@@ -26,7 +44,7 @@ const CourseCreation = () => {
     const [courseStart, setCourseStart] = React.useState(Date())
     const [courseEnd, setCourseEnd] = React.useState(Date())
 
-    const [schedule, setSchedule] = React.useState({
+    const [schedule, setSchedule] = React.useState<Schedule>({
         Monday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
         Tuesday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
         Wednesday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
@@ -36,26 +54,26 @@ const CourseCreation = () => {
         Sunday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
     });
 
-    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const daysOfWeek: (keyof Schedule)[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const fileInputRef = React.useRef(null);
 
     const handleOnClickSyllabus = () => {
         // Programmatically click the hidden file input
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
+        // if (fileInputRef.current) {
+        //     fileInputRef.current.click();
+        // }
     };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0]; // Access the uploaded file
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]; // Access the uploaded file
         if (file) {
             console.log("Selected file:", file);
             // Handle the file upload logic here
         }
     };
     
-    const onCheckedChange = (day) => {
+    const onCheckedChange = (day: keyof Schedule) => {
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
             [day]: {
@@ -65,7 +83,8 @@ const CourseCreation = () => {
         }));
     }
 
-    const onTimeChange = (day, type, newTime) => {
+    const onTimeChange = (day: keyof Schedule, type: 'start' | 'end', newTime: Date | undefined) => {
+        if (!newTime) return;
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
             [day]: {
@@ -75,7 +94,7 @@ const CourseCreation = () => {
         }))
     }
 
-    const formatTime = (date) => {
+    const formatTime = (date: Date) => {
         if (!(date instanceof Date)) {
             throw new Error("Invalid input: Expected a Date object.");
         }
@@ -91,7 +110,7 @@ const CourseCreation = () => {
     }
 
     // Use firebase storage to upload the syllabus file
-    const uploadSyllabus = () => {}
+    // const uploadSyllabus = () => {}
 
     // Handle errors
     const handleSubmit = async () => {
@@ -113,7 +132,7 @@ const CourseCreation = () => {
         // Handle more errors..
 
         setError("")
-         try {
+        try {
             await addDoc(collection(db, "courses"), {
                 courseTitle: courseTitle,
                 subject: subject,
@@ -123,8 +142,9 @@ const CourseCreation = () => {
                 endDate: courseEnd,
                 schedule: schedule,
                 createdAt: new Date()
-
             })
+
+            console.log("VALID")
 
             // uploadSyllabus()
 
@@ -169,7 +189,7 @@ const CourseCreation = () => {
                                 className="p-3 bg-[#f1f1f1] rounded-md w-1/2 px-4 drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)] focus:outline-none focus:drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)] "
                                 type="number"
                                 value={classSize}
-                                onChange={(e) => setClassSize(e.target.value)}
+                                onChange={(e) => setClassSize(Number(e.target.value))}
                                 required
                             />
                         </div>
@@ -221,7 +241,7 @@ const CourseCreation = () => {
                     >
                         Create Course
                     </button>
-                    <Link href="/portal"><div className="underline ml-2 mt-2 text-sm">I'll do it later</div></Link>
+                    <Link href="/portal"><div className="underline ml-2 mt-2 text-sm">Do it later</div></Link>
                 </div>
             </div>
             <div className="flex flex-col">
@@ -236,7 +256,7 @@ const CourseCreation = () => {
                             <text className="pl-2">Set Schedule</text>
                         </button> :
                         <div>
-                           {daysOfWeek.map((day, index) => {
+                            {daysOfWeek.map((day, index) => {
                                 if (schedule[day].selected) {
                                     return (
                                         <div key={index} className="w-full mt-6">
@@ -266,7 +286,7 @@ const CourseCreation = () => {
     );
 };
 
-const ScheduleModal = (props) => {
+const ScheduleModal: React.FC<ScheduleModalProps> = (props) => {
     return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-8 flex-col justify-center items-center">
@@ -276,19 +296,21 @@ const ScheduleModal = (props) => {
                             <div key={index} className="w-full mt-6">
                                 <h2 className="text-xl mb-3">{day}</h2>
                                 <div className="flex flex-row">
-                                    <TimePicker
-                                        className={"pr-6"}
-                                        date={props.schedule[day].start} 
-                                        hourCycle={12}
-                                        onChange={(newTime) => props.onTimeChange(day, 'start', newTime)}
-                                    />
+                                    <div className="pr-6">
+                                        <TimePicker
+                                            date={props.schedule[day].start} 
+                                            hourCycle={12}
+                                            onChange={(newTime) => props.onTimeChange(day, 'start', newTime)}
+                                        />
+                                    </div>
                                     <div className="px-4">to</div>
-                                    <TimePicker
-                                        className={"pl-6"}
-                                        date={props.schedule[day].end} 
-                                        hourCycle={12}
-                                        onChange={(newTime) => props.onTimeChange(day, 'end', newTime)}
-                                    />
+                                    <div className="pl-6">
+                                        <TimePicker
+                                            date={props.schedule[day].end} 
+                                            hourCycle={12}
+                                            onChange={(newTime) => props.onTimeChange(day, 'end', newTime)}
+                                        />
+                                    </div>
                                     <Switch className="ml-6" checked={props.schedule[day].selected} onCheckedChange={() => props.onCheckedChange(day)}/>
                                 </div>
                             </div>
