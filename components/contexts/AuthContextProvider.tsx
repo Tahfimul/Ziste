@@ -167,7 +167,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         return unsubscribe;
     }, []);
 
-    console.log(isAuthLoading)
+    // console.log(isAuthLoading)
 
     //If loading for the first time when visiting the page
     if (isAuthLoading)

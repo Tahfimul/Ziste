@@ -6,20 +6,36 @@ import { sendEmailVerification } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import Loading from "@/components/Loading";
+import { collection, getDocs, query, where, Firestore } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 const VerifyEmail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [verificationSent, setVerificationSent] = useState(false);
+    const user = firebaseAuth.currentUser;
     const router = useRouter();
 
     useEffect(() => {
         const checkUserVerification = async () => {
-            const user = firebaseAuth.currentUser;
             if (user) {
                 await user.reload();
+                // Get user doc from firestore to get professor/student ref
+                const usersCollection = collection(db, "users");
+                const emailQuery = query(usersCollection, where("email", "==", user?.email));
+                const querySnapshot = await getDocs(emailQuery)
+                const userDoc = querySnapshot.docs[0]
+                const userData = userDoc.data()
+
+                //delete after testing
+                router.push("/profile")
+
                 if (user.emailVerified) {
-                    router.push("/profile"); // Redirect if verified
+                    // Redirect to student or professor side if verified
+                    if (userData?.professorDocRef)
+                        router.push("/professor/create-course")
+                    else
+                        router.push("/profile");
                 } else {
                     setVerificationSent(true);
                     setLoading(false);
