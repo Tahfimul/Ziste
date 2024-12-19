@@ -46,10 +46,16 @@ const Register = () => {
                     courses: []
                 });
             } else {
+                // Professors can be both students and professors
                 professorDocRef = await addDoc(collection(db, "professors"), {
                     userId: newUser.uid,
                     courses: professor.courses,
                     experience: professor.experience,
+                });
+                studentDocRef = await addDoc(collection(db, "students"), {
+                    userId: newUser.uid,
+                    interests: [],
+                    courses: []
                 });
             }
 

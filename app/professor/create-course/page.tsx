@@ -3,22 +3,24 @@
 import React from "react";
 // import { useUser } from "@/components/contexts/UserContextProvider";
 import { FaPlus } from "react-icons/fa";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, updateDoc, arrayUnion, DocumentReference} from "firebase/firestore";
 import { db } from "@/services/firebase";
+// import { useUser } from "@/components/contexts/UserContextProvider";
+import { firebaseAuth } from "@/services/firebase";
 
-interface DaySchedule {
+export interface DaySchedule {
     start: Date;
     end: Date;
     selected: boolean;
 }
 
-type Schedule = {
+export type Schedule = {
     [key in 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday']: DaySchedule;
 };
 
@@ -31,8 +33,10 @@ interface ScheduleModalProps {
 }
 
 const CourseCreation = () => {
-    // const router = useRouter();
-    // const { professor } = useUser();
+    const router = useRouter();
+    // const { user } = useUser();
+    const user = firebaseAuth.currentUser
+    console.log("user: ", user?.uid)
 
     const [showModal, setShowModal] = React.useState(false)
     const [error, setError] = React.useState("")
@@ -112,6 +116,20 @@ const CourseCreation = () => {
     // Use firebase storage to upload the syllabus file
     // const uploadSyllabus = () => {}
 
+
+    const getProfessorRef = async () => {
+        try {
+            const collectionRef = collection(db, 'professors')
+            console.log(user?.uid)
+            const professorQuery = query(collectionRef, where('userId', "==", user?.uid))
+            const querySnapshot = await getDocs(professorQuery);
+            console.log(querySnapshot.docs[0])
+            return querySnapshot.docs[0].ref
+        } catch (e) {
+            console.log("Error fetching professor id: ", e)
+        }
+    }
+
     // Handle errors
     const handleSubmit = async () => {
         for (const [key, value] of Object.entries({
@@ -132,8 +150,11 @@ const CourseCreation = () => {
         // Handle more errors..
 
         setError("")
+
+        const professorRef: DocumentReference | undefined = await getProfessorRef()
+
         try {
-            await addDoc(collection(db, "courses"), {
+            const courseDocRef = await addDoc(collection(db, "courses-temp"), {
                 courseTitle: courseTitle,
                 subject: subject,
                 courseDescription: courseDescription,
@@ -141,10 +162,18 @@ const CourseCreation = () => {
                 startDate: courseStart,
                 endDate: courseEnd,
                 schedule: schedule,
+                materials: "Computer",
+                price: "20",
+                professorRef: professorRef,
                 createdAt: new Date()
             })
 
-            console.log("VALID")
+            // Use the course ID to update the professor's courses array
+            await updateDoc(professorRef!, {
+                courses: arrayUnion(courseDocRef.id),
+            });
+
+            router.push("/portal")
 
             // uploadSyllabus()
 
@@ -204,7 +233,7 @@ const CourseCreation = () => {
                                     required
                                 />
                             </div>
-                            <text className="mb-4 ml-6">to</text>
+                            <div className="mb-4 ml-6">to</div>
                             <div className="flex flex-col ml-6">
                                 <label>End Date</label>
                                 <input
@@ -223,7 +252,7 @@ const CourseCreation = () => {
                             onClick={handleOnClickSyllabus}
                         >
                             <FaPlus size={12} />
-                            <text className="pl-2">Upload Syllabus</text>
+                            <div className="pl-2">Upload Syllabus</div>
                         </button>
                         <input
                             type="file"
@@ -253,7 +282,7 @@ const CourseCreation = () => {
                             onClick={() => setShowModal(true)}
                         >
                             <FaPlus size={12} />
-                            <text className="pl-2">Set Schedule</text>
+                            <div className="pl-2">Set Schedule</div>
                         </button> :
                         <div>
                             {daysOfWeek.map((day, index) => {
@@ -275,7 +304,7 @@ const CourseCreation = () => {
                             className="bg-[#E17B60] p-3 px-6 rounded-2xl text-white flex flex-row items-center mt-10"
                             onClick={() => setShowModal(true)}
                         >
-                            <text className="pl-2">Edit Schedule</text>
+                            <div className="pl-2">Edit Schedule</div>
                         </button>
                         </div>
                     }
