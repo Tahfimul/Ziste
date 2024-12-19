@@ -4,12 +4,35 @@ import { AuthContext } from "@/components/contexts/AuthContextProvider";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { firebaseAuth } from "@/services/firebase";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export const Navbar = () => {
     const auth = useContext(AuthContext);
+    const authUser = firebaseAuth?.currentUser
+
     const [firstName, setFirstName] = useState<string | null>(null);
     const [isLoadingName, setIsLoadingName] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const [imageUrl, setImageUrl] = useState<string | StaticImport>("");
+
+    useEffect(() => {
+        const fetchImageUrl = async () => {
+        try {
+            const storage = getStorage()
+            const imageRef = ref(storage, `users/${authUser?.uid}/profile.jpg`)
+            const url = await getDownloadURL(imageRef); 
+            console.log("url ", url)
+            setImageUrl(url)
+        } catch (e) {
+            console.error("Error fetching image URL:", e)
+        }
+        };
+
+        fetchImageUrl();
+    }, []);
 
     const firestore = getFirestore();
 
@@ -85,11 +108,13 @@ export const Navbar = () => {
                             </span>
 
                             {/* Profile Avatar */}
-                            {auth?.user?.photoURL ? (
+                            {imageUrl ? (
                                 <Image
-                                    src={auth.user.photoURL!}
+                                    src={imageUrl}
                                     alt="Profile"
-                                    className="w-10 h-10 rounded-full cursor-pointer"
+                                    width={40} 
+                                    height={40} 
+                                    className="w-10 h-10 rounded-full object-cover cursor-pointer"
                                     onClick={toggleDropdown}
                                 />
                             ) : (
