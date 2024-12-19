@@ -1,16 +1,15 @@
 // components/ChatList.tsx
+// source: chatgpt
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs, doc, getDoc} from 'firebase/firestore';
-import { db, firebaseAuth } from '../services/firebase';
+import { useEffect, useState } from 'react';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs} from 'firebase/firestore';
+import { db } from '../services/firebase';
 import { fetchUsers } from '../services/UserService';
 import ChatWindow from './ChatWindow';
 // import styles from './ChatList.module.css';
 import '@/styles/globals.css'
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchParams } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
 
 interface Conversation {
   id: string;
@@ -18,9 +17,9 @@ interface Conversation {
   createdAt?: Timestamp; 
 }
 
-interface Conversation2 {
-  id: string;
-}
+// interface Conversation2 {
+//   id: string;
+// }
 
 
 interface ChatListProps {
@@ -33,36 +32,23 @@ enum conversationType
   CHAT
 }
 
-type User = {
-  uid:string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  isProfessor: boolean;
-  studentRef?:any;
-  professorRef?:any;
-}
-
 const ChatList = ({ userId }: ChatListProps) => {
-  const searchParams = useSearchParams();
-  const courseId = searchParams.get("courseId");
-  const [userInfo, setUserInfo] = useState<User|null>(null)
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
-  const [selectedConversation2, setSelectedConversation2] = useState<Conversation2|null>(null);
+  // const [selectedConversation2, setSelectedConversation2] = useState<Conversation2|null>(null);
   const [usersMap, setUsersMap] = useState<{ [key: string]: { name: string; email: string } }>({});
   const [type, setType] = useState<conversationType|undefined>(undefined)
-  const [called, setCalled] = useState<boolean>(true)
+  const [called, setCalled] = useState<boolean>(false)
   const [showDirectMessages, setShowDirectMessages] = useState<boolean>(true)
   const [showChannels, setShowChannels] = useState<boolean>(true)
-  const [conversationTags, setConversationTags] = useState<Map<string, number>>(new Map())
-  const [viewDocRef, setViewDocRef] = useState<any>(null)
-  const [isViewSubscribed, setIsViewSubscribed] = useState<boolean>(false)
+  // const [conversationTags, setConversationTags] = useState<Map<string, number>>(new Map())
+  // const [viewDocRef, setViewDocRef] = useState<any>(null)
+  // const [isViewSubscribed, setIsViewSubscribed] = useState<boolean>(false)
   // const [viewPanelUnsubscribe, setViewPanelUnsubscribe] = useState<(()=>void)|null>(null)
-  const viewPanelUnsubscribeRef = useRef<(()=> void) | null>(null) 
+  // const viewPanelUnsubscribeRef = useRef<(()=> void) | null>(null) 
   // Fetch users
-  useEffect(() => { 
+  useEffect(() => {
     const fetchUserMap = async () => {
       const map = await fetchUsers();
       setUsersMap(map);
@@ -74,166 +60,129 @@ const ChatList = ({ userId }: ChatListProps) => {
 
   // Fetch conversations from Firestore
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    console.log(conversations)
-    console.log(usersMap)
+  //   console.log(conversations)
+  //   console.log(usersMap)
 
-    if(viewDocRef && isViewSubscribed)
-    {
-      {
-        selectedConversation? console.log(selectedConversation):console.log('');
-      }        
-      console.log('retrieving requested viewDocRef')
-      console.log('viewDocRef: ',viewDocRef);
+  //   if(viewDocRef && isViewSubscribed)
+  //   {
+  //     {
+  //       selectedConversation? console.log(selectedConversation):console.log('');
+  //     }        
+  //     console.log('retrieving requested viewDocRef')
+  //     console.log('viewDocRef: ',viewDocRef);
 
-      const q_ = query(viewDocRef);
-      const observerUnsubscribe = onSnapshot(q_, (snapshot:any)=>{
-        console.log('ran\n');  
+  //     const q_ = query(viewDocRef);
+  //     const observerUnsubscribe = onSnapshot(q_, (snapshot:any)=>{
+  //       console.log('ran\n');  
 
-        console.log('retrieved convo: ',snapshot.docs.map[0])
+  //       console.log('retrieved convo: ',snapshot.docs.map[0])
         
-        // const updatedConversations = snapshot.docs.map((doc:any) => ({
-        //   id: doc.id,
-        //   ...doc.data(),
-        // }));
+  //       // const updatedConversations = snapshot.docs.map((doc:any) => ({
+  //       //   id: doc.id,
+  //       //   ...doc.data(),
+  //       // }));
 
-        // setConversations(updatedConversations);
+  //       // setConversations(updatedConversations);
 
 
-        },
-        (error) => {
-          console.error("Error observing collection: ", error.message);
-      });
+  //       },
+  //       (error) => {
+  //         console.error("Error observing collection: ", error.message);
+  //     });
 
-      viewPanelUnsubscribeRef.current = observerUnsubscribe;
+  //     viewPanelUnsubscribeRef.current = observerUnsubscribe;
 
-      // setViewPanelUnsubscribe(observerUnsubscribe)
-    }
-    // else if(viewPanelUnsubscribe)
-    // {
-    //   viewPanelUnsubscribe()
-    //   setViewPanelUnsubscribe(null)
-    //   console.log('unsubscribed from Firestore updates')
-    // }
-    else if(viewPanelUnsubscribeRef.current)
-    {
-      viewPanelUnsubscribeRef.current()
-      viewPanelUnsubscribeRef.current = null;
-      console.log('Unsubscribed from Firestore updates');
-    }
+  //     // setViewPanelUnsubscribe(observerUnsubscribe)
+  //   }
+  //   // else if(viewPanelUnsubscribe)
+  //   // {
+  //   //   viewPanelUnsubscribe()
+  //   //   setViewPanelUnsubscribe(null)
+  //   //   console.log('unsubscribed from Firestore updates')
+  //   // }
+  //   else if(viewPanelUnsubscribeRef.current)
+  //   {
+  //     viewPanelUnsubscribeRef.current()
+  //     viewPanelUnsubscribeRef.current = null;
+  //     console.log('Unsubscribed from Firestore updates');
+  //   }
 
-    // Cleanup on unmount
-    return () => {
-      // if (viewPanelUnsubscribe) {
-      //   viewPanelUnsubscribe();
-      //   console.log("Unsubscribed from Firestore updates on unmount.");
-      // }
+  //   // Cleanup on unmount
+  //   return () => {
+  //     // if (viewPanelUnsubscribe) {
+  //     //   viewPanelUnsubscribe();
+  //     //   console.log("Unsubscribed from Firestore updates on unmount.");
+  //     // }
 
-      if(viewPanelUnsubscribeRef.current)
-      {
-        viewPanelUnsubscribeRef.current();
-        viewPanelUnsubscribeRef.current = null;
-        console.log('Cleaned up Firestore updates on unmount');
-      }
-    };
+  //     if(viewPanelUnsubscribeRef.current)
+  //     {
+  //       viewPanelUnsubscribeRef.current();
+  //       viewPanelUnsubscribeRef.current = null;
+  //       console.log('Cleaned up Firestore updates on unmount');
+  //     }
+  //   };
 
-  },[viewDocRef, isViewSubscribed])
+  // },[viewDocRef, isViewSubscribed])
 
-  useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-        if (user) {
-            (
-               async ()=>
-                {   
-                    const userDocRef = doc(db, `users/${user.uid}`);
-                    const userDocSnapshot = await getDoc(userDocRef);
-                    if(userDocSnapshot.exists())
-                    {
-                        setUserInfo
-                        ({                        
-                            uid: user.uid, 
-                            firstName: userDocSnapshot.data().firstName, 
-                            lastName:userDocSnapshot.data().lastName,
-                            email: userDocSnapshot.data().email,
-                            isProfessor: userDocSnapshot.data().professorDocRef !== null
-                        })
-                    }
-                   
-                }
-         
-            )()
-          
-        } else {
-                setUserInfo(null)
-        }
-        
-      });
-  
-      return () => unsubscribe();
-    },[])
-
-  useEffect(()=>{
-
-    if(userInfo)
-    {
+  // useEffect(()=>{
      
-    const firstDocRef = doc(db, `courses-temp/${courseId}}/conversations`, userInfo.email);
+  //   const firstDocRef = doc(db, `courses/0QjIlcwcWo3kAEKhY6zE/conversations`, '9JLAdM7tnCan4nhw6W2msPveyej1');
         
-    const unsubscribe = onSnapshot(firstDocRef, (snapshot)=>
-    {
+  //   const unsubscribe = onSnapshot(firstDocRef, (snapshot)=>
+  //   {
 
-      setLoading(false);
+  //     setLoading(false);
 
-      if(snapshot.exists())
-      {
-        if(snapshot.get('conversations'))
-        {
-          const data = snapshot.data();
-          const convos = data.conversations;
-          console.log('convos: ',convos);
-          console.log('createdAt: ',convos[0].createdAt);
-          convos.map((val:string)=>
-          {
-            console.log('val: ',val);
-            if(!conversationTags?.has(val))
-            {
-              console.log('conversationTags does not have value: ',val);
-              console.log(conversationTags)
-              conversationTags?.set(val, 1);
-              setConversationTags(conversationTags);
-            }
+  //     if(snapshot.exists())
+  //     {
+  //       if(snapshot.get('conversations'))
+  //       {
+  //         const data = snapshot.data();
+  //         const convos = data.conversations;
+  //         console.log('convos: ',convos);
+  //         console.log('createdAt: ',convos[0].createdAt);
+  //         convos.map((val:string)=>
+  //         {
+  //           console.log('val: ',val);
+  //           if(!conversationTags?.has(val))
+  //           {
+  //             console.log('conversationTags does not have value: ',val);
+  //             console.log(conversationTags)
+  //             conversationTags?.set(val, 1);
+  //             setConversationTags(conversationTags);
+  //           }
 
-          })
-        }
+  //         })
+  //       }
           
-      }
+  //     }
         
       
-    });
+  //   });
 
 
-    return ()=> unsubscribe();
-  }
+  //   return ()=> unsubscribe();
       
 
 
-  }, [conversationTags, userInfo]);
+  // }, [conversationTags]);
 
   // Fetch conversations frxom Firestore
 
   useEffect(() => {
 
-    setType(undefined);
+    setType(conversationType.CHAT);
     console.log(uuidv4().replaceAll('-',''));
 
     if(!called)
     {
         const q = query(collection(db, 'courses'), where('courseID', '==', 'ec6a0242242f4a8c82fae03051b7884d'));
-        
+
         const unsubscribe = onSnapshot(q, (snapshot) => {
           
-          setLoading(false);   
+          setLoading(false);              
           
           
 
@@ -307,7 +256,7 @@ const ChatList = ({ userId }: ChatListProps) => {
     // Fetch users and find the target user
     const usersCollection = await getDocs(collection(db, 'users'));
     const targetUser = usersCollection.docs.find(doc => {
-    
+      
       const data = doc.data();
       return data.name === userToFind || data.email === userToFind;
     });
@@ -344,51 +293,51 @@ const ChatList = ({ userId }: ChatListProps) => {
     setShowChannels(!showChannels);
   }
 
-  const queryConversation = (conversationId:string) =>
-  {
-      setSelectedConversation2({id: conversationId});
-      console.log('queryConversation called for conversationId: ',conversationId)
-      console.log('queryConversation called for conversationId with length: ',conversationId.length)
-      // const conversationDocRef = collection(
-      //   db,
-      //   "courses",
-      //   "0QjIlcwcWo3kAEKhY6zE",
-      //   "conversations",
-      //   "9JLAdM7tnCan4nhw6W2msPveyej1",
-      //   conversationId
-      // );
+  // const queryConversation = (conversationId:string) =>
+  // {
+  //     setSelectedConversation2({id: conversationId});
+  //     console.log('queryConversation called for conversationId: ',conversationId)
+  //     console.log('queryConversation called for conversationId with length: ',conversationId.length)
+  //     // const conversationDocRef = collection(
+  //     //   db,
+  //     //   "courses",
+  //     //   "0QjIlcwcWo3kAEKhY6zE",
+  //     //   "conversations",
+  //     //   "9JLAdM7tnCan4nhw6W2msPveyej1",
+  //     //   conversationId
+  //     // );
 
-      const conversationDocRef = collection(
-        db,
-        `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`
-      );
+  //     const conversationDocRef = collection(
+  //       db,
+  //       `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`
+  //     );
 
-      // const conversationDocRef = doc(db, `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`, `1733413332`)
+  //     // const conversationDocRef = doc(db, `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`, `1733413332`)
 
-      console.log('conversationDocRef: ',conversationDocRef);
+  //     console.log('conversationDocRef: ',conversationDocRef);
 
-      if(isViewSubscribed && viewDocRef)
-      {
-        setIsViewSubscribed(false)
-        setViewDocRef(null)
-      }
-      setViewDocRef(conversationDocRef)
-      setIsViewSubscribed(true)
+  //     if(isViewSubscribed && viewDocRef)
+  //     {
+  //       setIsViewSubscribed(false)
+  //       setViewDocRef(null)
+  //     }
+  //     setViewDocRef(conversationDocRef)
+  //     setIsViewSubscribed(true)
       
-  }
+  // }
 
   return (
     // <div className={styles.chatWrapper}>
     <div className='chatWrapper'>
       {/* Left Side - Chat List */}
       {/* <div className={styles.chatList}> */}
-      <div className='chatList bg-patekGreen'>
+      <div className='chatList'>
         <button className='startChatBtn' onClick={startNewConversation}>Start New Conversation</button>
         {loading ? (
           <p>Loading conversations...</p>
         ) : (
           <>
-            <div className="flex items-center space-x-1 hover:bg-gray-200 cursor-pointer" onClick={toggleChannels}>
+            <div className="flex items-center space-x-1 text-gray-700 hover:bg-gray-200 cursor-pointer" onClick={toggleChannels}>
               
               <p>#</p>
 
@@ -404,22 +353,37 @@ const ChatList = ({ userId }: ChatListProps) => {
             <div className="flex items-center space-x-1 hover:bg-gray-200 cursor-pointer" onClick={toggleDirectMessages}>
               
               <svg width="12" height="12" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 15L0.339745 0L17.6603 0L9 15Z" fill="#FFFF"/>
+                  <path d="M9 15L0.339745 0L17.6603 0L9 15Z" fill="#1E1E1E"/>
               </svg>
 
-              <p className="">Direct messages</p>            
+              <p className="text-gray-700">Messages</p>            
             </div>
             { showDirectMessages &&
-                 <ul>
-                  {[...conversationTags.entries()].map(([key]) => (
+                <ul>
+
+                    {/* {[...conversationTags.entries()].map(([key]) => (
                     <li className="pl-4" key={key}>
                       <button onClick={()=>queryConversation(key)}>
-                          {key}
-                      </button>
-                      
-                    </li>
-                  ))}
-               </ul>
+                          {key} */}
+
+
+                  {conversations.map((conversation) => {
+                    // Get user emails from the usersMap, excluding the current user
+                    const userEmails = conversation.users
+                      .filter((id) => id !== userId) // Exclude the current user's ID
+                      .map((id) => usersMap[id]?.email) // Get the user email from the map
+                      .filter(email => email) // Ensure the email is not undefined
+                      .join(', '); // Join emails with a comma
+
+                    return (
+                      <li className="pl-4 text-gray-700" key={conversation.id}>
+                        <button onClick={() => setSelectedConversation(conversation)}>
+                          {userEmails || "Unnamed User"} {/* Fallback if no emails are found */}
+                        </button>
+                      </li>
+                    );
+                  })}
+              </ul>
             }
           </>
         )}
@@ -428,9 +392,8 @@ const ChatList = ({ userId }: ChatListProps) => {
       {/* Right Side - Chat Window */}
       {/* <div className={styles.chatWindow}> */}
       <div className='chatWindow'>
-        {selectedConversation2 ? (
-          // <ChatWindow conversationId={selectedConversation.id} userId={userId} />
-          <ChatWindow conversationId={selectedConversation2.id} userId={userId} />
+        {selectedConversation ? (
+          <ChatWindow conversationId={selectedConversation.id} userId={userId} />
         ) : (
           <p>Select a conversation to view messages</p>
         )}
