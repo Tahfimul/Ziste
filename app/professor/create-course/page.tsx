@@ -203,7 +203,7 @@ const CourseCreation = () => {
             const courseID = uuidv4()
             const courseDocRef = doc(db, `courses-temp/${courseID}`)
             await setDoc(courseDocRef, {
-                courseID:courseID,
+                courseId:courseID,
                 courseTitle: courseTitle,
                 subject: subject,
                 courseDescription: courseDescription,

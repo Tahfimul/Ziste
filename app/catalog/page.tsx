@@ -112,6 +112,9 @@ const fetchCourses = async (/**page: number*/) => {
     // setLastVisibleDoc(snapshot.docs[snapshot.docs.length - 1] || null);
     setLoading(false);
   } catch (error) {
+    console.log('------')
+    console.log(error)
+    console.log('------')
     setError("Failed to fetch courses.");
     setLoading(false);
   }

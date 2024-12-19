@@ -49,10 +49,14 @@ const CourseDashboard: React.FC = () => {
 
     setLoading(true);
     try {
+      console.log('courseId in courseDashboard: ',courseId);
       const courseDocRef = doc(db, "courses-temp", courseId);
       const courseDoc = await getDoc(courseDocRef);
 
+      
+
       if (courseDoc.exists()) {
+        console.log('courseDoc exists in courseDashboard');
         const courseData = courseDoc.data() as Course;
         const professorDocRef = courseData.professorRef; // Reference to professor
 
@@ -60,13 +64,15 @@ const CourseDashboard: React.FC = () => {
         const professorDoc = await getDoc(professorDocRef);
 
         if (professorDoc.exists()) {
+          console.log('professorDoc exists in courseDashboard');
           const professorData = professorDoc.data();
-          
+          console.log('professorData in courseDashboard: ',professorData)
           // Fetch user data from the 'users' collection using professor's userId
           const userDocRef = doc(db, "users", professorData?.userId);
           const userDoc = await getDoc(userDocRef);
 
           if (userDoc.exists()) {
+            console.log('userDoc exists in courseDashboard');
             const userData = userDoc.data();
             const professorName = `Professor ${userData?.firstName} ${userData?.lastName}`;
             const schoolName = professorData.experience?.[0]?.institution || "Institution Not Available";
@@ -88,7 +94,9 @@ const CourseDashboard: React.FC = () => {
         setError("Course not found.");
       }
     } catch (error) {
+      console.log('----------');
       setError("Failed to fetch course details.");
+      console.log('---------------');
     } finally {
       setLoading(false);
     }

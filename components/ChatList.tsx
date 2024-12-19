@@ -2,13 +2,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs, doc} from 'firebase/firestore';
-import { db } from '../services/firebase';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp, Timestamp, getDocs, doc, getDoc} from 'firebase/firestore';
+import { db, firebaseAuth } from '../services/firebase';
 import { fetchUsers } from '../services/UserService';
 import ChatWindow from './ChatWindow';
 // import styles from './ChatList.module.css';
 import '@/styles/globals.css'
 import { v4 as uuidv4 } from 'uuid';
+import { useSearchParams } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
 
 interface Conversation {
   id: string;
@@ -31,7 +33,20 @@ enum conversationType
   CHAT
 }
 
+type User = {
+  uid:string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isProfessor: boolean;
+  studentRef?:any;
+  professorRef?:any;
+}
+
 const ChatList = ({ userId }: ChatListProps) => {
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const [userInfo, setUserInfo] = useState<User|null>(null)
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
@@ -126,8 +141,44 @@ const ChatList = ({ userId }: ChatListProps) => {
   },[viewDocRef, isViewSubscribed])
 
   useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+        if (user) {
+            (
+               async ()=>
+                {   
+                    const userDocRef = doc(db, `users/${user.uid}`);
+                    const userDocSnapshot = await getDoc(userDocRef);
+                    if(userDocSnapshot.exists())
+                    {
+                        setUserInfo
+                        ({                        
+                            uid: user.uid, 
+                            firstName: userDocSnapshot.data().firstName, 
+                            lastName:userDocSnapshot.data().lastName,
+                            email: userDocSnapshot.data().email,
+                            isProfessor: userDocSnapshot.data().professorDocRef !== null
+                        })
+                    }
+                   
+                }
+         
+            )()
+          
+        } else {
+                setUserInfo(null)
+        }
+        
+      });
+  
+      return () => unsubscribe();
+    },[])
+
+  useEffect(()=>{
+
+    if(userInfo)
+    {
      
-    const firstDocRef = doc(db, `courses/0QjIlcwcWo3kAEKhY6zE/conversations`, '9JLAdM7tnCan4nhw6W2msPveyej1');
+    const firstDocRef = doc(db, `courses-temp/${courseId}}/conversations`, userInfo.email);
         
     const unsubscribe = onSnapshot(firstDocRef, (snapshot)=>
     {
@@ -163,10 +214,11 @@ const ChatList = ({ userId }: ChatListProps) => {
 
 
     return ()=> unsubscribe();
+  }
       
 
 
-  }, [conversationTags]);
+  }, [conversationTags, userInfo]);
 
   // Fetch conversations frxom Firestore
 
