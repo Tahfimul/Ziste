@@ -2,13 +2,20 @@ import Logo from "@/app/assets/logo.svg";
 import DownCircleArrow from "@/app/assets/reshot-chevron-arrow-down-circle.svg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Signin from "./Sign_In";
 import { AnimatePresence } from "framer-motion";
 import { AuthContext } from "@/components/contexts/AuthContextProvider";
 import { useContext } from "react";
+import { firebaseSignOut } from '@/services/authService';
+import { useRouter } from 'next/navigation';
+
+
 
 const App = () => {
+    const [isSigningOut, setIsSigningOut] = useState(false); // New flag to handle sign-out
+    const router = useRouter();
+
     const auth = useContext(AuthContext);
 
     const [viewSignin, setViewSignin] = React.useState<boolean>(false);
@@ -18,6 +25,14 @@ const App = () => {
     useEffect(() => {
         setViewSignin(auth.showSignIn);
     }, [auth.showSignIn]);
+
+    const handleSignOut = async () => {
+        setIsSigningOut(true); // Set the signing-out flag
+        await firebaseSignOut();
+        router.push('/'); // Explicitly navigate to the main page
+        setIsSigningOut(false); // Reset the flag (if needed)
+    };
+    
     return (
         <header className=" bg-white h-screen w-screen relative z-0">
             <AnimatePresence>
@@ -48,11 +63,21 @@ const App = () => {
                     {session?.user ? <></> : <></>}
 
                     {auth?.user ? (
-                        <></>
+                        <>
+                        <div>
+                            <button
+                                className="flex font-semibold shadow-md rounded-full px-9 py-4 mr-1 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A] transition-transform duration-250 ease-in-out transform hover:scale-105"
+                                onClick={handleSignOut}
+                                disabled={isSigningOut} // Disable button while signing out
+                            >
+                                {isSigningOut ? "Signing Out..." : "Sign Out"} {/* Show feedback */}
+                            </button>
+                        </div>
+                        </>
                     ) : (
                         <div>
                             <button
-                                className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A] transition-transform duration-250 ease-in-out transform hover:scale-105"
+                                className="flex font-semibold shadow-md rounded-full px-10 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A] transition-transform duration-250 ease-in-out transform hover:scale-105"
                                 onClick={() => auth.setShowSignIn()}
                             >
                                 Sign In
@@ -73,7 +98,7 @@ const App = () => {
                     <div>
                         <a href="/catalog">
                             <button
-                                className="flex font-semibold shadow-md rounded-full px-6 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F] transition-transform duration-250 ease-in-out transform hover:scale-105"
+                                className="flex font-semibold shadow-md rounded-full px-9 py-4 text-[2.2vw] text-white bg-gradient-to-r from-[#E07A5F] via-[#f7b29e] to-[#E07A5F] transition-transform duration-250 ease-in-out transform hover:scale-105"
                                 style={{ position: "relative", zIndex: 100 }}
                             >
                                 Browse

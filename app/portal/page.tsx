@@ -153,7 +153,7 @@ export default function Portal() {
                 </div>
             } 
             <div className="ml-[7vw]">
-                <GradientBorder className="inline-block rounded-full">
+                <GradientBorder className="inline-block rounded-full gradient-animate">
                     <h2 className="px-[1vw] py-[0.6vh] border-none text-[1.5vw] text-black font-normal bg-white rounded-full">
                         Courses I&#39;m Taking:
                     </h2>
