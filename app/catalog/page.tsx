@@ -14,7 +14,8 @@ import { Footer } from '@/components/Footer';
 import Loading from '../../components/Loading';
 import { Schedule } from "../professor/create-course/page";
 
-interface Course {
+// This is the data saved in the courses-temp collection
+export interface Course {
   courseTitle: string;
   courseDescription: string;
   subject: string;
@@ -27,8 +28,10 @@ interface Course {
   startDate: string;
   professorRef: DocumentReference; 
   schedule: Schedule
+  courseId: string
 }
 
+// This is the course data + added fields
 interface FullCourse extends Course{
   professorName: string;
   schoolName: string;
@@ -59,8 +62,12 @@ const fetchCourses = async (/**page: number*/) => {
     );
 
     const snapshot = await getDocs(coursesQuery);
-    // Add data type for course here
-    const courseData = snapshot.docs.map(doc => doc.data() as Course);
+    
+    // Extracting id from each course doc
+    const courseData = snapshot.docs.map((doc) => ({
+      courseId: doc.id,
+      ...doc.data(),
+    }) as Course);
 
     // Appending professor name and school to each course data
     const fullCourseData = await Promise.all(
@@ -213,7 +220,7 @@ if (error) {
                 price={course.price}
                 materials={course.materials}
                 date={course.startDate}
-                courseID={''}
+                courseID={course.courseId}
               />
             ))}
         </div>

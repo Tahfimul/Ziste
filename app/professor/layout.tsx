@@ -1,7 +1,5 @@
 "use client";
 import React, { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import RegisterProgress from "../../components/RegisterProgress";
 import { UserContextProvider } from "@/components/contexts/UserContextProvider";
 
 interface LayoutProps {

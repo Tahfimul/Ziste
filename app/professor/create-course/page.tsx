@@ -9,7 +9,7 @@ import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, updateDoc, arrayUnion, DocumentReference} from "firebase/firestore";
 import { db } from "@/services/firebase";
 // import { useUser } from "@/components/contexts/UserContextProvider";
 import { firebaseAuth } from "@/services/firebase";
@@ -117,7 +117,7 @@ const CourseCreation = () => {
     // const uploadSyllabus = () => {}
 
 
-    const getProfessorId = async () => {
+    const getProfessorRef = async () => {
         try {
             const collectionRef = collection(db, 'professors')
             console.log(user?.uid)
@@ -151,10 +151,10 @@ const CourseCreation = () => {
 
         setError("")
 
-        const professorId = await getProfessorId()
+        const professorRef: DocumentReference | undefined = await getProfessorRef()
 
         try {
-            await addDoc(collection(db, "courses-temp"), {
+            const courseDocRef = await addDoc(collection(db, "courses-temp"), {
                 courseTitle: courseTitle,
                 subject: subject,
                 courseDescription: courseDescription,
@@ -164,9 +164,14 @@ const CourseCreation = () => {
                 schedule: schedule,
                 materials: "Computer",
                 price: "20",
-                professorRef: professorId,
+                professorRef: professorRef,
                 createdAt: new Date()
             })
+
+            // Use the course ID to update the professor's courses array
+            await updateDoc(professorRef!, {
+                courses: arrayUnion(courseDocRef.id),
+            });
 
             router.push("/portal")
 

@@ -31,6 +31,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
 const [isBookmark, setBookmark] = useState(false);
 
+// jank fix to TS error
+console.log(length)
+
 const handleBookmarkClick = () => {
     setBookmark(!isBookmark);
 }
