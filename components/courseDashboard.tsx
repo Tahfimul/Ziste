@@ -1,42 +1,133 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation"; // Use this hook for query params
+import { db } from "@/services/firebase";
+import { doc, getDoc, DocumentReference } from "firebase/firestore";
+import { format } from "date-fns"; // For date formatting
+import Calendar from "react-calendar"; // For calendar view
 
-const CourseDashboard = () => {
-  // State for selected section
+interface Course {
+  courseTitle: string;
+  courseDescription: string;
+  subject: string;
+  length: string;
+  price: string;
+  materials: string;
+  classSize: number;
+  endDate: string;
+  createdAt: Date;
+  startDate: string;
+  professorRef: DocumentReference;
+  courseId: string;
+}
+
+interface FullCourse extends Course {
+  professorName: string;
+  schoolName: string;
+  professorPic: string;
+}
+
+const CourseDashboard: React.FC = () => {
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("courseId"); // Get courseId from URL query parameters
+
+  const [course, setCourse] = useState<FullCourse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string>("professorInfo");
 
   const sections = [
-    { id: "syllabus", name: "Syllabus", bgColor: "#F2CC8F" },
     { id: "professorInfo", name: "Professor Info", bgColor: "#9FA5DB" },
-    { id: "materials", name: "Materials", bgColor: "#81B29A" },
-    { id: "classInfo", name: "Class Info", bgColor: "#E07A5F" },
+    { id: "classInfo", name: "Class Info", bgColor: "#F2CC8F" },
+    { id: "syllabus", name: "Syllabus", bgColor: "#81B29A" },
+    { id: "materials", name: "Materials", bgColor: "#E07A5F" },
   ];
+
+  // Fetch course and professor data
+  const fetchCourseDetails = async () => {
+    if (!courseId) return; // Ensure courseId is available
+
+    setLoading(true);
+    try {
+      const courseDocRef = doc(db, "courses-temp", courseId);
+      const courseDoc = await getDoc(courseDocRef);
+
+      if (courseDoc.exists()) {
+        const courseData = courseDoc.data() as Course;
+        const professorDocRef = courseData.professorRef; // Reference to professor
+
+        // Fetch the professor's data from the professorRef
+        const professorDoc = await getDoc(professorDocRef);
+
+        if (professorDoc.exists()) {
+          const professorData = professorDoc.data();
+          
+          // Fetch user data from the 'users' collection using professor's userId
+          const userDocRef = doc(db, "users", professorData?.userId);
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const professorName = `Professor ${userData?.firstName} ${userData?.lastName}`;
+            const schoolName = professorData.experience?.[0]?.institution || "Institution Not Available";
+            const professorPic = userData?.profilePic || "/default-profile-pic.jpg"; // Default image if none exists
+
+            setCourse({
+              ...courseData,
+              professorName,
+              schoolName,
+              professorPic,
+            });
+          } else {
+            setError("User data for professor not found.");
+          }
+        } else {
+          setError("Professor not found.");
+        }
+      } else {
+        setError("Course not found.");
+      }
+    } catch (error) {
+      setError("Failed to fetch course details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [courseId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  if (!course) return <div>No course data available.</div>;
 
   const handleSelect = (id: string) => {
     setSelectedSection(id);
   };
 
-  // Functions for adding and editing files
   const handleAddFile = () => {
     alert("Add file functionality will be here.");
-    // Implement file upload logic here
   };
 
   const handleEditSyllabus = () => {
     alert("Edit syllabus functionality will be here.");
-    // Implement syllabus edit logic here
   };
 
   const handleEditMaterials = () => {
     alert("Edit materials functionality will be here.");
-    // Implement materials edit logic here
+  };
+
+  const formatDate = (dateString: string) => {
+    return format(new Date(dateString), "MMMM dd, yyyy");
   };
 
   return (
     <div className="flex space-x-6">
       {/* Left Side - Dashboard Links */}
-      <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4"> {/* Added margin-left */}
+      <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4">
         {sections.map((section) => (
           <button
             key={section.id}
@@ -61,18 +152,68 @@ const CourseDashboard = () => {
       {/* Right Side - Section Details (Permanent Window) */}
       <div className="w-[60vw]">
         <div className="bg-white shadow-lg rounded-lg p-6">
-          {/* Section Details */}
           {selectedSection === "professorInfo" && (
+            <div className="text-center">
+              <h3 className="text-3xl font-semibold mb-4 text-gray-800">
+                Welcome to {course.courseTitle}
+              </h3>
+              <div className="flex justify-center items-center gap-6">
+                <img
+                  src={course.professorPic}
+                  alt="Professor"
+                  className="w-24 h-24 rounded-full"
+                />
+                <div>
+                  <h4 className="text-lg font-semibold">{course.professorName}</h4>
+                  <p className="text-sm text-gray-600 bg-yellow-200 px-2 py-1 rounded-md">
+                    {course.schoolName}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedSection === "classInfo" && (
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Professor Info</h3>
-              <p className="text-gray-600">Here is the professor information.</p>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Class Info</h3>
+              <p className="text-lg mb-4">{course.courseDescription}</p>
+              <div className="mt-4">
+                <p className="text-lg font-semibold text-green-600">
+                  Class Starts on: {formatDate(course.startDate)}
+                </p>
+                <p className="text-lg font-semibold text-red-600">
+                  Class Ends on: {formatDate(course.endDate)}
+                </p>
+                <p className="text-gray-600">Class size: {course.classSize}</p>
+                <p className="text-gray-600">Seats available: {course.classSize - 10}</p> {/* Example seats available */}
+              </div>
+
+              {/* Calendar */}
+              <div className="mt-6">
+              <Calendar
+  value={new Date(course.startDate)}
+  tileClassName={({ date }: { date: Date }) => {
+    if (date.toDateString() === new Date(course.startDate).toDateString()) {
+      return "bg-green-500 text-white"; // Highlight start date
+    }
+    if (date.toDateString() === new Date(course.endDate).toDateString()) {
+      return "bg-red-500 text-white"; // Highlight end date
+    }
+    return "";
+  }}
+  next2Label={null}  // Disables the "next year" button
+  prev2Label={null}  // Disables the "previous year" button
+  showNeighboringMonth={false}  // Prevents showing dates from the previous/next month
+  showNavigation={true}  // Keeps the month navigation visible
+  view="month"  // Ensures the view is always month-based
+/>
+              </div>
             </div>
           )}
 
           {selectedSection === "syllabus" && (
             <div>
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Syllabus</h3>
-              <p className="text-gray-600">Here is the syllabus content.</p>
               <div className="mt-4">
                 <button
                   onClick={handleAddFile}
@@ -93,7 +234,7 @@ const CourseDashboard = () => {
           {selectedSection === "materials" && (
             <div>
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Materials</h3>
-              <p className="text-gray-600">Here are the materials for the course.</p>
+              <p className="text-xl text-gray-600">{course.materials}</p>
               <div className="mt-4">
                 <button
                   onClick={handleAddFile}
@@ -108,13 +249,6 @@ const CourseDashboard = () => {
                   Edit Materials
                 </button>
               </div>
-            </div>
-          )}
-
-          {selectedSection === "classInfo" && (
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Class Info</h3>
-              <p className="text-gray-600">Here is the class information.</p>
             </div>
           )}
         </div>
