@@ -7,12 +7,14 @@ import { Image } from "lucide-react";
 interface EnrolledCourseCardProps {
     courseTitle: string;
     professorName: string;
+    courseId: string;
     index: number;
 }
 
 export const EnrolledCourseCard: React.FC<EnrolledCourseCardProps> = ({
     courseTitle,
     professorName,
+    courseId,
     index,
     
 }) => {
@@ -21,7 +23,7 @@ export const EnrolledCourseCard: React.FC<EnrolledCourseCardProps> = ({
     const router = useRouter();
 
     const showEnrolledCourse = ()=> {
-        router.push(`/viewenrolledcoursepage?courseTitle=${courseTitle}`)
+        router.push(`/viewenrolledcoursepage?courseId=${courseId}`)
     }
 
     const courseColor = colorArray[index % colorArray.length];

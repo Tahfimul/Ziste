@@ -36,7 +36,7 @@ const CourseCreation = () => {
     const router = useRouter();
     // const { user } = useUser();
     const user = firebaseAuth.currentUser
-    console.log("user: ", user?.uid)
+    // console.log("user: ", user?.uid)
 
     const [showModal, setShowModal] = React.useState(false)
     const [error, setError] = React.useState("")
@@ -188,7 +188,7 @@ const CourseCreation = () => {
             <div className="flex flex-col w-1/2 items-center">
                 <div className="w-2/3 mt-12">
                     <h1 className="text-3xl font-bold mb-4">
-                        Setup Your First Course
+                        Setup Your Course
                     </h1>
                     <form className="flex flex-col gap-8" onSubmit={() => {}}>
                         <input
@@ -270,7 +270,7 @@ const CourseCreation = () => {
                     >
                         Create Course
                     </button>
-                    <Link href="/portal"><div className="underline ml-2 mt-2 text-sm">Do it later</div></Link>
+                    <Link href="/portal"><div className="underline ml-2 mt-2 text-sm">I&#39;ll do it later</div></Link>
                 </div>
             </div>
             <div className="flex flex-col">
