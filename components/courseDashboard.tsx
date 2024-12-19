@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"; // Use this hook for query pa
 import { db } from "@/services/firebase";
 import { doc, getDoc, DocumentReference } from "firebase/firestore";
 import { format } from "date-fns"; // For date formatting
+import { getStorage, ref, getDownloadURL } from "firebase/storage"; // Firebase Storage imports
 
 interface Course {
   courseTitle: string;
@@ -35,6 +36,7 @@ const CourseDashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string>("professorInfo");
+  const [professorPic, setProfessorPic] = useState<string>("");
 
   const sections = [
     { id: "professorInfo", name: "Professor Info", bgColor: "#9FA5DB" },
@@ -42,6 +44,19 @@ const CourseDashboard: React.FC = () => {
     { id: "syllabus", name: "Syllabus", bgColor: "#81B29A" },
     { id: "materials", name: "Materials", bgColor: "#E07A5F" },
   ];
+
+  // Fetch professor's avatar
+  const fetchProfessorPic = async (professorId: string) => {
+    try {
+      const storage = getStorage();
+      const imageRef = ref(storage, `users/${professorId}/profile.jpg`);
+      const url = await getDownloadURL(imageRef);
+      setProfessorPic(url);
+    } catch (error) {
+      console.error("Error fetching professor's avatar:", error);
+      setProfessorPic("/default-profile-pic.jpg"); // Default avatar if there's an error
+    }
+  };
 
   // Fetch course and professor data
   const fetchCourseDetails = async () => {
@@ -77,6 +92,9 @@ const CourseDashboard: React.FC = () => {
             const professorName = `Professor ${userData?.firstName} ${userData?.lastName}`;
             const schoolName = professorData.experience?.[0]?.institution || "Institution Not Available";
             const professorPic = userData?.profilePic || "/default-profile-pic.jpg"; // Default image if none exists
+
+            // Fetch the professor's avatar image
+            fetchProfessorPic(professorData.userId);
 
             setCourse({
               ...courseData,
@@ -115,136 +133,86 @@ const CourseDashboard: React.FC = () => {
     setSelectedSection(id);
   };
 
-  const handleAddFile = () => {
-    alert("Coming soon");
-  };
-
-  const handleEditSyllabus = () => {
-    alert("Edit syllabus functionality will be here.");
-  };
-
-  const handleEditMaterials = () => {
-    alert("Coming Soon");
-  };
-
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "MMMM dd, yyyy");
   };
 
   return (
     <div className="flex space-x-6">
-    {/* Left Side - Dashboard Links */}
-    <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4">
-      {sections.map((section) => (
-        <button
-          key={section.id}
-          onClick={() => handleSelect(section.id)}
-          className="flex flex-col w-full h-[12vh] rounded-lg bg-transparent shadow-md transition-transform duration-200 ease-in-out transform hover:scale-105"
-        >
-          <div
-            className="flex flex-col items-start justify-start gap-y-2 w-full h-full rounded-md p-4"
-            style={{ backgroundColor: section.bgColor }}
+      {/* Left Side - Dashboard Links */}
+      <div className="dashboardLinks flex flex-col space-y-4 w-[20vw] ml-4">
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => handleSelect(section.id)}
+            className="flex flex-col w-full h-[12vh] rounded-lg bg-transparent shadow-md transition-transform duration-200 ease-in-out transform hover:scale-105"
           >
-            <h1 className="text-left text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
-              {section.name}
-            </h1>
-            <h2 className="text-left text-sm bg-gray-100 px-2 py-1 rounded-sm">
-              Details
-            </h2>
-          </div>
-        </button>
-      ))}
-    </div>
-  
-    {/* Right Side - Section Details (Dynamic Content) */}
-    <div className="w-[60vw]">
-      <div className="bg-white shadow-xl shadow-[#bfb4a3] px-[2vw] py-[2vh] rounded-2xl transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-[#d5c7b2]">
-        {selectedSection === "professorInfo" && (
-          <div className="text-center">
-            <h3 className="text-3xl font-semibold mb-4 text-gray-800">
-              Welcome to {course.courseTitle}
-            </h3>
-            <h4 className="text-3xl font-semibold mb-4 text-gray-800">
-              Meet your professor
-            </h4>
-            <div className="flex justify-center items-center gap-6">
-              <img
-                src={course.professorPic}
-                alt="Professor"
-                className="w-42 h-42 rounded-full"
-              />
-              <div>
-                <h2 className="text-lg font-semibold">{course.professorName}</h2>
-                <p className="text-sm text-gray-600 bg-yellow-200 px-2 py-1 rounded-md">
-                  {course.schoolName}
+            <div
+              className="flex flex-col items-start justify-start gap-y-2 w-full h-full rounded-md p-4"
+              style={{ backgroundColor: section.bgColor }}
+            >
+              <h1 className="text-left text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
+                {section.name}
+              </h1>
+              <h2 className="text-left text-sm bg-gray-100 px-2 py-1 rounded-sm">
+                Details
+              </h2>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Right Side - Section Details (Dynamic Content) */}
+      <div className="w-[60vw]">
+        <div className="bg-white shadow-xl shadow-[#bfb4a3] px-[2vw] py-[2vh] rounded-2xl transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-[#d5c7b2]">
+          {selectedSection === "professorInfo" && (
+            <div className="text-center">
+              <h3 className="text-3xl font-semibold mb-4 text-gray-800">
+                Welcome to {course.courseTitle}
+              </h3>
+              <h4 className="text-3xl font-semibold mb-4 text-gray-800">
+                Meet your professor
+              </h4>
+              <div className="flex justify-center items-center gap-6">
+                <img
+                  src={professorPic}
+                  alt="Professor"
+                  className="w-40 h-40 rounded-full"
+                />
+                <div>
+                  <h2 className="text-lg font-semibold">{course.professorName}</h2>
+                  <p className="text-sm text-gray-600 bg-yellow-200 px-2 py-1 rounded-md">
+                    {course.schoolName}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Other sections (classInfo, syllabus, materials) */}
+          {selectedSection === "classInfo" && (
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Class Info</h3>
+              <p className="text-lg mb-4">{course.courseDescription}</p>
+              <div className="mt-4">
+                <p className="text-lg font-semibold" style={{ color: "green" }}>
+                  Class Starts on: {formatDate(course.startDate)}
+                </p>
+                <p className="text-lg font-semibold" style={{ color: "red" }}>
+                  Class Ends on: {formatDate(course.endDate)}
+                </p>
+                <p className="text-gray-600">Class size: {course.classSize}</p>
+                <p className="text-gray-600">
+                  Seats available: {course.classSize - 10}
                 </p>
               </div>
             </div>
-          </div>
-        )}
-  
-        {selectedSection === "classInfo" && (
-          <div>
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Class Info</h3>
-            <p className="text-lg mb-4">{course.courseDescription}</p>
-            <div className="mt-4">
-              <p className="text-lg font-semibold" style={{ color: "green" }}>
-                Class Starts on: {formatDate(course.startDate)}
-              </p>
-              <p className="text-lg font-semibold" style={{ color: "red" }}>
-                Class Ends on: {formatDate(course.endDate)}
-              </p>
-              <p className="text-gray-600">Class size: {course.classSize}</p>
-              <p className="text-gray-600">
-                Seats available: {course.classSize - 10}
-              </p>
-            </div>
-          </div>
-        )}
-  
-        {selectedSection === "syllabus" && (
-          <div>
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Syllabus</h3>
-            <div className="mt-4">
-              <button
-                onClick={handleAddFile}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
-              >
-                Add File
-              </button>
-              <button
-                onClick={handleEditSyllabus}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md ml-4"
-              >
-                Edit Syllabus
-              </button>
-            </div>
-          </div>
-        )}
-  
-        {selectedSection === "materials" && (
-          <div>
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Materials</h3>
-            <p className="text-xl text-gray-600">{course.materials}</p>
-            <div className="mt-4">
-              <button
-                onClick={handleAddFile}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
-              >
-                Add File
-              </button>
-              <button
-                onClick={handleEditMaterials}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md ml-4"
-              >
-                Edit Materials
-              </button>
-            </div>
-          </div>
-        )}
+          )}
+
+          {/* Other sections (syllabus, materials) */}
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
