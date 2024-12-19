@@ -14,6 +14,14 @@ type User = {
     email: string;
     isProfessor: boolean;
 }
+type ScheduleItem =
+{
+    id:number;
+    date: string;
+    startTime: string;
+    endTime: string;
+}
+
 export default function EnlistCourse()
 {
 
@@ -26,7 +34,8 @@ export default function EnlistCourse()
     const [userInfo, setUserInfo] = useState<User|null>(null)
     const [SchoolName, setSchoolName] = useState<string>('')
     const [Subject, setSubject] = useState<string>('')
-
+    const [courseSchedule, setSchedule] = useState<ScheduleItem[]>([])
+    
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
@@ -37,11 +46,14 @@ export default function EnlistCourse()
                         const userDocSnapshot = await getDoc(userDocRef);
                         if(userDocSnapshot.exists())
                         {
-                            setUserInfo({uid: user.uid, 
+                            setUserInfo
+                            ({                        
+                                uid: user.uid, 
                                 firstName: userDocSnapshot.data().firstName, 
                                 lastName:userDocSnapshot.data().lastName,
                                 email: userDocSnapshot.data().email,
-                                isProfessor: userDocSnapshot.data().professorDocRef !== null})
+                                isProfessor: userDocSnapshot.data().professorDocRef !== null
+                            })
                         }
                        
                     }
@@ -72,6 +84,12 @@ export default function EnlistCourse()
 
         (async ()=>
             {
+                const schedule:{start:number; end:number}[] = [];
+                courseSchedule.forEach((item) => {
+                    const start_timestamp = new Date(`${item.date}T${item.startTime}`).getTime();
+                    const end_timestamp = new Date(`${item.date}T${item.endTime}`).getTime();
+                    schedule.push({start: start_timestamp, end: end_timestamp});
+                });
                 
                 await setDoc(courseDocRef, {
                     courseID:courseID,
@@ -83,7 +101,8 @@ export default function EnlistCourse()
                     price: CoursePrice,
                     professorName: `${userInfo?.firstName} ${userInfo?.lastName}`,
                     schoolName: SchoolName,
-                    subject: Subject,                   
+                    subject: Subject,     
+                    schedule: schedule              
                 });
 
                 const accessControlsCollectionName = "access_controls";
@@ -180,11 +199,32 @@ export default function EnlistCourse()
                 
                 const participants_docRef = doc(db, `courses/${courseID}/${particiapantsCollectionName}/${participantsDocumentID}`)
                 await setDoc(participants_docRef, participants_data);
+                
+               
+
+                
+                
             }
         )()
     }
 
 
+    const addScheduleItem = ()=>
+    {
+        const item = {id:new Date().getTime(), date:'', startTime:'', endTime:''}
+        setSchedule([...courseSchedule, item])
+    }
+
+    
+    const updateScheduleItem = (id: number, field: "date" | "startTime" | "endTime", value: string) => {
+        setSchedule((prev) =>
+        prev.map((item) =>
+            item.id === id ? { ...item, [field]: value } : item
+        )
+        );
+
+        console.log(courseSchedule);
+    };
 
 
     return (
@@ -258,6 +298,59 @@ export default function EnlistCourse()
                                     onChange={(e) => setSubject(e.target.value)}
                                     required
                                 />
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex flex-col">
+                                        <h2 className="text-lg font-semibold">Schedule</h2>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <button onClick={addScheduleItem}>+</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    {   courseSchedule.map((item)=>
+                                        (
+                                            <div key={item.id} className="flex items-center space-x-4">
+                                                <div className="flex flex-col">
+                                                    <label className="text-sm font-medium text-gray-700">Date:</label>
+                                                    <input
+                                                    type="date"
+                                                    value={item.date}
+                                                    onChange={(e) =>
+                                                        updateScheduleItem(item.id, "date", e.target.value)
+                                                    }
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                    required
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label className="text-sm font-medium text-gray-700">Start Time:</label>
+                                                    <input
+                                                    type="time"
+                                                    value={item.startTime}
+                                                    onChange={(e) =>
+                                                        updateScheduleItem(item.id, "startTime", e.target.value)
+                                                    }
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                    required
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label className="text-sm font-medium text-gray-700">End Time:</label>
+                                                    <input
+                                                    type="time"
+                                                    value={item.endTime}
+                                                    onChange={(e) =>
+                                                        updateScheduleItem(item.id, "endTime", e.target.value)
+                                                    }
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                    required
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                               </div>
+                                
                                 <GradientBorder className="rounded-full gradient-animate">
                                     <button
                                         className="flex px-[2vw] py-[1.5vh] rounded-full items-center bg-white hover:scale-105 transition-transform duration-300 ease-in-out"
