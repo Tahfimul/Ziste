@@ -1,63 +1,62 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import SadabHafiz from "@/app/assets/sadabHafiz.jpeg";
 
 
 const ProfCarousel = () => {
     const cards = [
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
+            image: ,
             name: "Sadab Hafiz",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },
         {
             bg: "bg-slate-100",
-            image: SadabHafiz,
-            name: "Sadab Hafiz",
+            image: ,
+            name: "",
             college: "CUNY Hunter College",
             subject: "Computer Science",
         },

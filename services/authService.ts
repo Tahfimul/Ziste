@@ -37,6 +37,8 @@ export const firebaseSignIn = async ({ email, password }: SigninFormValues) => {
         email,
         password
     );
+
+    console.log("userID: ", result.user.uid);
     return result;
 };
 
