@@ -8,6 +8,7 @@ import { EnrolledCourseCard } from "@/components/EnrolledCourseCard";
 import { doc, getDoc } from "firebase/firestore";
 import { db, firebaseAuth } from "@/services/firebase";
 import { useRouter } from "next/navigation";
+import GradientBorder from "@/components/GradientBorder";
 
 
 export default function Portal() {
@@ -120,8 +121,14 @@ export default function Portal() {
             {user?.professorDocRef &&
                 <div>
                     <div className="flex flex-row justify-between">
-                        <h2 className="ml-[10vw] text-[2vw] text-black font-semibold mt-[1vh]">Courses I&#39;m Teaching</h2>
-                        <button
+                    <div className="ml-[7vw]">
+                        <GradientBorder className="inline-block rounded-full">
+                            <h2 className="px-[1vw] py-[0.6vh] border-none text-[1.5vw] text-black font-normal bg-white rounded-full">
+                                Courses I&#39;m Taking:
+                            </h2>
+                        </GradientBorder>
+                    </div>
+                    <button
                         className={
                             "bg-[#81B29A] text-white mr-[10vw] py-2 px-8 rounded-lg drop-shadow-[2px_3px_2px_rgba(0,0,0,0.25)]"
                         }
@@ -145,8 +152,13 @@ export default function Portal() {
                     </div>
                 </div>
             } 
-
-            <h2 className="ml-[10vw] text-[2vw] text-black font-semibold mt-[1vh]">Courses I&#39;m Taking</h2>
+            <div className="ml-[7vw]">
+                <GradientBorder className="inline-block rounded-full">
+                    <h2 className="px-[1vw] py-[0.6vh] border-none text-[1.5vw] text-black font-normal bg-white rounded-full">
+                        Courses I&#39;m Taking:
+                    </h2>
+                </GradientBorder>
+            </div>
             <div className="grid grid-cols-3 justify-center mx-[10vw] mt-[3vh] mb-[10vh] gap-[4vw]">
                 {studentCourses.map((course: any, index: number) => {
                     return (
