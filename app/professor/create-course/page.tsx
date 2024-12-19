@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useUser } from "@/components/contexts/UserContextProvider";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -9,10 +9,12 @@ import "react-clock/dist/Clock.css";
 import { Switch } from "@/components/ui/switch"
 import { TimePicker } from "@/components/ui/datetime-picker"
 import Link from "next/link";
-import { addDoc, collection, query, where, getDocs, updateDoc, arrayUnion, DocumentReference} from "firebase/firestore";
+import { collection, query, where, getDocs,  arrayUnion, DocumentReference, setDoc, doc, getDoc} from "firebase/firestore";
 import { db } from "@/services/firebase";
 // import { useUser } from "@/components/contexts/UserContextProvider";
 import { firebaseAuth } from "@/services/firebase";
+import { v4 as uuidv4 } from 'uuid';
+import { onAuthStateChanged } from "firebase/auth";
 
 export interface DaySchedule {
     start: Date;
@@ -32,6 +34,16 @@ interface ScheduleModalProps {
     setShowModal: (show: boolean) => void;
 }
 
+type User = {
+    uid:string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    isProfessor: boolean;
+    studentRef?:any;
+    professorRef?:any;
+}
+
 const CourseCreation = () => {
     const router = useRouter();
     // const { user } = useUser();
@@ -47,6 +59,7 @@ const CourseCreation = () => {
     const [classSize, setClassSize] = React.useState(20)
     const [courseStart, setCourseStart] = React.useState(Date())
     const [courseEnd, setCourseEnd] = React.useState(Date())
+    const [userInfo, setUserInfo] = useState<User|null>(null)
 
     const [schedule, setSchedule] = React.useState<Schedule>({
         Monday: { start: new Date(new Date().setHours(10, 0, 0, 0)), end: new Date(new Date().setHours(14, 0, 0, 0)), selected: false },
@@ -130,6 +143,39 @@ const CourseCreation = () => {
         }
     }
 
+     useEffect(()=>{
+            const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+                if (user) {
+                    (
+                       async ()=>
+                        {   
+                            const userDocRef = doc(db, `users/${user.uid}`);
+                            const userDocSnapshot = await getDoc(userDocRef);
+                            if(userDocSnapshot.exists())
+                            {
+                                setUserInfo
+                                ({                        
+                                    uid: user.uid, 
+                                    firstName: userDocSnapshot.data().firstName, 
+                                    lastName:userDocSnapshot.data().lastName,
+                                    email: userDocSnapshot.data().email,
+                                    isProfessor: userDocSnapshot.data().professorDocRef !== null
+                                })
+                            }
+                           
+                        }
+                 
+                    )()
+                  
+                } else {
+                        setUserInfo(null)
+                }
+                
+              });
+          
+              return () => unsubscribe();
+        },[])
+
     // Handle errors
     const handleSubmit = async () => {
         for (const [key, value] of Object.entries({
@@ -154,7 +200,10 @@ const CourseCreation = () => {
         const professorRef: DocumentReference | undefined = await getProfessorRef()
 
         try {
-            const courseDocRef = await addDoc(collection(db, "courses-temp"), {
+            const courseID = uuidv4()
+            const courseDocRef = doc(db, `courses-temp/${courseID}`)
+            await setDoc(courseDocRef, {
+                courseID:courseID,
                 courseTitle: courseTitle,
                 subject: subject,
                 courseDescription: courseDescription,
@@ -169,10 +218,105 @@ const CourseCreation = () => {
             })
 
             // Use the course ID to update the professor's courses array
-            await updateDoc(professorRef!, {
-                courses: arrayUnion(courseDocRef.id),
+            await setDoc(professorRef!, {
+                courses: arrayUnion(courseID),
             });
 
+            const accessControlsCollectionName = "access_controls";
+                const can_add_channel_users_documentID = "can_add_channel_users";
+                const can_delete_posts_users_documentID = "can_delete_posts_users";
+                const can_post_users_documentID = "can_post_users";
+                const can_remove_channel_users_documentID = "can_remove_channel_users";
+                const can_remove_users_users_documentID = "can_remove_users_users";
+                const can_add_channel_users_data = {
+                    [userInfo?.email as string]: true,
+                };
+                const can_delete_posts_users_data = {
+                    [userInfo?.email as string]: true,
+                };
+                const can_post_users_data = {
+                    [userInfo?.email as string]: true,
+                };
+                const can_remove_channel_users_data = {
+                    [userInfo?.email as string]: true,
+                };
+                const can_remove_users_users_data = {
+                    [userInfo?.email as string]: true,
+                };
+
+                const can_add_channel_users_docRef = doc(db, `courses-temp/${courseID}/${accessControlsCollectionName}`, can_add_channel_users_documentID);
+
+                await setDoc(can_add_channel_users_docRef, can_add_channel_users_data);
+
+                const can_delete_posts_users_docRef = doc(db, `courses-temp/${courseID}/${accessControlsCollectionName}`, can_delete_posts_users_documentID);
+
+                await setDoc(can_delete_posts_users_docRef, can_delete_posts_users_data);
+
+                const can_post_users_docRef = doc(db, `courses-temp/${courseID}/${accessControlsCollectionName}`, can_post_users_documentID);
+
+                await setDoc(can_post_users_docRef, can_post_users_data);
+
+                const can_remove_channel_users_docRef = doc(db, `courses-temp/${courseID}/${accessControlsCollectionName}`, can_remove_channel_users_documentID);
+
+                await setDoc(can_remove_channel_users_docRef, can_remove_channel_users_data);
+
+                const can_remove_users_users_docRef = doc(db, `courses-temp/${courseID}/${accessControlsCollectionName}`, can_remove_users_users_documentID);
+
+                await setDoc(can_remove_users_users_docRef, can_remove_users_users_data);
+
+                const channnelsCollectionName = "channels";
+
+                const channelsDocumentID = "info";
+
+                const channels = {channels:['general']};
+
+                const channels_docRef = doc(db, `courses-temp/${courseID}/${channnelsCollectionName}`, channelsDocumentID);
+
+                await setDoc(channels_docRef, channels);
+
+                const generalChannelCollectionName = "general";
+
+                const generalChannelDocumentID = new Date().getTime()
+
+                const generalChannelDocumentID_data = {
+                    text: "Welcome to #general channel",
+                    timestamp: generalChannelDocumentID,
+                    user: userInfo?.email
+                }
+
+                const general_channel_docRef = doc(db, `courses-temp/${courseID}/${channnelsCollectionName}/${channelsDocumentID}/${generalChannelCollectionName}/${generalChannelDocumentID}`);
+                await setDoc(general_channel_docRef, generalChannelDocumentID_data);
+
+                
+                const conversationsCollectionName = "conversations";
+
+                const conversationsDocumentID = userInfo?.email;
+
+                const conversationsData = {conversations: [userInfo?.email]}
+
+                const conversations_docRef = doc(db, `courses-temp/${courseID}/${conversationsCollectionName}/${conversationsDocumentID}`);
+
+                await setDoc(conversations_docRef, conversationsData);
+
+                const currConversationCollectionName = userInfo?.email;
+
+                const currConversationDocumentID = new Date().getTime();
+
+                const currConversationData = {
+                    timestamp: currConversationDocumentID,
+                    text: 'Note to self',
+                    user: userInfo?.email
+                }
+
+                const currConversation_docRef = doc(db, `courses-temp/${courseID}/${conversationsCollectionName}/${conversationsDocumentID}/${currConversationCollectionName}/${currConversationDocumentID}`);
+                await setDoc(currConversation_docRef, currConversationData);
+
+                const particiapantsCollectionName = "participants";
+                const participantsDocumentID = userInfo?.uid;
+                const participants_data = {}
+                
+                const participants_docRef = doc(db, `courses-temp/${courseID}/${particiapantsCollectionName}/${participantsDocumentID}`)
+                await setDoc(participants_docRef, participants_data);
             router.push("/portal")
 
             // uploadSyllabus()

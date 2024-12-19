@@ -13,6 +13,8 @@ type User = {
     lastName: string;
     email: string;
     isProfessor: boolean;
+    studentRef?:any;
+    professorRef?:any;
 }
 type ScheduleItem =
 {
@@ -172,7 +174,7 @@ export default function EnlistCourse()
 
                 const conversationsCollectionName = "conversations";
 
-                const conversationsDocumentID = userInfo?.uid;
+                const conversationsDocumentID = userInfo?.email;
 
                 const conversationsData = {conversations: [userInfo?.email]}
 
