@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import { AuthContext } from "@/components/contexts/AuthContextProvider";
 import { useContext } from "react";
+import GradientBorder from "./GradientBorder";
 
 interface SigninProps {
     // setViewSignin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +38,7 @@ const Signin: React.FC<SigninProps> = () => {
             {(context) =>
                 context.user === null ? (
                     <motion.div
-                        className="w-auto h-screen bg-white absolute p-12 pt-[20vh] flex flex-col items-center drop-shadow-[3px_1px_6px_rgba(0,0,0,0.1)] gap-8 z-100"
+                        className="w-auto h-screen bg-white absolute p-12 pt-[15vh] flex flex-col items-center drop-shadow-[3px_1px_6px_rgba(0,0,0,0.1)] gap-8 z-100"
                         initial={{ x: "-100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "-100%" }}
@@ -48,7 +49,7 @@ const Signin: React.FC<SigninProps> = () => {
                     >
                         <FaArrowLeft
                             size={20}
-                            className="absolute top-[12vh] right-8 cursor-pointer"
+                            className="absolute top-[8vh] right-8 cursor-pointer"
                             onClick={() => auth.setShowSignIn()}
                         />
                         <h1 className="text-6xl font-semibold">Sign In</h1>
@@ -75,19 +76,25 @@ const Signin: React.FC<SigninProps> = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            <button
-                                className="font-semibold shadow-md rounded-full px-6 py-2 text-xl text-white bg-gradient-to-r from-[#81B29A] via-[#aed2c1] to-[#81B29A]"
-                                type="submit"
-                            >
-                                Sign in
-                            </button>
+                            <div className="transition-transform hover:scale-105 duration-300 ease-in-out">
+                                <GradientBorder className="rounded-full gradient-animate">
+                                    <button
+                                        className="flex px-[2vw] py-[1.5vh] rounded-full items-center bg-white"
+                                        type="submit"
+                                    >
+                                        <span className="text-[1.5vw] text-[#E07A5F] font-semibold">
+                                            Sign in
+                                        </span>
+                                    </button>
+                                </GradientBorder>
+                            </div>
                         </form>
                         {/* {error && <p>{error}</p>} */}
                         <button
                             onClick={async () => {
                                 await googleSignIn();
                             }}
-                            className="bg-sky-400 px-3 py-2 rounded"
+                            className="bg-[#81B29A] px-3 py-2 rounded-md transition-transform hover:scale-105 duration-300 ease-in-out"
                         >
                             Sign In with Google
                         </button>

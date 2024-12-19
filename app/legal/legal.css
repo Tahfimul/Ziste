@@ -1,0 +1,11 @@
+section {
+    scroll-margin-top: 9vw; /* Top Offset from navabr */
+}
+
+.sidebar {
+    position: fixed;
+    top: 10vh; /* Adjust to match the height of your navbar or desired offset */
+    left: 5vw; /* Align with the sidebar's original position */
+    width: 20vw; /* Ensure the width stays consistent */
+}
+

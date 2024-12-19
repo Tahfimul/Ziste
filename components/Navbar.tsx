@@ -143,6 +143,8 @@ export const Navbar = () => {
                                             <Image
                                                 src={auth.user.photoURL!}
                                                 alt="Profile Avatar"
+                                                width={10}
+                                                height={10}
                                                 className="w-10 h-10 rounded-full"
                                             />
                                         )}
@@ -187,6 +189,7 @@ export const Navbar = () => {
                                 </div>
                             </Link>
                         </li>
+                        //removed unnecessary <a> wrapping inside <link> causing dev error
                     )}
 
                     {/* Register Link for Guests */}
