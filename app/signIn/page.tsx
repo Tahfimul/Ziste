@@ -65,23 +65,25 @@ const SigninPage: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            <GradientBorder className="rounded-full gradient-animate">
-                                <button
-                                    className="flex px-[2vw] py-[1.5vh] rounded-full items-center bg-white hover:scale-105 transition-transform duration-300 ease-in-out"
-                                    type="submit"
-                                >
-                                    <span className="text-[1.5vw] text-[#E07A5F] font-semibold">
-                                        Sign in
-                                    </span>
-                                </button>
-                            </GradientBorder>
+                            <div className="transition-transform hover:scale-105 duration-300 ease-in-out">
+                                <GradientBorder className="rounded-full gradient-animate">
+                                    <button
+                                        className="flex px-[2vw] py-[1.5vh] rounded-full items-center bg-white"
+                                        type="submit"
+                                    >
+                                        <span className="text-[1.5vw] text-[#E07A5F] font-semibold">
+                                            Sign in
+                                        </span>
+                                    </button>
+                                </GradientBorder>
+                            </div>
 
                             <button
                             onClick={handleGoogleSignIn}
-                            className="bg-sky-400 px-3 py-2 rounded mt-4"
-                        >
-                            Sign In with Google
-                        </button>
+                            className="bg-[#81B29A] px-3 py-2 rounded mt-[1vh] transition-transform hover:scale-105 duration-300 ease-in-out"
+                            >
+                                Sign In with Google
+                            </button>
                         </form>
 
                         <p className="mt-4 text-center">
