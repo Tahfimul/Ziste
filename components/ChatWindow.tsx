@@ -1,25 +1,15 @@
-// components/ChatWindow.tsx
-// source: chatgpt
-"use client";
-
 import { useState, useEffect } from 'react';
-import { collection, query, doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, getDoc, doc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import styles from './ChatWindow.module.css';
-import { onAuthStateChanged } from 'firebase/auth';
-import { firebaseAuth } from '@/services/firebase'; 
+import { Timestamp } from 'firebase/firestore';
 
-// interface Message {
-//     id: string;
-//     senderId: string;
-//     text: string;
-//     createdAt: Timestamp; 
-//   }
-  
+
 interface Message {
-  timestamp: number;
-  user: string;
+  id: string;
+  senderId: string;
   text: string;
+  createdAt: Timestamp; 
 }
 
 interface ChatWindowProps {
@@ -28,90 +18,86 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ conversationId, userId }: ChatWindowProps) => {
-  const [userEmail, setUserEmail] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
+  const [userEmails, setUserEmails] = useState<{ [userId: string]: string }>({}); // Map to store userId to email mapping
 
   useEffect(() => {
-    console.log(userId);
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        setUserEmail(user.email as string);
-      } else {
-        setUserEmail("");
-      }
+    // Fetch the messages in order of creation
+    const q = query(
+      collection(db, 'messages'), 
+      where('conversationId', '==', conversationId),
+      orderBy('createdAt', 'asc') // Sort messages by 'createdAt' in ascending order
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        senderId: doc.data().senderId,
+        text: doc.data().text,
+        createdAt: doc.data().createdAt,
+      }));
+      setMessages(msgs);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [conversationId]);
 
   useEffect(() => {
-    // const q = query(collection(db, 'messages'), where('conversationId', '==', conversationId));
+    // Fetch emails for all users in the conversation
+    const fetchEmails = async () => {
+      const usersInConversation = messages.map((msg) => msg.senderId);
+      const uniqueUserIds = Array.from(new Set(usersInConversation)); // Remove duplicates
 
-    // const unsubscribe = onSnapshot(q, (snapshot) => {
-    //   const msgs = snapshot.docs.map((doc) => ({
-    //     id: doc.id,
-    //     senderId: doc.data().senderId,
-    //     text: doc.data().text,
-    //     createdAt: doc.data().createdAt,
-    //   }));
-    //   setMessages(msgs);
-    // });
+      const emailMap: { [userId: string]: string } = {};
 
-    const conversationDocRef = collection(
-      db,
-      `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`
-    );
+      for (const userId of uniqueUserIds) {
+        const userDocRef = doc(db, 'users', userId);
+        const userDoc = await getDoc(userDocRef);
 
-    const q_ = query(conversationDocRef);
-      const unsubscribe = onSnapshot(q_, (snapshot:any)=>{
-        console.log('ran\n');  
-        
-        const docs = snapshot.docs.sort((a:any, b:any) => {
-          const timestampA = a.data().timestamp as number; 
-          const timestampB = b.data().timestamp as number;
-          return timestampA - timestampB;
-        })
+        if (userDoc.exists()) {
+          const userEmail = userDoc.data()?.email;
+          if (userEmail) {
+            emailMap[userId] = userEmail;
+          }
+        }
+      }
 
-        const updatedConversations = docs.map((doc:any) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+      setUserEmails(emailMap);
+    };
 
-        setMessages(updatedConversations);
-
-
-        },
-        (error) => {
-          console.error("Error observing collection: ", error.message);
-      });
-
-    return () => unsubscribe();
-  }, [conversationId]);
+    if (messages.length > 0) {
+      fetchEmails();
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
     if (newMessage.trim() === '') return;
 
     try {
-      const docRef = doc(db, `courses/0QjIlcwcWo3kAEKhY6zE/conversations/9JLAdM7tnCan4nhw6W2msPveyej1/${conversationId}`, `${Date.now()}`);
-      await setDoc(docRef, {
-        timestamp: Date.now(),
-        user: userEmail,
-        text: newMessage
+      await addDoc(collection(db, 'messages'), {
+        conversationId,
+        senderId: userId,
+        text: newMessage,
+        createdAt: serverTimestamp(),
       });
       setNewMessage('');
     } catch (error) {
-      console.error("Error sending message: ", error);
+      console.error('Error sending message: ', error);
     }
   };
 
   return (
     <div className={styles.chatWindow}>
       <div className={styles.messageBox}>
-        {messages.map((message) => (
-          
-          message.user === userEmail ?<p className={styles.currentUserMessage} key={message.timestamp}>{message.text}</p>:<p className={styles.otherUserMessage} key={message.timestamp}>{message.text}</p>
-        ))}
+        {messages.map((message) => {
+          const senderEmail = userEmails[message.senderId]; // Get sender's email from the map
+          return (
+            <p key={message.id} className={message.senderId === userId ? styles.ownMessage : styles.otherMessage}>
+              <strong>{senderEmail}:</strong> {message.text}
+            </p>
+          );
+        })}
       </div>
       <div className={styles.typingArea}>
         <textarea
