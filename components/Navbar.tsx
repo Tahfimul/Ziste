@@ -187,6 +187,7 @@ export const Navbar = () => {
                                 </div>
                             </Link>
                         </li>
+                        //removed unnecessary <a> wrapping inside <link> causing dev error
                     )}
 
                     {/* Register Link for Guests */}
