@@ -27,9 +27,6 @@ const VerifyEmail = () => {
                 const userDoc = querySnapshot.docs[0]
                 const userData = userDoc.data()
 
-                //delete after testing
-                router.push("/profile")
-
                 if (user.emailVerified) {
                     // Redirect to student or professor side if verified
                     if (userData?.professorDocRef)
