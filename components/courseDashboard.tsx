@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation"; // Use this hook for query pa
 import { db } from "@/services/firebase";
 import { doc, getDoc, DocumentReference } from "firebase/firestore";
 import { format } from "date-fns"; // For date formatting
-import Calendar from "react-calendar"; // For calendar view
 
 interface Course {
   courseTitle: string;
@@ -178,35 +177,16 @@ const CourseDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Class Info</h3>
               <p className="text-lg mb-4">{course.courseDescription}</p>
               <div className="mt-4">
-                <p className="text-lg font-semibold text-green-600">
+                <p className="text-lg font-semibold" style={{ color: "green" }}>
                   Class Starts on: {formatDate(course.startDate)}
                 </p>
-                <p className="text-lg font-semibold text-red-600">
+                <p className="text-lg font-semibold" style={{ color: "red" }}>
                   Class Ends on: {formatDate(course.endDate)}
                 </p>
                 <p className="text-gray-600">Class size: {course.classSize}</p>
-                <p className="text-gray-600">Seats available: {course.classSize - 10}</p> {/* Example seats available */}
-              </div>
-
-              {/* Calendar */}
-              <div className="mt-6">
-              <Calendar
-  value={new Date(course.startDate)}
-  tileClassName={({ date }: { date: Date }) => {
-    if (date.toDateString() === new Date(course.startDate).toDateString()) {
-      return "bg-green-500 text-white"; // Highlight start date
-    }
-    if (date.toDateString() === new Date(course.endDate).toDateString()) {
-      return "bg-red-500 text-white"; // Highlight end date
-    }
-    return "";
-  }}
-  next2Label={null}  // Disables the "next year" button
-  prev2Label={null}  // Disables the "previous year" button
-  showNeighboringMonth={false}  // Prevents showing dates from the previous/next month
-  showNavigation={true}  // Keeps the month navigation visible
-  view="month"  // Ensures the view is always month-based
-/>
+                <p className="text-gray-600">
+                  Seats available: {course.classSize - 10}
+                </p>
               </div>
             </div>
           )}
