@@ -11,7 +11,7 @@ const Hero = () => {
             </div>
             <div className="flex justify-center items-center">
                 <div className="flex flex-col justify-start ml-[12vw]">
-                    <h2 className="text-[2vw] w-[32vw]">Go Back to the Heart of Learning</h2>
+                    <h2 className="text-[2vw] w-[32vw]">Go Back to the <span className=" text-[#E07A5F]">Heart</span> of Learning</h2>
                     <p className="flex justify-start w-[30vw] text-[1.2vw] mt-[1.5vh]">We believe learning doesn’t have to stop once you leave the classroom.
                     Jump Back into the Tried and True, all from the comfort of your home.</p>
                 </div>

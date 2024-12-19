@@ -28,9 +28,9 @@ const App = () => {
                 )}
             </AnimatePresence>
 
-            <div className="justify-center pt-[13vh]">
+            <div className="justify-center mt-[13vh]">
                 <h3
-                    className="flex justify-center text-[10vw] font-medium text-transparent bg-clip-text gradient-animate"
+                    className="flex flex-col justify-center items-center text-[10vw] font-medium text-transparent bg-clip-text gradient-animate"
                     style={{
                         background:
                             "linear-gradient(to right, #E07A5F, #F2CC8F, #81B29A, #6E739E)",
@@ -41,9 +41,10 @@ const App = () => {
                     }}
                 >
                     Zíste
+                    <p className="absolute top-[23vh] text-[2vw] text-black font-extralight mb-[3vh]"><i>Experience Learning Again</i></p>
                 </h3>
 
-                <div className="flex pt-[2vh] pb-6 mx-auto justify-center items-center gap-[4vw]">
+                <div className="flex pt-[7vh] pb-6 mx-auto justify-center items-center gap-[4vw]">
                     {session?.user ? <></> : <></>}
 
                     {auth?.user ? (
@@ -61,7 +62,7 @@ const App = () => {
 
                     {/** Static Logo Image btwn SignIn & Browse Buttons **/}
 
-                    <div className="flex">
+                    <div className="flex mr-2">
                         <Image
                             src={Logo}
                             alt="Logo"

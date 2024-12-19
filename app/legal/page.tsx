@@ -8,7 +8,7 @@ import { Circle } from 'lucide-react';
 import { useState } from 'react';
 import './legal.css';
 
-export default function legal() {
+export default function Legal() {
     const [activeSideTab, setActiveSideTab] = useState<string>("");
     return (
     <>

@@ -10,6 +10,8 @@ import { UserContextProvider } from "@/components/contexts/UserContextProvider";
 import SignIn from "@/components/Sign_In";
 import { useContext } from "react";
 import { AuthContext } from "@/components/contexts/AuthContextProvider";
+import Pricing from "@/components/pricingSection";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
     const { showSignIn } = useContext(AuthContext);
@@ -24,6 +26,8 @@ export default function Home() {
                 <Courses/>
                 <ProfCarousel/>
                 <Reviews/>
+                <Pricing/>
+                <Footer/>
             </UserContextProvider>
         </AuthContextProvider>
     );
